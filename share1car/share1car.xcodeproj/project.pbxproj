@@ -8,6 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		69138F12260F9BB3602E276C /* Pods_share1car.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFF6D25DD8DDC25686867607 /* Pods_share1car.framework */; };
+		F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */; };
+		F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */; };
+		F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD78E2370E0A900B308E3 /* Alerts.swift */; };
+		F11AD7912370E42E00B308E3 /* DriverDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD7902370E42E00B308E3 /* DriverDataManager.swift */; };
+		F11E2AE223707D6900C8E9D0 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F11E2AE023707D6900C8E9D0 /* Roboto-Regular.ttf */; };
+		F11E2AE323707D6900C8E9D0 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F11E2AE123707D6900C8E9D0 /* Roboto-Bold.ttf */; };
+		F11E2AEF23707D7900C8E9D0 /* AnimHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AE723707D7900C8E9D0 /* AnimHelper.swift */; };
+		F11E2AF023707D7900C8E9D0 /* Searchbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AE823707D7900C8E9D0 /* Searchbar.swift */; };
+		F11E2AF123707D7900C8E9D0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AE923707D7900C8E9D0 /* Extensions.swift */; };
+		F11E2AF223707D7900C8E9D0 /* WidgetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AEB23707D7900C8E9D0 /* WidgetExtensions.swift */; };
+		F11E2AF323707D7900C8E9D0 /* MaterialTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AEC23707D7900C8E9D0 /* MaterialTextField.swift */; };
+		F11E2AF423707D7900C8E9D0 /* MaterialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AED23707D7900C8E9D0 /* MaterialButton.swift */; };
+		F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AEE23707D7900C8E9D0 /* RippleLayer.swift */; };
+		F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */; };
+		F11E2AF92370925200C8E9D0 /* Namedblocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AF82370925200C8E9D0 /* Namedblocks.swift */; };
 		F13E6B81236CA4AF008C136B /* RiderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B80236CA4AF008C136B /* RiderViewController.swift */; };
 		F13E6B83236CA576008C136B /* DriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B82236CA576008C136B /* DriverViewController.swift */; };
 		F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B84236CA5FE008C136B /* MainTabBarController.swift */; };
@@ -27,6 +42,21 @@
 		4E8C56ACF287C3FDC2CEC6F4 /* Pods-share1car.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-share1car.debug.xcconfig"; path = "Target Support Files/Pods-share1car/Pods-share1car.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4053CCD9BF5207A693DFD9 /* Pods-share1car.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-share1car.release.xcconfig"; path = "Target Support Files/Pods-share1car/Pods-share1car.release.xcconfig"; sourceTree = "<group>"; };
 		AFF6D25DD8DDC25686867607 /* Pods_share1car.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_share1car.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceCalculation.swift; sourceTree = "<group>"; };
+		F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = treprower_str_91.gpx; sourceTree = "<group>"; };
+		F11AD78E2370E0A900B308E3 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
+		F11AD7902370E42E00B308E3 /* DriverDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverDataManager.swift; sourceTree = "<group>"; };
+		F11E2AE023707D6900C8E9D0 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		F11E2AE123707D6900C8E9D0 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		F11E2AE723707D7900C8E9D0 /* AnimHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimHelper.swift; sourceTree = "<group>"; };
+		F11E2AE823707D7900C8E9D0 /* Searchbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Searchbar.swift; sourceTree = "<group>"; };
+		F11E2AE923707D7900C8E9D0 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F11E2AEB23707D7900C8E9D0 /* WidgetExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetExtensions.swift; sourceTree = "<group>"; };
+		F11E2AEC23707D7900C8E9D0 /* MaterialTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialTextField.swift; sourceTree = "<group>"; };
+		F11E2AED23707D7900C8E9D0 /* MaterialButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialButton.swift; sourceTree = "<group>"; };
+		F11E2AEE23707D7900C8E9D0 /* RippleLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RippleLayer.swift; sourceTree = "<group>"; };
+		F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		F11E2AF82370925200C8E9D0 /* Namedblocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namedblocks.swift; sourceTree = "<group>"; };
 		F13E6B80236CA4AF008C136B /* RiderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderViewController.swift; sourceTree = "<group>"; };
 		F13E6B82236CA576008C136B /* DriverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverViewController.swift; sourceTree = "<group>"; };
 		F13E6B84236CA5FE008C136B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -73,10 +103,70 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F11AD7892370CBD900B308E3 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F11E2AF82370925200C8E9D0 /* Namedblocks.swift */,
+				F11AD78E2370E0A900B308E3 /* Alerts.swift */,
+				F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		F11E2ADF23707D6800C8E9D0 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F11E2AE023707D6900C8E9D0 /* Roboto-Regular.ttf */,
+				F11E2AE123707D6900C8E9D0 /* Roboto-Bold.ttf */,
+			);
+			name = Fonts;
+			path = share1car/Fonts;
+			sourceTree = "<group>";
+		};
+		F11E2AE423707D7900C8E9D0 /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				F11E2AE523707D7900C8E9D0 /* MaterialDesignSearchbar */,
+			);
+			name = vendor;
+			path = share1car/vendor;
+			sourceTree = "<group>";
+		};
+		F11E2AE523707D7900C8E9D0 /* MaterialDesignSearchbar */ = {
+			isa = PBXGroup;
+			children = (
+				F11E2AE623707D7900C8E9D0 /* Source */,
+				F11E2AEA23707D7900C8E9D0 /* WidgetSource */,
+			);
+			path = MaterialDesignSearchbar;
+			sourceTree = "<group>";
+		};
+		F11E2AE623707D7900C8E9D0 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				F11E2AE723707D7900C8E9D0 /* AnimHelper.swift */,
+				F11E2AE823707D7900C8E9D0 /* Searchbar.swift */,
+				F11E2AE923707D7900C8E9D0 /* Extensions.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		F11E2AEA23707D7900C8E9D0 /* WidgetSource */ = {
+			isa = PBXGroup;
+			children = (
+				F11E2AEB23707D7900C8E9D0 /* WidgetExtensions.swift */,
+				F11E2AEC23707D7900C8E9D0 /* MaterialTextField.swift */,
+				F11E2AED23707D7900C8E9D0 /* MaterialButton.swift */,
+				F11E2AEE23707D7900C8E9D0 /* RippleLayer.swift */,
+			);
+			path = WidgetSource;
+			sourceTree = "<group>";
+		};
 		F13E6B88236CC067008C136B /* managers */ = {
 			isa = PBXGroup;
 			children = (
 				F13E6B86236CC062008C136B /* DataManager.swift */,
+				F11AD7902370E42E00B308E3 /* DriverDataManager.swift */,
 				F13E6B8C236CC2CF008C136B /* AuthManager.swift */,
 			);
 			path = managers;
@@ -93,6 +183,9 @@
 		F1A27819236C94DC004B9C8F = {
 			isa = PBXGroup;
 			children = (
+				F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */,
+				F11E2AE423707D7900C8E9D0 /* vendor */,
+				F11E2ADF23707D6800C8E9D0 /* Fonts */,
 				F1EAC2F5236C982D001CE4C3 /* Podfile */,
 				F1A27824236C94DC004B9C8F /* share1car */,
 				F1A27823236C94DC004B9C8F /* Products */,
@@ -112,6 +205,7 @@
 		F1A27824236C94DC004B9C8F /* share1car */ = {
 			isa = PBXGroup;
 			children = (
+				F11AD7892370CBD900B308E3 /* Utilities */,
 				F13E6B89236CC1B9008C136B /* ViewModels */,
 				F13E6B88236CC067008C136B /* managers */,
 				F1EAC2F1236C97BA001CE4C3 /* GoogleService-Info.plist */,
@@ -120,6 +214,7 @@
 				F13E6B80236CA4AF008C136B /* RiderViewController.swift */,
 				F13E6B84236CA5FE008C136B /* MainTabBarController.swift */,
 				F13E6B82236CA576008C136B /* DriverViewController.swift */,
+				F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */,
 				F1A2782D236C94DC004B9C8F /* Main.storyboard */,
 				F1A27830236C94E0004B9C8F /* Assets.xcassets */,
 				F1A27832236C94E0004B9C8F /* LaunchScreen.storyboard */,
@@ -189,8 +284,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F11E2AE323707D6900C8E9D0 /* Roboto-Bold.ttf in Resources */,
+				F11E2AE223707D6900C8E9D0 /* Roboto-Regular.ttf in Resources */,
 				F1EAC2F6236C982D001CE4C3 /* Podfile in Resources */,
 				F1A27834236C94E0004B9C8F /* LaunchScreen.storyboard in Resources */,
+				F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */,
 				F1EAC2F2236C97BA001CE4C3 /* GoogleService-Info.plist in Resources */,
 				F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */,
 				F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */,
@@ -264,12 +362,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				F13E6B83236CA576008C136B /* DriverViewController.swift in Sources */,
+				F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */,
+				F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */,
+				F11E2AF223707D7900C8E9D0 /* WidgetExtensions.swift in Sources */,
 				F13E6B8D236CC2CF008C136B /* AuthManager.swift in Sources */,
 				F13E6B87236CC062008C136B /* DataManager.swift in Sources */,
+				F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */,
+				F11AD7912370E42E00B308E3 /* DriverDataManager.swift in Sources */,
 				F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */,
 				F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */,
+				F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */,
+				F11E2AEF23707D7900C8E9D0 /* AnimHelper.swift in Sources */,
 				F13E6B81236CA4AF008C136B /* RiderViewController.swift in Sources */,
+				F11E2AF423707D7900C8E9D0 /* MaterialButton.swift in Sources */,
+				F11E2AF023707D7900C8E9D0 /* Searchbar.swift in Sources */,
 				F13E6B8B236CC1DA008C136B /* ViewModels.swift in Sources */,
+				F11E2AF323707D7900C8E9D0 /* MaterialTextField.swift in Sources */,
+				F11E2AF123707D7900C8E9D0 /* Extensions.swift in Sources */,
+				F11E2AF92370925200C8E9D0 /* Namedblocks.swift in Sources */,
 				F1A27828236C94DC004B9C8F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

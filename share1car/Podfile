@@ -8,7 +8,13 @@ target 'share1car' do
   pod 'Firebase/Analytics'
   pod 'FirebaseUI'
   pod 'Firebase/Database'
-
+  pod 'Mapbox-iOS-SDK', '~> 5.4'
+  pod 'MapboxGeocoder.swift', '~> 0.11'
+  pod 'MapboxDirections.swift', '~> 0.30'
+  pod 'MapboxNavigation'
+  
+  pod 'Spring', :git => 'https://github.com/MengTo/Spring.git'
+  
   # Pods for share1car
 
 end

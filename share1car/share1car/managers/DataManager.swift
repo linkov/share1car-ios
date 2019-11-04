@@ -18,10 +18,14 @@ class DataManager: NSObject {
         ref = Database.database().reference()
     }
     
-    
-    
-    func updateUser(user: UserViewModel) -> void {
+    func fetchActiveRoutes() -> Void {
         
+    }
+    
+    func updateUser(user: UserViewModel) -> Void {
+        self.ref.child("users").child(user.UID!).setValue(["username": user.name]) { (error, ref) in
+            
+        }
     }
     
     

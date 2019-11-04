@@ -7,35 +7,53 @@
 //
 
 import UIKit
+import Mapbox
 
-
-class RiderViewController: UIViewController {
+class RiderViewController: UIViewController, MGLMapViewDelegate {
 
     
+    @IBOutlet weak var mapView: MGLMapView!
     override func viewDidAppear(_ animated: Bool) {
     
         
-        if (!AuthManager.shared.isLoggedIn) {
-            AuthManager.shared.presentAuthUIFrom(controller: self)
-        }
+
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupRiderMap()
 
     }
     
+    func setupRiderMap() {
     
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.setZoomLevel(14, animated: false)
+        
     }
-    */
+    
+    
+    
+     // MARK: - MGLMapViewDelegate
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        
+        guard let userLocation = mapView.userLocation else {
+            return
+        }
+        
+        mapView.setCenter(userLocation.coordinate, zoomLevel: 12, animated: false)
+    }
+    
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+
+        return true
+    }
+     
+    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
+
+    }
 
 }

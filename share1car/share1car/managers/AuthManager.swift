@@ -13,6 +13,7 @@ import Firebase
 
 class AuthManager: NSObject, FUIAuthDelegate {
     
+    var currentUser: User?
     var isLoggedIn: Bool = false
     var authUI: FUIAuth?
     
@@ -45,7 +46,7 @@ class AuthManager: NSObject, FUIAuthDelegate {
     
     func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
         
-        
+        self.currentUser = Auth.auth().currentUser
         self.isLoggedIn = (Auth.auth().currentUser != nil)
     }
     
