@@ -28,6 +28,9 @@ class MainTabBarController: UITabBarController {
         secondTab.image = UIImage(named: "car")
         
         secondVC.tabBarItem = secondTab
+        
+        
+
     }
     
 

@@ -13,37 +13,75 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 
+import JGProgressHUD
+
 import Spring
 
-class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationViewControllerDelegate {
+class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationViewControllerDelegate, CLLocationManagerDelegate, NavigationMapViewDelegate {
 
     @IBOutlet weak var startCarPoolButton: SpringButton!
     @IBOutlet weak var searchBarContainerView: UIView!
-    @IBOutlet weak var mapView: MGLMapView!
+    @IBOutlet weak var mapView: NavigationMapView!
+    
+    
+    let hud = JGProgressHUD(style: .light)
+    
+    var locationManager = CLLocationManager()
+    
     let geocoder = Geocoder.shared
-    var currentDestination: CLLocationCoordinate2D?
+    
+
     var resultSearchController: UISearchController?
+    
+    var turnByturnNavigationController: NavigationViewController?
+    
+    var currentRouteJSONString: String?
+    
+    
+    
+    var currentRoute: Route? {
+        get {
+                return routes?.first
+            }
+        set {
+            guard let selected = newValue else { routes?.remove(at: 0); return }
+            guard let routes = routes else { self.routes = [selected]; return }
+            self.routes = [selected] + routes.filter { $0 != selected }
+        }
+    }
+    var routes: [Route]? {
+        didSet {
+            guard let routes = routes, let current = routes.first else { mapView.removeRoutes(); return }
+            mapView.showRoutes(routes)
+            mapView.showWaypoints(current)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         startCarPoolButton.layer.cornerRadius = 8
         
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
         setupDriverMap()
         setupSearch()
         
-//        presentNavTest()
-        
+
     }
     
     
 
     func setupDriverMap() {
     
+        mapView.navigationMapViewDelegate = self
         mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.setZoomLevel(14, animated: false)
         
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        mapView.addGestureRecognizer(gesture)
     }
     
     func setupSearch() {
@@ -60,134 +98,185 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         locationSearchTVC.currentUserLocation = mapView.userLocation
         locationSearchTVC.completion = { (location, didCancel) in
             
-            self.currentDestination = location
+
             self.resultSearchController?.dismiss(animated: true, completion: nil)
-            
-            self.drawRoute(origin: (self.mapView.userLocation!.coordinate), destination: location!)
+            self.requestRouteOptions(destination:  location!)
+//            self.drawRoute(origin: (self.mapView.userLocation!.coordinate), destination: location!)
             self.toggleCarpoolButton(active: true)
             
         }
     }
     
     
-    func drawRoute(origin: CLLocationCoordinate2D, destination: CLLocationCoordinate2D) {
-
-        let origin = Waypoint(coordinate: origin, coordinateAccuracy: -1, name: "Start")
-        let destination = Waypoint(coordinate: destination, coordinateAccuracy: -1, name: "Finish")
+    func removeRouteWithIdentifier(driverID: String) {
         
-
-        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
-        
-        _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
+        if let source = self.mapView.style?.source(withIdentifier: driverID) as? MGLShapeSource {
             
-            guard let route = routes?.first, error == nil else {
-                 Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self)
-                return
-            }
-            
-                        
-            guard route.coordinateCount > 0 else { return }
-            
-            
-            var routeCoordinates = route.coordinates!
-            let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
-            
-            // If there's already a route line on the map, reset its shape to the new route
-            if let source = self.mapView.style?.source(withIdentifier: "route-source") as? MGLShapeSource {
-                
-                source.shape = polyline
-                
-            } else {
-                
-                let source = MGLShapeSource(identifier: "route-source", features: [polyline], options: nil)
-                
-                // Customize the route line color and width
-                let lineStyle = MGLLineStyleLayer(identifier: "route-style", source: source)
-                lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0.1897518039, green: 0.3010634184, blue: 0.7994888425, alpha: 1))
-                lineStyle.lineWidth = NSExpression(forConstantValue: 3)
-                
-                // Add the source and style layer of the route line to the map
-                self.mapView.style?.addSource(source)
-                self.mapView.style?.addLayer(lineStyle)
-                
-                
-            }
+            self.mapView.style?.removeSource(source)
             
         }
     }
+    
+
 
     
 
     
-    func drawRoute(route: Route) {
-
+     
+    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .ended else { return }
+         
+        let spot = gesture.location(in: mapView)
+        guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else { return }
+         
+        requestRouteOptions(destination: location)
+        toggleCarpoolButton(active: true)
     }
     
     func toggleCarpoolButton(active: Bool) {
         
         if (active) {
+            startCarPoolButton.animation = "fadeInUp"
             startCarPoolButton.animate()
         } else {
-            
+            startCarPoolButton.animation = "fadeOut"
+            startCarPoolButton.animate()
         }
         
     }
     
-    func startNavigation() {
+//    func startNavigation() {
+//
+////        let origin = mapView.userLocation?.coordinate
+////        let destination = currentDestination
+//
+//        guard let origin = mapView.userLocation?.coordinate, let destination = currentDestination else {
+//            Alerts.systemErrorAlert(error: "Origin or destination of the route was not set", inController: self)
+//            return
+//        }
+//
+//        let options = NavigationRouteOptions(coordinates: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
+//
+//        Directions.shared.calculate(options) { (waypoints, routes, error) in
+//            guard let route = routes?.first, error == nil else {
+//                Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self)
+//                return
+//            }
+//
+//
+//            // For demonstration purposes, simulate locations if the Simulate Navigation option is on.
+//            let navigationService = MapboxNavigationService(route: route, simulating: .always)
+//            let navigationOptions = NavigationOptions(navigationService: navigationService)
+//            self.turnByturnNavigationController = NavigationViewController(for: route, options: navigationOptions)
+//            self.turnByturnNavigationController!.modalPresentationStyle = .fullScreen
+//            self.turnByturnNavigationController!.delegate = self
+//
+//            DriverDataManager.shared.setRoute(routeString: self.currentRouteJSONString!, driverID: AuthManager.shared.currentUserID()!)
+//
+//            self.present(self.turnByturnNavigationController!, animated: true, completion: nil)
+//
+//        }
+//
+//
+//    }
+    
+    
+    
+    func requestRouteOptions(destination: CLLocationCoordinate2D) {
         
-//        let origin = mapView.userLocation?.coordinate
-//        let destination = currentDestination
-        
-        guard let origin = mapView.userLocation?.coordinate, let destination = currentDestination else {
-            Alerts.systemErrorAlert(error: "Origin or destination of the route was not set", inController: self)
-            return
-        }
-        
-        let options = NavigationRouteOptions(coordinates: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
-        
+        guard let userLocation = mapView?.userLocation!.location else { return }
+        let userWaypoint = Waypoint(location: userLocation, heading: mapView?.userLocation?.heading, name: "user")
+        let destinationWaypoint = Waypoint(coordinate: destination)
+         
+        let options = NavigationRouteOptions(waypoints: [userWaypoint, destinationWaypoint])
+         
+        hud.show(in: self.view)
         Directions.shared.calculate(options) { (waypoints, routes, error) in
-            guard let route = routes?.first, error == nil else {
-                Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self)
-                return
-            }
-            
-            // For demonstration purposes, simulate locations if the Simulate Navigation option is on.
-            let navigationService = MapboxNavigationService(route: route, simulating: .always)
-            let navigationOptions = NavigationOptions(navigationService: navigationService)
-            let navigationViewController = NavigationViewController(for: route, options: navigationOptions)
-            navigationViewController.modalPresentationStyle = .fullScreen
-            navigationViewController.delegate = self
-            
-            self.present(navigationViewController, animated: true, completion: nil)
+            guard let routes = routes else { return }
+            self.routes = routes
+            self.mapView?.showRoutes(routes)
+            self.mapView?.showWaypoints(self.currentRoute!)
+            self.hud.dismiss()
         }
-    
-            
     }
+    
+    
+    
     
      // MARK: - Actions
     
     @IBAction func onCarpoolTap(_ sender: Any) {
         
-        if (!AuthManager.shared.isLoggedIn) {
-            AuthManager.shared.presentAuthUIFrom(controller: self)
-            return
-        }
-        startNavigation()
+
+        guard let route = currentRoute else { return }
+        // For demonstration purposes, simulate locations if the Simulate Navigation option is on.
+        let navigationService = MapboxNavigationService(route: route, simulating: .always)
+        let navigationOptions = NavigationOptions(navigationService: navigationService)
+        self.turnByturnNavigationController = NavigationViewController(for: route, options: navigationOptions)
+        self.turnByturnNavigationController!.modalPresentationStyle = .fullScreen
+        self.turnByturnNavigationController!.delegate = self
+        
+        DriverDataManager.shared.setRoute(route: route, driverID: AuthManager.shared.currentUserID()!)
+        
+        self.present(self.turnByturnNavigationController!, animated: true, completion: nil)
         
     }
+    
+    
+//    func fetchDriverRoute() {
+//
+//        DriverDataManager.shared.getExistingDriverRoute(driverID: AuthManager.shared.currentUserID()!) { (route, error) in
+//
+//            if error != nil {
+//                Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self)
+//                return
+//            }
+//
+//            guard route != nil else {
+//
+//                Alerts.systemErrorAlert(error: "Driver route is empty", inController: self)
+//                return
+//
+//            }
+//
+//            let data = Data(route!.utf8)
+//            let feature = try! MGLShape(data: data, encoding: String.Encoding.utf8.rawValue) as! MGLPolylineFeature
+//
+//            let buffer = UnsafeBufferPointer(start: feature.coordinates, count: Int(feature.pointCount))
+//            let coordinates = Array(buffer)
+//
+//            self.currentDestination = coordinates.last!
+//            self.drawRouteFeature(driverID: AuthManager.shared.currentUserID()!, feature: feature)
+//            self.toggleCarpoolButton(active: true)
+//
+//
+//        }
+//
+//    }
     
     
      // MARK: - NavigationViewControllerDelegate
     
     func navigationViewControllerDidDismiss(_ navigationViewController: NavigationViewController, byCanceling canceled: Bool) {
         print("navigationViewControllerDidDismiss")
+        
+        turnByturnNavigationController?.navigationService.stop()
+        turnByturnNavigationController?.dismiss(animated: true, completion: nil)
+        
+        routes = nil
+        toggleCarpoolButton(active: false)
+        
+//        DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
     }
     
     func navigationViewController(_ navigationViewController: NavigationViewController, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {
+        
         print("navigationViewController didUpdate")
         print("progress: \(progress)")
         print("location: \(location)")
         print("rawLocation: \(rawLocation)")
+        
+        DriverDataManager.shared.setCurrentLocation(location: location.coordinate, driverID: AuthManager.shared.currentUserID()!)
     }
     
     func navigationViewController(_ navigationViewController: NavigationViewController, willArriveAt waypoint: Waypoint, after remainingTimeInterval: TimeInterval, distance: CLLocationDistance) {
@@ -195,6 +284,16 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
                print("waypoint: \(waypoint)")
                print("remainingTimeInterval: \(remainingTimeInterval)")
                print("distance: \(distance)")
+    }
+    
+    
+    
+    
+    // MARK: - NavigationMapViewDelegate
+    
+    func navigationMapView(_ mapView: NavigationMapView, didSelect route: Route) {
+        
+        self.currentRoute = route
     }
     
     
@@ -206,16 +305,21 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
             return
         }
         
+//        if (AuthManager.shared.isLoggedIn()) {
+//            fetchDriverRoute()
+//        }
+        
+
         mapView.setCenter(userLocation.coordinate, zoomLevel: 12, animated: false)
     }
     
-    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
-    // Always allow callouts to popup when annotations are tapped.
-        return true
-    }
-     
-    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
-
-    }
+//    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+//    // Always allow callouts to popup when annotations are tapped.
+//        return true
+//    }
+//
+//    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
+//
+//    }
 
 }

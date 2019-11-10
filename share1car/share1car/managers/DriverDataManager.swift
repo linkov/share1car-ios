@@ -23,15 +23,40 @@ class DriverDataManager: NSObject {
         ref = Database.database().reference()
     }
     
-    func addDriverRoute(route: Route, driverID: String) {
-        self.ref.child("DriverRoutes").child(driverID).setValue(route.json);
+    
+    func setRoute(route: Route, driverID: String) {
+        
+        
+        guard route.coordinateCount > 0 else { return }
+        
+        
+        var routeCoordinates = route.coordinates!
+        let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
+        
+        let data: Data = polyline.geoJSONData(usingEncoding: String.Encoding.utf8.rawValue)
+        let routeString =  String(data: data, encoding: .utf8)
+        
+        
+        self.ref.child("DriverRoutes").child(driverID).setValue(routeString);
     }
     
-    func removeDriverRoute(route: Route, driverID: String) {
+    func getExistingRoute(driverID: String, completion: @escaping driver_route_geometry_error_block) {
+        self.ref.child("DriverRoutes").child(driverID).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let result = snapshot.value {
+                completion((result as! String), nil)
+            }
+                        
+          }) { (error) in
+            completion(nil, error)
+        }
+    }
+    
+    func removeRoute(driverID: String) {
         self.ref.child("DriverRoutes").child(driverID).removeValue();
     }
     
-    func updateNavigation(location: CLLocationCoordinate2D, driverID: String) {
-        self.ref.child("RiderLocations").child(driverID).setValue([location.latitude, location.longitude])
+    func setCurrentLocation(location: CLLocationCoordinate2D, driverID: String) {
+        self.ref.child("DriverLocations").child(driverID).setValue([location.latitude, location.longitude])
     }
 }

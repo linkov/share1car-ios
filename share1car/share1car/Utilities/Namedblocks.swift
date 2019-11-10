@@ -11,3 +11,9 @@ import CoreLocation
 
 public typealias id_error_block = (Any?, Error?) -> Swift.Void
 public typealias coordinate_didCancel_block = (CLLocationCoordinate2D?, Bool?) -> Swift.Void
+
+public typealias drivers_locations_block = ([String : Any]) -> Swift.Void
+public typealias routes_geometries_block = ([String : String]) -> Swift.Void
+public typealias location_permission_block = (Bool) -> Swift.Void
+public typealias driver_route_geometry_error_block = (String?, Error?) -> Swift.Void
+

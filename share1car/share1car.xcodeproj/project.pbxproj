@@ -12,6 +12,7 @@
 		F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */; };
 		F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD78E2370E0A900B308E3 /* Alerts.swift */; };
 		F11AD7912370E42E00B308E3 /* DriverDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD7902370E42E00B308E3 /* DriverDataManager.swift */; };
+		F11AD7932370F70400B308E3 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD7922370F70300B308E3 /* LocationManager.swift */; };
 		F11E2AE223707D6900C8E9D0 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F11E2AE023707D6900C8E9D0 /* Roboto-Regular.ttf */; };
 		F11E2AE323707D6900C8E9D0 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F11E2AE123707D6900C8E9D0 /* Roboto-Bold.ttf */; };
 		F11E2AEF23707D7900C8E9D0 /* AnimHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AE723707D7900C8E9D0 /* AnimHelper.swift */; };
@@ -23,6 +24,13 @@
 		F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AEE23707D7900C8E9D0 /* RippleLayer.swift */; };
 		F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */; };
 		F11E2AF92370925200C8E9D0 /* Namedblocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AF82370925200C8E9D0 /* Namedblocks.swift */; };
+		F136A709237471560055DF4D /* RiderDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A708237471560055DF4D /* RiderDataManager.swift */; };
+		F136A70B2374B9D60055DF4D /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A70A2374B9D60055DF4D /* Converters.swift */; };
+		F136A70D237605FA0055DF4D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F136A70C237605FA0055DF4D /* GoogleService-Info.plist */; };
+		F136A70F23762D9F0055DF4D /* SidemenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A70E23762D9F0055DF4D /* SidemenuViewController.swift */; };
+		F136A7112377012A0055DF4D /* Kotti Dang.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F136A7102377012A0055DF4D /* Kotti Dang.gpx */; };
+		F136A71323774A080055DF4D /* UserSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A71223774A080055DF4D /* UserSettingsManager.swift */; };
+		F136A7162377909E0055DF4D /* Sameheads.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F136A7152377909E0055DF4D /* Sameheads.gpx */; };
 		F13E6B81236CA4AF008C136B /* RiderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B80236CA4AF008C136B /* RiderViewController.swift */; };
 		F13E6B83236CA576008C136B /* DriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B82236CA576008C136B /* DriverViewController.swift */; };
 		F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B84236CA5FE008C136B /* MainTabBarController.swift */; };
@@ -34,7 +42,6 @@
 		F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A2782D236C94DC004B9C8F /* Main.storyboard */; };
 		F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1A27830236C94E0004B9C8F /* Assets.xcassets */; };
 		F1A27834236C94E0004B9C8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A27832236C94E0004B9C8F /* LaunchScreen.storyboard */; };
-		F1EAC2F2236C97BA001CE4C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F1EAC2F1236C97BA001CE4C3 /* GoogleService-Info.plist */; };
 		F1EAC2F6236C982D001CE4C3 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F1EAC2F5236C982D001CE4C3 /* Podfile */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +53,7 @@
 		F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = treprower_str_91.gpx; sourceTree = "<group>"; };
 		F11AD78E2370E0A900B308E3 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		F11AD7902370E42E00B308E3 /* DriverDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverDataManager.swift; sourceTree = "<group>"; };
+		F11AD7922370F70300B308E3 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F11E2AE023707D6900C8E9D0 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		F11E2AE123707D6900C8E9D0 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		F11E2AE723707D7900C8E9D0 /* AnimHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimHelper.swift; sourceTree = "<group>"; };
@@ -57,6 +65,14 @@
 		F11E2AEE23707D7900C8E9D0 /* RippleLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RippleLayer.swift; sourceTree = "<group>"; };
 		F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F11E2AF82370925200C8E9D0 /* Namedblocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namedblocks.swift; sourceTree = "<group>"; };
+		F136A708237471560055DF4D /* RiderDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderDataManager.swift; sourceTree = "<group>"; };
+		F136A70A2374B9D60055DF4D /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
+		F136A70C237605FA0055DF4D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F136A70E23762D9F0055DF4D /* SidemenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidemenuViewController.swift; sourceTree = "<group>"; };
+		F136A7102377012A0055DF4D /* Kotti Dang.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Kotti Dang.gpx"; sourceTree = "<group>"; };
+		F136A71223774A080055DF4D /* UserSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsManager.swift; sourceTree = "<group>"; };
+		F136A71423778F560055DF4D /* k-fetisch.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "k-fetisch.gpx"; sourceTree = "<group>"; };
+		F136A7152377909E0055DF4D /* Sameheads.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Sameheads.gpx; sourceTree = "<group>"; };
 		F13E6B80236CA4AF008C136B /* RiderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderViewController.swift; sourceTree = "<group>"; };
 		F13E6B82236CA576008C136B /* DriverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverViewController.swift; sourceTree = "<group>"; };
 		F13E6B84236CA5FE008C136B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -70,7 +86,6 @@
 		F1A27830236C94E0004B9C8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F1A27833236C94E0004B9C8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1A27835236C94E0004B9C8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1EAC2F1236C97BA001CE4C3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F1EAC2F5236C982D001CE4C3 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
@@ -109,6 +124,7 @@
 				F11E2AF82370925200C8E9D0 /* Namedblocks.swift */,
 				F11AD78E2370E0A900B308E3 /* Alerts.swift */,
 				F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */,
+				F136A70A2374B9D60055DF4D /* Converters.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -166,8 +182,11 @@
 			isa = PBXGroup;
 			children = (
 				F13E6B86236CC062008C136B /* DataManager.swift */,
+				F11AD7922370F70300B308E3 /* LocationManager.swift */,
 				F11AD7902370E42E00B308E3 /* DriverDataManager.swift */,
+				F136A708237471560055DF4D /* RiderDataManager.swift */,
 				F13E6B8C236CC2CF008C136B /* AuthManager.swift */,
+				F136A71223774A080055DF4D /* UserSettingsManager.swift */,
 			);
 			path = managers;
 			sourceTree = "<group>";
@@ -184,6 +203,9 @@
 			isa = PBXGroup;
 			children = (
 				F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */,
+				F136A7102377012A0055DF4D /* Kotti Dang.gpx */,
+				F136A71423778F560055DF4D /* k-fetisch.gpx */,
+				F136A7152377909E0055DF4D /* Sameheads.gpx */,
 				F11E2AE423707D7900C8E9D0 /* vendor */,
 				F11E2ADF23707D6800C8E9D0 /* Fonts */,
 				F1EAC2F5236C982D001CE4C3 /* Podfile */,
@@ -208,13 +230,14 @@
 				F11AD7892370CBD900B308E3 /* Utilities */,
 				F13E6B89236CC1B9008C136B /* ViewModels */,
 				F13E6B88236CC067008C136B /* managers */,
-				F1EAC2F1236C97BA001CE4C3 /* GoogleService-Info.plist */,
 				F1A27825236C94DC004B9C8F /* AppDelegate.swift */,
 				F1A27827236C94DC004B9C8F /* SceneDelegate.swift */,
 				F13E6B80236CA4AF008C136B /* RiderViewController.swift */,
 				F13E6B84236CA5FE008C136B /* MainTabBarController.swift */,
+				F136A70E23762D9F0055DF4D /* SidemenuViewController.swift */,
 				F13E6B82236CA576008C136B /* DriverViewController.swift */,
 				F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */,
+				F136A70C237605FA0055DF4D /* GoogleService-Info.plist */,
 				F1A2782D236C94DC004B9C8F /* Main.storyboard */,
 				F1A27830236C94E0004B9C8F /* Assets.xcassets */,
 				F1A27832236C94E0004B9C8F /* LaunchScreen.storyboard */,
@@ -285,13 +308,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11E2AE323707D6900C8E9D0 /* Roboto-Bold.ttf in Resources */,
+				F136A70D237605FA0055DF4D /* GoogleService-Info.plist in Resources */,
 				F11E2AE223707D6900C8E9D0 /* Roboto-Regular.ttf in Resources */,
 				F1EAC2F6236C982D001CE4C3 /* Podfile in Resources */,
 				F1A27834236C94E0004B9C8F /* LaunchScreen.storyboard in Resources */,
 				F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */,
-				F1EAC2F2236C97BA001CE4C3 /* GoogleService-Info.plist in Resources */,
+				F136A7112377012A0055DF4D /* Kotti Dang.gpx in Resources */,
 				F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */,
 				F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */,
+				F136A7162377909E0055DF4D /* Sameheads.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,15 +387,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				F13E6B83236CA576008C136B /* DriverViewController.swift in Sources */,
+				F136A70B2374B9D60055DF4D /* Converters.swift in Sources */,
 				F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */,
 				F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */,
 				F11E2AF223707D7900C8E9D0 /* WidgetExtensions.swift in Sources */,
+				F136A709237471560055DF4D /* RiderDataManager.swift in Sources */,
 				F13E6B8D236CC2CF008C136B /* AuthManager.swift in Sources */,
 				F13E6B87236CC062008C136B /* DataManager.swift in Sources */,
+				F136A70F23762D9F0055DF4D /* SidemenuViewController.swift in Sources */,
 				F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */,
 				F11AD7912370E42E00B308E3 /* DriverDataManager.swift in Sources */,
 				F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */,
 				F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */,
+				F136A71323774A080055DF4D /* UserSettingsManager.swift in Sources */,
 				F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */,
 				F11E2AEF23707D7900C8E9D0 /* AnimHelper.swift in Sources */,
 				F13E6B81236CA4AF008C136B /* RiderViewController.swift in Sources */,
@@ -378,6 +407,7 @@
 				F11E2AF023707D7900C8E9D0 /* Searchbar.swift in Sources */,
 				F13E6B8B236CC1DA008C136B /* ViewModels.swift in Sources */,
 				F11E2AF323707D7900C8E9D0 /* MaterialTextField.swift in Sources */,
+				F11AD7932370F70400B308E3 /* LocationManager.swift in Sources */,
 				F11E2AF123707D7900C8E9D0 /* Extensions.swift in Sources */,
 				F11E2AF92370925200C8E9D0 /* Namedblocks.swift in Sources */,
 				F1A27828236C94DC004B9C8F /* SceneDelegate.swift in Sources */,
@@ -526,6 +556,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -545,6 +576,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

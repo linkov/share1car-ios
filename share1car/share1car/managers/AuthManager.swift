@@ -13,8 +13,9 @@ import Firebase
 
 class AuthManager: NSObject, FUIAuthDelegate {
     
-    var currentUser: User?
-    var isLoggedIn: Bool = false
+    static let userSessionKey = "com.sdwr.share1car.usersession"
+    private static let userDefaults = UserDefaults.standard
+    
     var authUI: FUIAuth?
     
     static let shared = AuthManager()
@@ -32,6 +33,17 @@ class AuthManager: NSObject, FUIAuthDelegate {
     }
     
     
+    func isLoggedIn() -> Bool {
+        
+        return getUserID() != nil
+    }
+    
+    func currentUserID() -> String? {
+        
+         return getUserID()
+    }
+    
+    
     func loginWithEmailAndPassword(email: String, password: String) -> Void {
         
         
@@ -46,8 +58,27 @@ class AuthManager: NSObject, FUIAuthDelegate {
     
     func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
         
-        self.currentUser = Auth.auth().currentUser
-        self.isLoggedIn = (Auth.auth().currentUser != nil)
+        let currentUser = Auth.auth().currentUser
+        saveUserID(user: currentUser!.uid)
+    }
+    
+    
+    
+    // MARK: - Session
+    
+    func saveUserID(user: String){
+        AuthManager.userDefaults.set(user,
+                        forKey: AuthManager.userSessionKey)
+    }
+    
+    
+    func getUserID() -> String? {
+        return AuthManager.userDefaults.value(forKey: AuthManager.userSessionKey) as? String
+    }
+    
+    
+    static func clearUserData(){
+        userDefaults.removeObject(forKey: AuthManager.userSessionKey)
     }
     
 }

@@ -10,6 +10,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
+  - BulletinBoard (4.1.0)
   - FBSDKCoreKit (5.8.0):
     - FBSDKCoreKit/Basics (= 5.8.0)
     - FBSDKCoreKit/Core (= 5.8.0)
@@ -185,7 +186,9 @@ PODS:
   - GTMSessionFetcher/Core (1.3.0)
   - GTMSessionFetcher/Full (1.3.0):
     - GTMSessionFetcher/Core (= 1.3.0)
+  - JGProgressHUD (2.1)
   - leveldb-library (1.22)
+  - Loaf (0.5.0)
   - Mapbox-iOS-SDK (5.4.0)
   - MapboxCoreNavigation (0.38.0):
     - MapboxDirections.swift (~> 0.30.0)
@@ -218,19 +221,25 @@ PODS:
   - Turf (0.3.0)
 
 DEPENDENCIES:
+  - BulletinBoard
   - Firebase/Analytics
   - Firebase/Database
   - FirebaseUI
+  - JGProgressHUD
+  - Loaf
   - Mapbox-iOS-SDK (~> 5.4)
   - MapboxDirections.swift (~> 0.30)
   - MapboxGeocoder.swift (~> 0.11)
   - MapboxNavigation
+  - Polyline (~> 4.0)
   - Spring (from `https://github.com/MengTo/Spring.git`)
+  - Turf (~> 0.3)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppAuth
     - BoringSSL-GRPC
+    - BulletinBoard
     - FBSDKCoreKit
     - FBSDKLoginKit
     - Firebase
@@ -254,7 +263,9 @@ SPEC REPOS:
     - gRPC-Core
     - GTMAppAuth
     - GTMSessionFetcher
+    - JGProgressHUD
     - leveldb-library
+    - Loaf
     - Mapbox-iOS-SDK
     - MapboxCoreNavigation
     - MapboxDirections.swift
@@ -282,6 +293,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
+  BulletinBoard: c774340545b5cfd05a96a89f63b105ecc95c86f9
   FBSDKCoreKit: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
   FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
   Firebase: bc9cfc7a96c73268656d5aaab453ff1b4b530e0e
@@ -305,7 +317,9 @@ SPEC CHECKSUMS:
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 43b8b64263023d4f32caa0b40f4c8bfa3c5f36d8
+  JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  Loaf: 0800b444431366bc395d54267975d4ad4ad5c99c
   Mapbox-iOS-SDK: 2b58f752d94e57e95b8e54f3b52569199f6efdba
   MapboxCoreNavigation: b62c92175b67bdabc28cf977d1584de2ed40e479
   MapboxDirections.swift: 1c6df988c24b753888ebd9976d7c98632501a413
@@ -322,6 +336,6 @@ SPEC CHECKSUMS:
   Spring: 3d113f14575ef79aec9c5f906dfa4f5001c03254
   Turf: c6bdf62d6a70c647874f295dd1cf4eefc0c3e9e6
 
-PODFILE CHECKSUM: 20d0a6d64f97b1f6a16129a50415a1cc27b62aa0
+PODFILE CHECKSUM: 669c6c842047d392cfe6a1b17548497fcd71c95d
 
 COCOAPODS: 1.7.5
