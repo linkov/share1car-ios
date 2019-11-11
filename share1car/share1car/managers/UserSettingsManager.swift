@@ -10,6 +10,9 @@ import UIKit
 
 class UserSettingsManager: NSObject {
     
+    static let userSettingsShouldSimulateMovement = "com.sdwr.share1car.usersettings.ShouldSimulateMovement"
+    static let userSettingsImageURL = "com.sdwr.share1car.usersettings.ImageURL"
+    
     static let userSettingsMaximumPickUpDistance = "com.sdwr.share1car.usersettings.MaximumPickUpDistance"
     static let userSettingsMaximumDropOffDistance = "com.sdwr.share1car.usersettings.MaximumDropOffDistance"
     private static let userDefaults = UserDefaults.standard
@@ -23,6 +26,38 @@ class UserSettingsManager: NSObject {
         
     }
     
+    
+    
+    
+    func saveUserImageURL(imageURL: String){
+        UserSettingsManager.userDefaults.set(imageURL,
+                        forKey: UserSettingsManager.userSettingsImageURL)
+    }
+    
+    
+    func getUserImageURL() -> String? {
+        let saved = UserSettingsManager.userDefaults.value(forKey: UserSettingsManager.userSettingsImageURL) as? String
+        
+        return saved
+    }
+    
+    
+    
+    
+    func saveShouldSimulateMovement(shouldSimulate: Bool){
+        UserSettingsManager.userDefaults.set(shouldSimulate,
+                        forKey: UserSettingsManager.userSettingsShouldSimulateMovement)
+    }
+    
+    
+    func getShouldSimulateMovement() -> Bool {
+        let saved = UserSettingsManager.userDefaults.value(forKey: UserSettingsManager.userSettingsShouldSimulateMovement) as? Bool
+        
+        return (saved != nil) ? saved! : true
+    }
+    
+    
+    
     func saveMaximumDropoffDistance(meters: Int){
         UserSettingsManager.userDefaults.set(meters,
                         forKey: UserSettingsManager.userSettingsMaximumDropOffDistance)
@@ -32,7 +67,7 @@ class UserSettingsManager: NSObject {
     func getMaximumDropoffDistance() -> Int {
         let saved = UserSettingsManager.userDefaults.value(forKey: UserSettingsManager.userSettingsMaximumDropOffDistance) as? Int
         
-        return (saved != nil) ? saved! : 600
+        return (saved != nil) ? saved! : 1600
     }
     
     
@@ -47,7 +82,7 @@ class UserSettingsManager: NSObject {
         
         let saved = UserSettingsManager.userDefaults.value(forKey: UserSettingsManager.userSettingsMaximumPickUpDistance) as? Int
         
-        return (saved != nil) ? saved! : 600
+        return (saved != nil) ? saved! : 1600
     }
     
     

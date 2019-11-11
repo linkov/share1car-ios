@@ -12,13 +12,15 @@ class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         let firstVC = self.viewControllers![0] as UIViewController
         let secondVC = self.viewControllers![1]  as UIViewController
+        let thirdVC = self.viewControllers![2]  as UIViewController
                
         let firstTab = UITabBarItem()
         firstTab.title = "Need a ride"
-        firstTab.image = UIImage(named: "walk")
+        firstTab.image = UIImage(named: "drop-off")
         
         firstVC.tabBarItem = firstTab
         
@@ -30,6 +32,12 @@ class MainTabBarController: UITabBarController {
         secondVC.tabBarItem = secondTab
         
         
+        
+         let thirdTab = UITabBarItem()
+         thirdTab.title = "Settings"
+         thirdTab.image = UIImage(named: "settings")
+         
+         thirdVC.tabBarItem = thirdTab
 
     }
     

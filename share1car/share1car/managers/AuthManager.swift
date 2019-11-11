@@ -51,8 +51,12 @@ class AuthManager: NSObject, FUIAuthDelegate {
     
     func presentAuthUIFrom(controller: UIViewController) {
         
-        let authViewController = self.authUI!.authViewController()
-        controller.present(authViewController, animated: true, completion: nil)
+        
+        self.authUI?.signIn(withProviderUI: FUIEmailAuth(), presenting: controller, defaultValue: nil)
+
+        
+//        let authViewController = self.authUI!.authViewController()
+//        controller.present(authViewController, animated: true, completion: nil)
         
     }
     
@@ -60,6 +64,12 @@ class AuthManager: NSObject, FUIAuthDelegate {
         
         let currentUser = Auth.auth().currentUser
         saveUserID(user: currentUser!.uid)
+        
+        let userID = authDataResult?.user.uid
+        let name = authDataResult?.user.displayName
+        if (name != nil) {
+            DataManager.shared.updateUser(userID: userID!, firstName: name!, phone: "")
+        }
     }
     
     

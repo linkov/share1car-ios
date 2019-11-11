@@ -24,15 +24,29 @@ class RiderDataManager: NSObject {
         ref = Database.database().reference()
     }
     
-    
-    func requestCarpool(driverID: String) {
+
+    func requestCarpool(pickUpLocation: CLLocationCoordinate2D, dropOffLocation: CLLocationCoordinate2D, driverID: String) {
         
+        let riderID = AuthManager.shared.currentUserID()!
+        let riderPickUp = [pickUpLocation.latitude, pickUpLocation.longitude]
+        let riderDropOff = [dropOffLocation.latitude, dropOffLocation.longitude]
+        
+        let request = [
+            "RiderID": riderID,
+            "RiderPickupLocation": riderPickUp,
+            "RiderDropoffLocation": riderDropOff,
+            "DoReroute": false,
+            "status": "requested"
+            ] as [String : Any]
+        
+        
+        self.ref.child("RouteRequests").child(driverID).updateChildValues(request)
     }
     
     
     func lastLocationForDriver(driverID: String) -> CLLocationCoordinate2D? {
         
-        guard liveDriversLocations != nil else {
+        guard liveDriversLocations != nil && liveDriversLocations!.count > 0 else {
             return nil
         }
         
@@ -50,11 +64,18 @@ class RiderDataManager: NSObject {
     func getDriversLocationa(updates: @escaping drivers_locations_block) {
         
         
-        //TODO: should be DriverLocations
-        self.ref.child("RiderLocations").observe(DataEventType.value) { (DataSnapshot) in
+        self.ref.child("DriverLocations").observe(DataEventType.value) { (DataSnapshot) in
             
-            let resultDict = DataSnapshot.value as? [String : Any] ?? [:]
+            var resultDict = DataSnapshot.value as? [String : Any] ?? [:]
             
+            if AuthManager.shared.currentUserID() != nil {
+
+                resultDict = resultDict.filter({ (key, value) -> Bool in
+                    return key != AuthManager.shared.currentUserID()!
+                })
+            }
+            
+
             self.liveDriversLocations = resultDict
         
             updates(resultDict)

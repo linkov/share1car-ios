@@ -8,9 +8,8 @@
 
 import Foundation
 
-class UserViewModel: NSObject {
+public class S1CUserDetails: NSObject {
     var UID: String?
-    var email: String?
+    var phone: String?
     var name: String?
-    var proficPicURL: String?
 }

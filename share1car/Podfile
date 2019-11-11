@@ -9,6 +9,8 @@ target 'share1car' do
   pod 'Firebase/Analytics'
   pod 'FirebaseUI'
   pod 'Firebase/Database'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Messaging'
   
   # Mapping
   pod 'Mapbox-iOS-SDK', '~> 5.4'
@@ -23,6 +25,10 @@ target 'share1car' do
   pod 'Loaf'
   pod 'JGProgressHUD'
   pod 'Spring', :git => 'https://github.com/MengTo/Spring.git'
+  pod 'SDWebImage', '~> 5.0'
+  
+  # Input
+  pod 'Eureka'
   
   # Pods for share1car
 

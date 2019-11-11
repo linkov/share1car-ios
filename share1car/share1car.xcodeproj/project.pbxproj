@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		69138F12260F9BB3602E276C /* Pods_share1car.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFF6D25DD8DDC25686867607 /* Pods_share1car.framework */; };
+		F10D27C42378B9E4009BC84F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10D27C32378B9E4009BC84F /* SettingsViewController.swift */; };
+		F10D27C62378CE7F009BC84F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10D27C52378CE7F009BC84F /* ImagePicker.swift */; };
+		F10D27C82378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F10D27C72378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib */; };
+		F10D27CA2378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10D27C92378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift */; };
 		F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */; };
 		F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */; };
 		F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD78E2370E0A900B308E3 /* Alerts.swift */; };
@@ -42,13 +46,26 @@
 		F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A2782D236C94DC004B9C8F /* Main.storyboard */; };
 		F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1A27830236C94E0004B9C8F /* Assets.xcassets */; };
 		F1A27834236C94E0004B9C8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A27832236C94E0004B9C8F /* LaunchScreen.storyboard */; };
+		F1B65E8E2377FFFB003F39B8 /* Color+S1C.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */; };
 		F1EAC2F6236C982D001CE4C3 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F1EAC2F5236C982D001CE4C3 /* Podfile */; };
+		F1F73F5923786B2D00AA7E32 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F5823786B2D00AA7E32 /* NotificationsManager.swift */; };
+		F1F73F622378774F00AA7E32 /* BulletinDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F5F2378771200AA7E32 /* BulletinDataSource.swift */; };
+		F1F73F692378777A00AA7E32 /* FeedbackPageBulletinItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F5B2378771200AA7E32 /* FeedbackPageBulletinItem.swift */; };
+		F1F73F6A2378777A00AA7E32 /* BackgroundStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F5C2378771200AA7E32 /* BackgroundStyles.swift */; };
+		F1F73F6C2378777A00AA7E32 /* TextFieldBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F5E2378771200AA7E32 /* TextFieldBulletinPage.swift */; };
+		F1F73F6D2378777A00AA7E32 /* DatePickerBulletinItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F602378771200AA7E32 /* DatePickerBulletinItem.swift */; };
+		F1F73F7023787CF200AA7E32 /* FeedbackGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F6F23787CF200AA7E32 /* FeedbackGenerators.swift */; };
+		F1F73F73237891A600AA7E32 /* CarpoolManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F72237891A600AA7E32 /* CarpoolManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4E8C56ACF287C3FDC2CEC6F4 /* Pods-share1car.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-share1car.debug.xcconfig"; path = "Target Support Files/Pods-share1car/Pods-share1car.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4053CCD9BF5207A693DFD9 /* Pods-share1car.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-share1car.release.xcconfig"; path = "Target Support Files/Pods-share1car/Pods-share1car.release.xcconfig"; sourceTree = "<group>"; };
 		AFF6D25DD8DDC25686867607 /* Pods_share1car.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_share1car.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F10D27C32378B9E4009BC84F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		F10D27C52378CE7F009BC84F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		F10D27C72378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserSettingsProfilePhotoHeaderView.xib; sourceTree = "<group>"; };
+		F10D27C92378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsProfilePhotoHeaderView.swift; sourceTree = "<group>"; };
 		F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceCalculation.swift; sourceTree = "<group>"; };
 		F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = treprower_str_91.gpx; sourceTree = "<group>"; };
 		F11AD78E2370E0A900B308E3 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
@@ -86,7 +103,17 @@
 		F1A27830236C94E0004B9C8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F1A27833236C94E0004B9C8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1A27835236C94E0004B9C8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+S1C.swift"; sourceTree = "<group>"; };
 		F1EAC2F5236C982D001CE4C3 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F1F73F5823786B2D00AA7E32 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
+		F1F73F5B2378771200AA7E32 /* FeedbackPageBulletinItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackPageBulletinItem.swift; sourceTree = "<group>"; };
+		F1F73F5C2378771200AA7E32 /* BackgroundStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundStyles.swift; sourceTree = "<group>"; };
+		F1F73F5E2378771200AA7E32 /* TextFieldBulletinPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldBulletinPage.swift; sourceTree = "<group>"; };
+		F1F73F5F2378771200AA7E32 /* BulletinDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinDataSource.swift; sourceTree = "<group>"; };
+		F1F73F602378771200AA7E32 /* DatePickerBulletinItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerBulletinItem.swift; sourceTree = "<group>"; };
+		F1F73F6F23787CF200AA7E32 /* FeedbackGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackGenerators.swift; sourceTree = "<group>"; };
+		F1F73F71237883EF00AA7E32 /* share1car.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = share1car.entitlements; sourceTree = "<group>"; };
+		F1F73F72237891A600AA7E32 /* CarpoolManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,10 +148,13 @@
 		F11AD7892370CBD900B308E3 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F10D27C52378CE7F009BC84F /* ImagePicker.swift */,
+				F1F73F5F2378771200AA7E32 /* BulletinDataSource.swift */,
 				F11E2AF82370925200C8E9D0 /* Namedblocks.swift */,
 				F11AD78E2370E0A900B308E3 /* Alerts.swift */,
 				F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */,
 				F136A70A2374B9D60055DF4D /* Converters.swift */,
+				F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -142,6 +172,7 @@
 		F11E2AE423707D7900C8E9D0 /* vendor */ = {
 			isa = PBXGroup;
 			children = (
+				F1F73F5A2378771200AA7E32 /* Bulletin */,
 				F11E2AE523707D7900C8E9D0 /* MaterialDesignSearchbar */,
 			);
 			name = vendor;
@@ -183,10 +214,12 @@
 			children = (
 				F13E6B86236CC062008C136B /* DataManager.swift */,
 				F11AD7922370F70300B308E3 /* LocationManager.swift */,
+				F1F73F5823786B2D00AA7E32 /* NotificationsManager.swift */,
 				F11AD7902370E42E00B308E3 /* DriverDataManager.swift */,
 				F136A708237471560055DF4D /* RiderDataManager.swift */,
 				F13E6B8C236CC2CF008C136B /* AuthManager.swift */,
 				F136A71223774A080055DF4D /* UserSettingsManager.swift */,
+				F1F73F72237891A600AA7E32 /* CarpoolManager.swift */,
 			);
 			path = managers;
 			sourceTree = "<group>";
@@ -227,6 +260,7 @@
 		F1A27824236C94DC004B9C8F /* share1car */ = {
 			isa = PBXGroup;
 			children = (
+				F1F73F71237883EF00AA7E32 /* share1car.entitlements */,
 				F11AD7892370CBD900B308E3 /* Utilities */,
 				F13E6B89236CC1B9008C136B /* ViewModels */,
 				F13E6B88236CC067008C136B /* managers */,
@@ -234,7 +268,10 @@
 				F1A27827236C94DC004B9C8F /* SceneDelegate.swift */,
 				F13E6B80236CA4AF008C136B /* RiderViewController.swift */,
 				F13E6B84236CA5FE008C136B /* MainTabBarController.swift */,
+				F10D27C32378B9E4009BC84F /* SettingsViewController.swift */,
 				F136A70E23762D9F0055DF4D /* SidemenuViewController.swift */,
+				F10D27C72378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib */,
+				F10D27C92378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift */,
 				F13E6B82236CA576008C136B /* DriverViewController.swift */,
 				F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */,
 				F136A70C237605FA0055DF4D /* GoogleService-Info.plist */,
@@ -244,6 +281,18 @@
 				F1A27835236C94E0004B9C8F /* Info.plist */,
 			);
 			path = share1car;
+			sourceTree = "<group>";
+		};
+		F1F73F5A2378771200AA7E32 /* Bulletin */ = {
+			isa = PBXGroup;
+			children = (
+				F1F73F6F23787CF200AA7E32 /* FeedbackGenerators.swift */,
+				F1F73F5B2378771200AA7E32 /* FeedbackPageBulletinItem.swift */,
+				F1F73F5C2378771200AA7E32 /* BackgroundStyles.swift */,
+				F1F73F5E2378771200AA7E32 /* TextFieldBulletinPage.swift */,
+				F1F73F602378771200AA7E32 /* DatePickerBulletinItem.swift */,
+			);
+			path = Bulletin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,6 +361,7 @@
 				F11E2AE223707D6900C8E9D0 /* Roboto-Regular.ttf in Resources */,
 				F1EAC2F6236C982D001CE4C3 /* Podfile in Resources */,
 				F1A27834236C94E0004B9C8F /* LaunchScreen.storyboard in Resources */,
+				F10D27C82378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib in Resources */,
 				F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */,
 				F136A7112377012A0055DF4D /* Kotti Dang.gpx in Resources */,
 				F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */,
@@ -387,29 +437,41 @@
 			buildActionMask = 2147483647;
 			files = (
 				F13E6B83236CA576008C136B /* DriverViewController.swift in Sources */,
+				F1F73F622378774F00AA7E32 /* BulletinDataSource.swift in Sources */,
 				F136A70B2374B9D60055DF4D /* Converters.swift in Sources */,
 				F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */,
 				F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */,
 				F11E2AF223707D7900C8E9D0 /* WidgetExtensions.swift in Sources */,
+				F1F73F5923786B2D00AA7E32 /* NotificationsManager.swift in Sources */,
 				F136A709237471560055DF4D /* RiderDataManager.swift in Sources */,
+				F1F73F6D2378777A00AA7E32 /* DatePickerBulletinItem.swift in Sources */,
 				F13E6B8D236CC2CF008C136B /* AuthManager.swift in Sources */,
 				F13E6B87236CC062008C136B /* DataManager.swift in Sources */,
 				F136A70F23762D9F0055DF4D /* SidemenuViewController.swift in Sources */,
 				F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */,
 				F11AD7912370E42E00B308E3 /* DriverDataManager.swift in Sources */,
+				F1F73F73237891A600AA7E32 /* CarpoolManager.swift in Sources */,
+				F10D27CA2378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift in Sources */,
 				F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */,
 				F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */,
 				F136A71323774A080055DF4D /* UserSettingsManager.swift in Sources */,
 				F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */,
 				F11E2AEF23707D7900C8E9D0 /* AnimHelper.swift in Sources */,
 				F13E6B81236CA4AF008C136B /* RiderViewController.swift in Sources */,
+				F10D27C62378CE7F009BC84F /* ImagePicker.swift in Sources */,
 				F11E2AF423707D7900C8E9D0 /* MaterialButton.swift in Sources */,
 				F11E2AF023707D7900C8E9D0 /* Searchbar.swift in Sources */,
+				F10D27C42378B9E4009BC84F /* SettingsViewController.swift in Sources */,
 				F13E6B8B236CC1DA008C136B /* ViewModels.swift in Sources */,
 				F11E2AF323707D7900C8E9D0 /* MaterialTextField.swift in Sources */,
+				F1F73F6A2378777A00AA7E32 /* BackgroundStyles.swift in Sources */,
+				F1F73F692378777A00AA7E32 /* FeedbackPageBulletinItem.swift in Sources */,
+				F1B65E8E2377FFFB003F39B8 /* Color+S1C.swift in Sources */,
+				F1F73F6C2378777A00AA7E32 /* TextFieldBulletinPage.swift in Sources */,
 				F11AD7932370F70400B308E3 /* LocationManager.swift in Sources */,
 				F11E2AF123707D7900C8E9D0 /* Extensions.swift in Sources */,
 				F11E2AF92370925200C8E9D0 /* Namedblocks.swift in Sources */,
+				F1F73F7023787CF200AA7E32 /* FeedbackGenerators.swift in Sources */,
 				F1A27828236C94DC004B9C8F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,9 +616,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4E8C56ACF287C3FDC2CEC6F4 /* Pods-share1car.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -574,9 +637,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7A4053CCD9BF5207A693DFD9 /* Pods-share1car.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

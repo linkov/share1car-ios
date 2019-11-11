@@ -14,10 +14,11 @@ import MapboxCoreNavigation
 import MapboxNavigation
 
 import JGProgressHUD
+import Loaf
 
 import Spring
 
-class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationViewControllerDelegate, CLLocationManagerDelegate, NavigationMapViewDelegate {
+class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationViewControllerDelegate, NavigationMapViewDelegate {
 
     @IBOutlet weak var startCarPoolButton: SpringButton!
     @IBOutlet weak var searchBarContainerView: UIView!
@@ -25,12 +26,9 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
     
     let hud = JGProgressHUD(style: .light)
-    
-    var locationManager = CLLocationManager()
-    
+        
     let geocoder = Geocoder.shared
     
-
     var resultSearchController: UISearchController?
     
     var turnByturnNavigationController: NavigationViewController?
@@ -62,13 +60,14 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         
         startCarPoolButton.layer.cornerRadius = 8
         
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        
         setupDriverMap()
         setupSearch()
         
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        Loaf("Long press on map to find a route", state: .custom(.init(backgroundColor: .brandColor, icon: UIImage(named: "add-route"))), sender: self).show()
     }
     
     
@@ -209,8 +208,21 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         
 
         guard let route = currentRoute else { return }
-        // For demonstration purposes, simulate locations if the Simulate Navigation option is on.
-        let navigationService = MapboxNavigationService(route: route, simulating: .always)
+        
+        if (!AuthManager.shared.isLoggedIn()) {
+            AuthManager.shared.presentAuthUIFrom(controller: self)
+            return
+        }
+        
+        var simMode:SimulationMode
+        
+        if (UserSettingsManager.shared.getShouldSimulateMovement()) {
+            simMode = .always
+        } else {
+            simMode = .never
+        }
+        
+        let navigationService = MapboxNavigationService(route: route, simulating: simMode)
         let navigationOptions = NavigationOptions(navigationService: navigationService)
         self.turnByturnNavigationController = NavigationViewController(for: route, options: navigationOptions)
         self.turnByturnNavigationController!.modalPresentationStyle = .fullScreen
@@ -266,7 +278,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         routes = nil
         toggleCarpoolButton(active: false)
         
-//        DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
+       DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
     }
     
     func navigationViewController(_ navigationViewController: NavigationViewController, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {
@@ -299,19 +311,27 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
      // MARK: - MGLMapViewDelegate
     
-    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+    
+    func mapView(_ mapView: MGLMapView, didUpdate userLocation: MGLUserLocation?) {
         
-        guard let userLocation = mapView.userLocation else {
-            return
-        }
-        
-//        if (AuthManager.shared.isLoggedIn()) {
-//            fetchDriverRoute()
-//        }
-        
-
-        mapView.setCenter(userLocation.coordinate, zoomLevel: 12, animated: false)
+        self.mapView.setCenter(self.mapView.userLocation!.coordinate, zoomLevel: 12, animated: false)
     }
+    
+    
+    
+//    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+//
+//        guard let userLocation = mapView.userLocation else {
+//            return
+//        }
+//
+////        if (AuthManager.shared.isLoggedIn()) {
+////            fetchDriverRoute()
+////        }
+//
+//
+//        mapView.setCenter(userLocation.coordinate, zoomLevel: 12, animated: false)
+//    }
     
 //    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
 //    // Always allow callouts to popup when annotations are tapped.
