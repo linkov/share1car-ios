@@ -9,21 +9,26 @@
 import UIKit
 import Eureka
 
+import JGProgressHUD
+
 class SettingsViewController: FormViewController {
     
     @IBOutlet weak var saveButton: UIButton!
     var userID: String?
     var firstName: String = ""
+    var email: String = ""
     var phoneNumber: String = ""
+    
+    let hud = JGProgressHUD(style: .dark)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.saveButton.layer.cornerRadius = 12
         
-        self.userID = AuthManager.shared.currentUserID()!
+    
        
-        initForm()
+       
         
         self.view.bringSubviewToFront(self.saveButton)
              
@@ -59,28 +64,56 @@ class SettingsViewController: FormViewController {
                      row.value = self.phoneNumber
                  }
             
+                <<< TextRow(){ row in
+                    row.value = self.email
+                    row.tag = "email"
+                    row.title = "Email"
+                    
+                }.cellUpdate { cell, row in
+                    row.value =  self.email
+                }
+            
         +++ Section("Developer settings")
             <<< SwitchRow("simulateNavigation") {
                 $0.tag = "shouldSimMovement"
-                $0.title = "Simulate movement in turn by turn"
+                $0.title = "Simulate turn by turn"
                 $0.value = UserSettingsManager.shared.getShouldSimulateMovement()
-            }
+            }.onChange({ (row) in
+                
+                UserSettingsManager.shared.saveShouldSimulateMovement(shouldSimulate: row.value!)
+                self.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+                self.hud.textLabel.text = "Movement simulation is \( row.value == true ? "on" : "off" )"
+                self.hud.show(in: self.view)
+                self.hud.dismiss(afterDelay: 1)
+            })
                 
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         
+        if (!AuthManager.shared.isLoggedIn()) {
+            AuthManager.shared.presentAuthUIFrom(controller: self)
+            return
+        }
+        
+        self.form.removeAll()
+        
+        self.userID = AuthManager.shared.currentUserID()!
+        
         DataManager.shared.getUserDetails(userID: AuthManager.shared.currentUserID()!) { (details, error) in
                    if error != nil {
                        Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self)
                    }
                    
-                   guard details != nil else {return}
+                if details == nil {
+                        
+                }
                    
                    self.firstName = details!.name ?? ""
                    self.phoneNumber = details!.phone ?? ""
-            self.tableView.reloadData()
+                    self.email = AuthManager.shared.authUI?.auth?.currentUser?.email ?? "no email"
+                    self.initForm()
                    
                }
     }
@@ -93,9 +126,6 @@ class SettingsViewController: FormViewController {
         
         DataManager.shared.updateUser(userID: self.userID!, firstName: nameRow?.value ?? "", phone: phoneRow?.value ?? "")
         
-        let shouldSimMovementRow: SwitchRow? = form.rowBy(tag: "shouldSimMovement")
-        
-        UserSettingsManager.shared.saveShouldSimulateMovement(shouldSimulate: (shouldSimMovementRow?.value!)!)
     }
     
     /*

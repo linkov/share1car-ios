@@ -63,14 +63,10 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         setupDriverMap()
         setupSearch()
         
-
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
         Loaf("Long press on map to find a route", state: .custom(.init(backgroundColor: .brandColor, icon: UIImage(named: "add-route"))), sender: self).show()
     }
     
-    
+
 
     func setupDriverMap() {
     
@@ -201,6 +197,12 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
     
     
+    func showFeedback() {
+        
+         let feedbackVC = storyboard!.instantiateViewController(withIdentifier: "FeedbackViewController") as! FeedbackViewController
+        self.parent!.present(feedbackVC, animated: true, completion: nil)
+    }
+    
     
      // MARK: - Actions
     
@@ -230,7 +232,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         
         DriverDataManager.shared.setRoute(route: route, driverID: AuthManager.shared.currentUserID()!)
         
-        self.present(self.turnByturnNavigationController!, animated: true, completion: nil)
+        self.show(self.turnByturnNavigationController!, sender: self)
         
     }
     
@@ -273,12 +275,16 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         print("navigationViewControllerDidDismiss")
         
         turnByturnNavigationController?.navigationService.stop()
-        turnByturnNavigationController?.dismiss(animated: true, completion: nil)
+        turnByturnNavigationController?.dismiss(animated: true, completion: {
+             self.showFeedback()
+        })
         
         routes = nil
         toggleCarpoolButton(active: false)
         
        DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
+    
+       
     }
     
     func navigationViewController(_ navigationViewController: NavigationViewController, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {

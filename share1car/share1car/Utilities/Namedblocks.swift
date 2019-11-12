@@ -22,5 +22,8 @@ public typealias driver_route_geometry_error_block = (String?, Error?) -> Swift.
 public typealias userdetails_error_block = (S1CUserDetails?, Error?) -> Swift.Void
 
 public typealias imageurl_error_block = (String?, Error?) -> Swift.Void
+public typealias imagedata_error_block = (Data?, Error?) -> Swift.Void
+
+public typealias carpool_search_result_error_block = (S1CCarpoolSearchResult?, Error?) -> Swift.Void
 
 public typealias result_errordescription_block = (Any?, String?) -> Swift.Void

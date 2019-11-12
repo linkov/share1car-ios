@@ -30,6 +30,7 @@ class UserSettingsManager: NSObject {
     
     
     func saveUserImageURL(imageURL: String){
+        
         UserSettingsManager.userDefaults.set(imageURL,
                         forKey: UserSettingsManager.userSettingsImageURL)
     }

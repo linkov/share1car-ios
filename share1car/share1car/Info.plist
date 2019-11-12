@@ -22,6 +22,8 @@
 	<true/>
 	<key>MGLMapboxAccessToken</key>
 	<string>pk.eyJ1IjoiemVyb3dhc3RlZXJhIiwiYSI6ImNrMjZjODZ2NTFjYWMzY21xYzJwNTFpa2IifQ.nIrBG-3i60r1akgJwdlFwg</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Provite photo for profile</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Shows your location on the map and helps improve quality of service.</string>
 	<key>UIAppFonts</key>
@@ -85,7 +87,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>Provite photo for profile</string>
 </dict>
 </plist>

@@ -4,6 +4,7 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.2.0)
   - AppAuth/Core (1.2.0)
   - AppAuth/ExternalUserAgent (1.2.0)
+  - BadgeSwift (8.0.0)
   - BoringSSL-GRPC (0.0.3):
     - BoringSSL-GRPC/Implementation (= 0.0.3)
     - BoringSSL-GRPC/Interface (= 0.0.3)
@@ -11,6 +12,7 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
   - BulletinBoard (4.1.0)
+  - Cosmos (20.0.1)
   - Eureka (5.1.0)
   - FBSDKCoreKit (5.8.0):
     - FBSDKCoreKit/Basics (= 5.8.0)
@@ -235,7 +237,9 @@ PODS:
   - Turf (0.3.0)
 
 DEPENDENCIES:
+  - BadgeSwift
   - BulletinBoard
+  - Cosmos (~> 20.0)
   - Eureka
   - Firebase/Analytics
   - Firebase/Database
@@ -256,8 +260,10 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppAuth
+    - BadgeSwift
     - BoringSSL-GRPC
     - BulletinBoard
+    - Cosmos
     - Eureka
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -313,8 +319,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
+  BadgeSwift: a81547ffde1f462bb5fc02e3fa3fdcbc1b888354
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
   BulletinBoard: c774340545b5cfd05a96a89f63b105ecc95c86f9
+  Cosmos: b47fddf2102bb48580cd3025d9ce0a5c658a65da
   Eureka: 18a5076dcf0c41f9cd9748aa1c42f4d11434bdae
   FBSDKCoreKit: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
   FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
@@ -360,6 +368,6 @@ SPEC CHECKSUMS:
   Spring: 3d113f14575ef79aec9c5f906dfa4f5001c03254
   Turf: c6bdf62d6a70c647874f295dd1cf4eefc0c3e9e6
 
-PODFILE CHECKSUM: d214140e91ed72001a745d361e47372a0d82ef32
+PODFILE CHECKSUM: 532202cbc937bdf8e0248d7cfd72722aac027361
 
 COCOAPODS: 1.7.5

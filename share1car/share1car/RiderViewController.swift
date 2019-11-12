@@ -39,7 +39,7 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
         imagepicker = ImagePicker(presentationController: self, delegate: self)
         
         setupRiderMap()
-        CarpoolManager.shared.configure(mapView: mapView, presentingViewController: self)
+        CarpoolManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
        
         
     }
@@ -146,10 +146,20 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
             return
         }
         
+        
+        
+        if (!NotificationsManager.shared.isNotificationsEnabled()) {
+            showNotificationsOnboarding()
+            return
+        }
+        
         let spot = gesture.location(in: mapView)
         guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else { return }
          
-        CarpoolManager.shared.findCarpool(currentLocation: mapView.userLocation!.coordinate, dropOffLocation: location)
+        CarpoolManager.shared.findCarpool(currentLocation: mapView.userLocation!.coordinate, dropOffLocation: location, completion: { (searchResult, error) in
+         
+            
+        })
         print(location)
 
     }
@@ -188,6 +198,7 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
     func navigationMapView(_ mapView: NavigationMapView, didSelect route: Route) {
         
     }
+    
     
     
     

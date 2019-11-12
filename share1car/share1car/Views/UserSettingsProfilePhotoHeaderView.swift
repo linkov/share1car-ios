@@ -12,19 +12,17 @@ import SDWebImage
 class UserSettingsProfilePhotoHeaderView: UIView {
 
     @IBOutlet weak var imageView: UIImageView!
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+
     
     override func awakeFromNib() {
         
         self.imageView.layer.cornerRadius = 50
         self.imageView.layer.masksToBounds = true
         
+        
+        if (!AuthManager.shared.isLoggedIn()) {
+            return
+        }
         
         let imageRef = DataManager.shared.profilePicFirebaseReference()
         guard imageRef != nil else {

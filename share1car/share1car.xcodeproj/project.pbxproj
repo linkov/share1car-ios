@@ -12,6 +12,9 @@
 		F10D27C62378CE7F009BC84F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10D27C52378CE7F009BC84F /* ImagePicker.swift */; };
 		F10D27C82378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F10D27C72378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib */; };
 		F10D27CA2378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10D27C92378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift */; };
+		F10D27CC2379DE6A009BC84F /* CarpoolRideInformationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F10D27CB2379DE6A009BC84F /* CarpoolRideInformationView.xib */; };
+		F10D27CE2379E062009BC84F /* CarpoolRideInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10D27CD2379E062009BC84F /* CarpoolRideInformationView.swift */; };
+		F10D27D12379E28C009BC84F /* CarpoolAlertBTLNItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10D27D02379E28C009BC84F /* CarpoolAlertBTLNItem.swift */; };
 		F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */; };
 		F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */; };
 		F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD78E2370E0A900B308E3 /* Alerts.swift */; };
@@ -28,6 +31,12 @@
 		F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AEE23707D7900C8E9D0 /* RippleLayer.swift */; };
 		F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */; };
 		F11E2AF92370925200C8E9D0 /* Namedblocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AF82370925200C8E9D0 /* Namedblocks.swift */; };
+		F1369403237A453000F64C9B /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1369402237A453000F64C9B /* FeedbackViewController.swift */; };
+		F1369405237A45E100F64C9B /* FeedbackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1369404237A45E100F64C9B /* FeedbackHeaderView.swift */; };
+		F1369407237A45F200F64C9B /* FeedbackHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1369406237A45F200F64C9B /* FeedbackHeaderView.xib */; };
+		F1369409237A487700F64C9B /* CustomRateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1369408237A487700F64C9B /* CustomRateCell.swift */; };
+		F136940B237A549000F64C9B /* CustomRateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F136940A237A549000F64C9B /* CustomRateCell.xib */; };
+		F136940D237A588700F64C9B /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136940C237A588700F64C9B /* OnboardingManager.swift */; };
 		F136A709237471560055DF4D /* RiderDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A708237471560055DF4D /* RiderDataManager.swift */; };
 		F136A70B2374B9D60055DF4D /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A70A2374B9D60055DF4D /* Converters.swift */; };
 		F136A70D237605FA0055DF4D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F136A70C237605FA0055DF4D /* GoogleService-Info.plist */; };
@@ -66,6 +75,9 @@
 		F10D27C52378CE7F009BC84F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		F10D27C72378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserSettingsProfilePhotoHeaderView.xib; sourceTree = "<group>"; };
 		F10D27C92378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsProfilePhotoHeaderView.swift; sourceTree = "<group>"; };
+		F10D27CB2379DE6A009BC84F /* CarpoolRideInformationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CarpoolRideInformationView.xib; sourceTree = "<group>"; };
+		F10D27CD2379E062009BC84F /* CarpoolRideInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolRideInformationView.swift; sourceTree = "<group>"; };
+		F10D27D02379E28C009BC84F /* CarpoolAlertBTLNItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolAlertBTLNItem.swift; sourceTree = "<group>"; };
 		F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceCalculation.swift; sourceTree = "<group>"; };
 		F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = treprower_str_91.gpx; sourceTree = "<group>"; };
 		F11AD78E2370E0A900B308E3 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
@@ -82,6 +94,12 @@
 		F11E2AEE23707D7900C8E9D0 /* RippleLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RippleLayer.swift; sourceTree = "<group>"; };
 		F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F11E2AF82370925200C8E9D0 /* Namedblocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namedblocks.swift; sourceTree = "<group>"; };
+		F1369402237A453000F64C9B /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
+		F1369404237A45E100F64C9B /* FeedbackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackHeaderView.swift; sourceTree = "<group>"; };
+		F1369406237A45F200F64C9B /* FeedbackHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedbackHeaderView.xib; sourceTree = "<group>"; };
+		F1369408237A487700F64C9B /* CustomRateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRateCell.swift; sourceTree = "<group>"; };
+		F136940A237A549000F64C9B /* CustomRateCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomRateCell.xib; sourceTree = "<group>"; };
+		F136940C237A588700F64C9B /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		F136A708237471560055DF4D /* RiderDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderDataManager.swift; sourceTree = "<group>"; };
 		F136A70A2374B9D60055DF4D /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
 		F136A70C237605FA0055DF4D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -143,6 +161,22 @@
 				AFF6D25DD8DDC25686867607 /* Pods_share1car.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F10D27CF2379E07E009BC84F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F10D27C72378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib */,
+				F1369408237A487700F64C9B /* CustomRateCell.swift */,
+				F136940A237A549000F64C9B /* CustomRateCell.xib */,
+				F1369404237A45E100F64C9B /* FeedbackHeaderView.swift */,
+				F1369406237A45F200F64C9B /* FeedbackHeaderView.xib */,
+				F10D27D02379E28C009BC84F /* CarpoolAlertBTLNItem.swift */,
+				F10D27CB2379DE6A009BC84F /* CarpoolRideInformationView.xib */,
+				F10D27C92378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift */,
+				F10D27CD2379E062009BC84F /* CarpoolRideInformationView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F11AD7892370CBD900B308E3 /* Utilities */ = {
@@ -215,6 +249,7 @@
 				F13E6B86236CC062008C136B /* DataManager.swift */,
 				F11AD7922370F70300B308E3 /* LocationManager.swift */,
 				F1F73F5823786B2D00AA7E32 /* NotificationsManager.swift */,
+				F136940C237A588700F64C9B /* OnboardingManager.swift */,
 				F11AD7902370E42E00B308E3 /* DriverDataManager.swift */,
 				F136A708237471560055DF4D /* RiderDataManager.swift */,
 				F13E6B8C236CC2CF008C136B /* AuthManager.swift */,
@@ -261,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				F1F73F71237883EF00AA7E32 /* share1car.entitlements */,
+				F10D27CF2379E07E009BC84F /* Views */,
 				F11AD7892370CBD900B308E3 /* Utilities */,
 				F13E6B89236CC1B9008C136B /* ViewModels */,
 				F13E6B88236CC067008C136B /* managers */,
@@ -270,9 +306,8 @@
 				F13E6B84236CA5FE008C136B /* MainTabBarController.swift */,
 				F10D27C32378B9E4009BC84F /* SettingsViewController.swift */,
 				F136A70E23762D9F0055DF4D /* SidemenuViewController.swift */,
-				F10D27C72378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib */,
-				F10D27C92378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift */,
 				F13E6B82236CA576008C136B /* DriverViewController.swift */,
+				F1369402237A453000F64C9B /* FeedbackViewController.swift */,
 				F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */,
 				F136A70C237605FA0055DF4D /* GoogleService-Info.plist */,
 				F1A2782D236C94DC004B9C8F /* Main.storyboard */,
@@ -364,8 +399,11 @@
 				F10D27C82378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib in Resources */,
 				F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */,
 				F136A7112377012A0055DF4D /* Kotti Dang.gpx in Resources */,
+				F136940B237A549000F64C9B /* CustomRateCell.xib in Resources */,
+				F10D27CC2379DE6A009BC84F /* CarpoolRideInformationView.xib in Resources */,
 				F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */,
 				F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */,
+				F1369407237A45F200F64C9B /* FeedbackHeaderView.xib in Resources */,
 				F136A7162377909E0055DF4D /* Sameheads.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -439,6 +477,7 @@
 				F13E6B83236CA576008C136B /* DriverViewController.swift in Sources */,
 				F1F73F622378774F00AA7E32 /* BulletinDataSource.swift in Sources */,
 				F136A70B2374B9D60055DF4D /* Converters.swift in Sources */,
+				F1369403237A453000F64C9B /* FeedbackViewController.swift in Sources */,
 				F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */,
 				F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */,
 				F11E2AF223707D7900C8E9D0 /* WidgetExtensions.swift in Sources */,
@@ -448,11 +487,15 @@
 				F13E6B8D236CC2CF008C136B /* AuthManager.swift in Sources */,
 				F13E6B87236CC062008C136B /* DataManager.swift in Sources */,
 				F136A70F23762D9F0055DF4D /* SidemenuViewController.swift in Sources */,
+				F10D27D12379E28C009BC84F /* CarpoolAlertBTLNItem.swift in Sources */,
+				F1369405237A45E100F64C9B /* FeedbackHeaderView.swift in Sources */,
 				F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */,
 				F11AD7912370E42E00B308E3 /* DriverDataManager.swift in Sources */,
 				F1F73F73237891A600AA7E32 /* CarpoolManager.swift in Sources */,
 				F10D27CA2378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift in Sources */,
+				F1369409237A487700F64C9B /* CustomRateCell.swift in Sources */,
 				F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */,
+				F136940D237A588700F64C9B /* OnboardingManager.swift in Sources */,
 				F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */,
 				F136A71323774A080055DF4D /* UserSettingsManager.swift in Sources */,
 				F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */,
@@ -464,6 +507,7 @@
 				F10D27C42378B9E4009BC84F /* SettingsViewController.swift in Sources */,
 				F13E6B8B236CC1DA008C136B /* ViewModels.swift in Sources */,
 				F11E2AF323707D7900C8E9D0 /* MaterialTextField.swift in Sources */,
+				F10D27CE2379E062009BC84F /* CarpoolRideInformationView.swift in Sources */,
 				F1F73F6A2378777A00AA7E32 /* BackgroundStyles.swift in Sources */,
 				F1F73F692378777A00AA7E32 /* FeedbackPageBulletinItem.swift in Sources */,
 				F1B65E8E2377FFFB003F39B8 /* Color+S1C.swift in Sources */,
@@ -548,7 +592,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -602,7 +646,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -619,7 +663,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -629,7 +673,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdwr.share1car;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -640,7 +684,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -650,7 +694,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdwr.share1car;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

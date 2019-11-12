@@ -28,24 +28,31 @@ enum BulletinDataSource {
 
     
     
-    static func makeCarpoolRequestPage() -> FeedbackPageBLTNItem {
+    static func makeCarpoolRequestPage(
+        title: String,
+        photoURL: String,
+        mainTitle: String, subtitle: String, priceText: String) -> CarpoolAlertBTLNItem {
 
-        let page = FeedbackPageBLTNItem(title: "Car pool with [Name]")
-        page.image = UIImage(named: "locationPermission")
-
-        page.descriptionText = "We need to know your location to give you accurate updates about carpools near you. You can update your choice later in the app settings."
+    
+        let page = CarpoolAlertBTLNItem(topTitle: title , mainTitle: mainTitle, subtitle: subtitle, photoURL: photoURL, priceText: priceText )
+        
         page.actionButtonTitle = "Send request"
+        
+        
+        let tintColor: UIColor
+        if #available(iOS 13.0, *) {
+            tintColor = .systemGreen
+        } else {
+            tintColor = #colorLiteral(red: 0.1199134365, green: 0.7884555459, blue: 0.7099849582, alpha: 1)
+        }
+        page.appearance.actionButtonColor = tintColor
+        page.appearance.alternativeButtonTitleColor = .red
+        
 
         page.appearance.shouldUseCompactDescriptionText = true
         page.isDismissable = true
-        
-        page.next = makeNotitificationsPage()
-        
+                
         page.alternativeButtonTitle = "Cancel"
-        page.alternativeHandler = { item in
-            page.manager?.dismissBulletin()
-        }
-
 
         return page
 

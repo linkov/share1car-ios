@@ -26,6 +26,8 @@ target 'share1car' do
   pod 'JGProgressHUD'
   pod 'Spring', :git => 'https://github.com/MengTo/Spring.git'
   pod 'SDWebImage', '~> 5.0'
+  pod 'BadgeSwift'
+  pod 'Cosmos', '~> 20.0'
   
   # Input
   pod 'Eureka'

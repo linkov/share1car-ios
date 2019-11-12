@@ -16,6 +16,12 @@ class NotificationsManager: NSObject, UNUserNotificationCenterDelegate, Messagin
      override init(){
     }
     
+    func isNotificationsEnabled() -> Bool {
+        
+     return  Messaging.messaging().fcmToken != nil
+        
+    }
+    
     func registerForNotifications()  {
         
         Messaging.messaging().delegate = self
@@ -47,6 +53,12 @@ class NotificationsManager: NSObject, UNUserNotificationCenterDelegate, Messagin
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
          print("Firebase registration token: \(fcmToken)")
+        
+        if  AuthManager.shared.currentUserID() == nil {
+            return
+        }
+        
+        DataManager.shared.setNotificationsToken(userID: AuthManager.shared.currentUserID()!, token: fcmToken)
         
     }
 }

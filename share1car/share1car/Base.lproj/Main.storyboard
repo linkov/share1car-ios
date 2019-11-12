@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,9 +21,6 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="shD-us-rNt">
                                         <rect key="frame" x="46" y="102" width="30" height="30"/>
-                                        <connections>
-                                            <action selector="didTapMenu:" destination="9pv-A4-QxB" eventType="touchUpInside" id="QW8-D3-j2N"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -96,7 +94,6 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IVd-pQ-4KB">
                                 <rect key="frame" x="0.0" y="44" width="414" height="65"/>
-                                <color key="backgroundColor" systemColor="systemBrownColor" red="0.63529411759999999" green="0.51764705879999995" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="EaD-0h-WDa"/>
                                 </constraints>
@@ -184,7 +181,7 @@
         <!--Item-->
         <scene sceneID="OOf-od-U5J">
             <objects>
-                <viewController id="OAu-w7-dwQ" customClass="SettingsViewController" customModule="share1car" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="OAu-w7-dwQ" customClass="SettingsViewController" customModule="share1car" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="86T-jh-2Y1">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -219,6 +216,59 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bUq-Bz-PIb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2708" y="-39"/>
+        </scene>
+        <!--Feedback View Controller-->
+        <scene sceneID="Ws9-JH-5jG">
+            <objects>
+                <viewController storyboardIdentifier="FeedbackViewController" id="fSb-II-k1t" customClass="FeedbackViewController" customModule="share1car" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4aZ-8i-Hme">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3GU-Ud-Thb">
+                                <rect key="frame" x="20" y="754" width="374" height="44"/>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.64705882349999999" blue="0.55294117649999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="E4F-k3-wdW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <state key="normal" title="Submit feedback"/>
+                                <connections>
+                                    <action selector="onSubmitTap:" destination="fSb-II-k1t" eventType="touchUpInside" id="3os-Pq-kA9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTA-wn-3Il">
+                                <rect key="frame" x="20" y="808" width="374" height="44"/>
+                                <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="YFL-UT-Her"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <state key="normal" title="Not now"/>
+                                <connections>
+                                    <action selector="onDismissTap:" destination="fSb-II-k1t" eventType="touchUpInside" id="4lK-v5-Gki"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="aTA-wn-3Il" firstAttribute="top" secondItem="3GU-Ud-Thb" secondAttribute="bottom" constant="10" id="4b7-ra-peA"/>
+                            <constraint firstItem="3GU-Ud-Thb" firstAttribute="centerX" secondItem="p5Z-eY-dhc" secondAttribute="centerX" id="9KD-mL-9HY"/>
+                            <constraint firstItem="aTA-wn-3Il" firstAttribute="centerX" secondItem="p5Z-eY-dhc" secondAttribute="centerX" id="Ivs-xr-SFQ"/>
+                            <constraint firstItem="aTA-wn-3Il" firstAttribute="leading" secondItem="p5Z-eY-dhc" secondAttribute="leading" constant="20" id="TJG-Ub-iDG"/>
+                            <constraint firstItem="3GU-Ud-Thb" firstAttribute="leading" secondItem="p5Z-eY-dhc" secondAttribute="leading" constant="20" id="Tdm-3H-dMT"/>
+                            <constraint firstItem="p5Z-eY-dhc" firstAttribute="bottom" secondItem="aTA-wn-3Il" secondAttribute="bottom" constant="10" id="yCV-wv-gpT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="p5Z-eY-dhc"/>
+                    </view>
+                    <connections>
+                        <outlet property="dismissButton" destination="aTA-wn-3Il" id="Nh3-zB-243"/>
+                        <outlet property="submitButton" destination="3GU-Ud-Thb" id="KoY-fl-kla"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B14-eo-3bC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3726.0869565217395" y="78.348214285714278"/>
         </scene>
     </scenes>
     <resources>

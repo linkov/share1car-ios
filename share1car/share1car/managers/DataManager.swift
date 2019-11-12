@@ -28,6 +28,46 @@ class DataManager: NSObject {
         return storageRef.child(AuthManager.shared.currentUserID()!)
     }
     
+    func userProfilePicFirebaseReference(userID: String) -> StorageReference? {
+        return storageRef.child(userID)
+    }
+    
+    func getUserPhoto(userID: String, completion: @escaping imagedata_error_block) {
+        let userImageRef = storageRef.child(userID)
+        
+        userImageRef.getData(maxSize: 902077) { (data, error) in
+            if error != nil {
+                completion(nil, error)
+                return
+            }
+            
+            completion(data!, nil)
+            
+        }
+        
+    }
+    
+    func setNotificationsToken(userID: String, token: String) {
+        self.ref.child("user_data").child(userID).child("token").setValue(token)
+    }
+    
+    func sendFeedback(userID: String?, text: String, rating: Int, completion: @escaping result_errordescription_block) {
+        
+        let user = userID ?? "_anonymous"
+        self.ref.child("Feedbacks").child(user).setValue(
+            ["message": text,
+             "rating": rating,
+             "uid": user
+        ]) { (error, ref) in
+         
+            if error != nil {
+                completion(ref, error!.localizedDescription)
+                return
+            }
+            completion(ref, nil)
+        }
+    }
+    
     func updateUserPhoto(imageData: Data, completion: @escaping imageurl_error_block) {
         let userImageRef = storageRef.child(AuthManager.shared.currentUserID()!)
         
@@ -59,6 +99,9 @@ class DataManager: NSObject {
     
     func getUserDetails(userID: String, completion: @escaping userdetails_error_block) {
         
+        let photoURL = UserSettingsManager.shared.getUserImageURL()
+        
+        
         self.ref.child("user_data").child(userID).observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let result = snapshot.value {
@@ -66,14 +109,16 @@ class DataManager: NSObject {
                 
                 
                 let res = result as? [String:Any]
-                
+                print(res)
                 if res == nil {
                     completion(nil, nil)
                     return
                 }
-                let details = S1CUserDetails()
+                var details = S1CUserDetails()
+                details.UID = userID
                 details.name = res!["firstName"] as? String
                 details.phone = res!["phone"] as? String
+                details.photoURL = photoURL
                 completion(details, nil)
             }
                         
