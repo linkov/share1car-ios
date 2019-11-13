@@ -668,7 +668,7 @@
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -691,7 +691,7 @@
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -70,6 +70,16 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
 
     override func viewWillAppear(_ animated: Bool) {
         OnboardingManager.shared.changePresentingViewController(viewController: self)
+        
+        if (LocationManager.shared.locationEnabled()) {
+            
+            mapView.showsUserLocation = true
+            
+            LocationManager.shared.findUserLocation { (coord) in
+                
+                self.mapView.setCenter(coord, zoomLevel: 12, animated: false)
+            }
+        }
     }
     
 
@@ -269,13 +279,6 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     }
     
     
-     // MARK: - MGLMapViewDelegate
-    
-    
-    func mapView(_ mapView: MGLMapView, didUpdate userLocation: MGLUserLocation?) {
-        
-        self.mapView.setCenter(self.mapView.userLocation!.coordinate, zoomLevel: 12, animated: false)
-    }
     
 
 }

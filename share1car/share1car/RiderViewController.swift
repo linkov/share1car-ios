@@ -46,6 +46,15 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
                 return
             }
         
+
+        CarpoolSearchManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
+       
+        
+    }
+    
+
+    override func viewWillAppear(_ animated: Bool) {
+        
             if (LocationManager.shared.locationEnabled()) {
                 
                 mapView.showsUserLocation = true
@@ -56,15 +65,6 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
                 }
             }
         
-        CarpoolSearchManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
-       
-        
-    }
-    
-
-    override func viewDidAppear(_ animated: Bool) {
-        
-
     }
 
 
