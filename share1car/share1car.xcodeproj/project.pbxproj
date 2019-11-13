@@ -37,6 +37,7 @@
 		F1369409237A487700F64C9B /* CustomRateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1369408237A487700F64C9B /* CustomRateCell.swift */; };
 		F136940B237A549000F64C9B /* CustomRateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F136940A237A549000F64C9B /* CustomRateCell.xib */; };
 		F136940D237A588700F64C9B /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136940C237A588700F64C9B /* OnboardingManager.swift */; };
+		F136940F237B945900F64C9B /* CarpoolAcceptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136940E237B945900F64C9B /* CarpoolAcceptManager.swift */; };
 		F136A709237471560055DF4D /* RiderDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A708237471560055DF4D /* RiderDataManager.swift */; };
 		F136A70B2374B9D60055DF4D /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A70A2374B9D60055DF4D /* Converters.swift */; };
 		F136A70D237605FA0055DF4D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F136A70C237605FA0055DF4D /* GoogleService-Info.plist */; };
@@ -64,7 +65,7 @@
 		F1F73F6C2378777A00AA7E32 /* TextFieldBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F5E2378771200AA7E32 /* TextFieldBulletinPage.swift */; };
 		F1F73F6D2378777A00AA7E32 /* DatePickerBulletinItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F602378771200AA7E32 /* DatePickerBulletinItem.swift */; };
 		F1F73F7023787CF200AA7E32 /* FeedbackGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F6F23787CF200AA7E32 /* FeedbackGenerators.swift */; };
-		F1F73F73237891A600AA7E32 /* CarpoolManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F72237891A600AA7E32 /* CarpoolManager.swift */; };
+		F1F73F73237891A600AA7E32 /* CarpoolSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F72237891A600AA7E32 /* CarpoolSearchManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		F1369408237A487700F64C9B /* CustomRateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRateCell.swift; sourceTree = "<group>"; };
 		F136940A237A549000F64C9B /* CustomRateCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomRateCell.xib; sourceTree = "<group>"; };
 		F136940C237A588700F64C9B /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
+		F136940E237B945900F64C9B /* CarpoolAcceptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolAcceptManager.swift; sourceTree = "<group>"; };
 		F136A708237471560055DF4D /* RiderDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderDataManager.swift; sourceTree = "<group>"; };
 		F136A70A2374B9D60055DF4D /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
 		F136A70C237605FA0055DF4D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -131,7 +133,7 @@
 		F1F73F602378771200AA7E32 /* DatePickerBulletinItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerBulletinItem.swift; sourceTree = "<group>"; };
 		F1F73F6F23787CF200AA7E32 /* FeedbackGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackGenerators.swift; sourceTree = "<group>"; };
 		F1F73F71237883EF00AA7E32 /* share1car.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = share1car.entitlements; sourceTree = "<group>"; };
-		F1F73F72237891A600AA7E32 /* CarpoolManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolManager.swift; sourceTree = "<group>"; };
+		F1F73F72237891A600AA7E32 /* CarpoolSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolSearchManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,7 +256,8 @@
 				F136A708237471560055DF4D /* RiderDataManager.swift */,
 				F13E6B8C236CC2CF008C136B /* AuthManager.swift */,
 				F136A71223774A080055DF4D /* UserSettingsManager.swift */,
-				F1F73F72237891A600AA7E32 /* CarpoolManager.swift */,
+				F1F73F72237891A600AA7E32 /* CarpoolSearchManager.swift */,
+				F136940E237B945900F64C9B /* CarpoolAcceptManager.swift */,
 			);
 			path = managers;
 			sourceTree = "<group>";
@@ -491,13 +494,14 @@
 				F1369405237A45E100F64C9B /* FeedbackHeaderView.swift in Sources */,
 				F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */,
 				F11AD7912370E42E00B308E3 /* DriverDataManager.swift in Sources */,
-				F1F73F73237891A600AA7E32 /* CarpoolManager.swift in Sources */,
+				F1F73F73237891A600AA7E32 /* CarpoolSearchManager.swift in Sources */,
 				F10D27CA2378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift in Sources */,
 				F1369409237A487700F64C9B /* CustomRateCell.swift in Sources */,
 				F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */,
 				F136940D237A588700F64C9B /* OnboardingManager.swift in Sources */,
 				F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */,
 				F136A71323774A080055DF4D /* UserSettingsManager.swift in Sources */,
+				F136940F237B945900F64C9B /* CarpoolAcceptManager.swift in Sources */,
 				F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */,
 				F11E2AEF23707D7900C8E9D0 /* AnimHelper.swift in Sources */,
 				F13E6B81236CA4AF008C136B /* RiderViewController.swift in Sources */,
@@ -663,7 +667,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -684,7 +688,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

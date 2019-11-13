@@ -10,6 +10,21 @@ import Foundation
 import CoreLocation
 
 
+enum CarpoolAcceptStatus: String {
+    case accepted = "accepted"
+    case rejected = "rejected"
+    case arrived = "arrived"
+}
+
+
+enum CarpoolRequestStatus: String {
+    case requested = "requested"
+    case accepted = "accepted"
+    case riderCancelled = "riderCancelled"
+    case confirmed = "confirmed"
+    case cancelled = "cancelled"
+}
+
 
 public struct S1CUserDetails {
     var UID: String?

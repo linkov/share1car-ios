@@ -198,10 +198,22 @@
                                     <action selector="didTapSave:" destination="OAu-w7-dwQ" eventType="touchUpInside" id="tbs-QI-TM6"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2N-gW-YQR">
+                                <rect key="frame" x="35" y="64" width="54" height="30"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <state key="normal" title="Log out">
+                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTapLogout:" destination="OAu-w7-dwQ" eventType="touchUpInside" id="cHz-bG-TAB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="v2N-gW-YQR" firstAttribute="top" secondItem="LPQ-sy-FQT" secondAttribute="top" constant="20" id="CTA-nK-tC2"/>
                             <constraint firstItem="GYw-Eh-3zL" firstAttribute="leading" secondItem="LPQ-sy-FQT" secondAttribute="leading" constant="20" id="O1G-Zc-aKS"/>
+                            <constraint firstItem="v2N-gW-YQR" firstAttribute="leading" secondItem="LPQ-sy-FQT" secondAttribute="leading" constant="35" id="QZc-rX-5tG"/>
                             <constraint firstItem="GYw-Eh-3zL" firstAttribute="centerX" secondItem="LPQ-sy-FQT" secondAttribute="centerX" id="SUz-RO-8ZX"/>
                             <constraint firstItem="LPQ-sy-FQT" firstAttribute="trailing" secondItem="GYw-Eh-3zL" secondAttribute="trailing" constant="20" id="XKR-jG-TCk"/>
                             <constraint firstItem="LPQ-sy-FQT" firstAttribute="bottom" secondItem="GYw-Eh-3zL" secondAttribute="bottom" constant="20" id="lk4-4G-UMb"/>
@@ -210,6 +222,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="3OO-uz-nja"/>
                     <connections>
+                        <outlet property="logoutButton" destination="v2N-gW-YQR" id="WA9-UX-m3R"/>
                         <outlet property="saveButton" destination="GYw-Eh-3zL" id="pHm-Xx-MmT"/>
                     </connections>
                 </viewController>

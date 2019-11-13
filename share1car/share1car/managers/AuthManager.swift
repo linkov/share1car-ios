@@ -14,7 +14,6 @@ import Firebase
 class AuthManager: NSObject, FUIAuthDelegate {
     
     static let userSessionKey = "com.sdwr.share1car.usersession"
-    private static let userDefaults = UserDefaults.standard
     
     var authUI: FUIAuth?
     
@@ -34,8 +33,8 @@ class AuthManager: NSObject, FUIAuthDelegate {
     
     
     func isLoggedIn() -> Bool {
-        
-        return getUserID() != nil
+        let useIDExists = (getUserID() != nil)
+        return useIDExists
     }
     
     func currentUserID() -> String? {
@@ -44,8 +43,10 @@ class AuthManager: NSObject, FUIAuthDelegate {
     }
     
     
-    func loginWithEmailAndPassword(email: String, password: String) -> Void {
+    func logout(completion: @escaping didfinish_block) {
         
+        clearUserData()
+        completion(true)
         
     }
     
@@ -55,14 +56,14 @@ class AuthManager: NSObject, FUIAuthDelegate {
         self.authUI?.signIn(withProviderUI: FUIEmailAuth(), presenting: controller, defaultValue: nil)
 
         
-//        let authViewController = self.authUI!.authViewController()
-//        controller.present(authViewController, animated: true, completion: nil)
-        
     }
     
     func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
         
         let currentUser = Auth.auth().currentUser
+        if currentUser == nil {
+            return
+        }
         saveUserID(user: currentUser!.uid)
         
         let userID = authDataResult?.user.uid
@@ -70,6 +71,12 @@ class AuthManager: NSObject, FUIAuthDelegate {
         if (name != nil) {
             DataManager.shared.updateUser(userID: userID!, firstName: name!, phone: "")
         }
+        
+        let currentToken = UserSettingsManager.shared.getFCMToken()
+        if currentToken != nil {
+             DataManager.shared.setNotificationsToken(userID: AuthManager.shared.currentUserID()!, token: currentToken!)
+        }
+       
     }
     
     
@@ -77,18 +84,21 @@ class AuthManager: NSObject, FUIAuthDelegate {
     // MARK: - Session
     
     func saveUserID(user: String){
-        AuthManager.userDefaults.set(user,
+        UserDefaults.standard.set(user,
                         forKey: AuthManager.userSessionKey)
     }
     
     
     func getUserID() -> String? {
-        return AuthManager.userDefaults.value(forKey: AuthManager.userSessionKey) as? String
+        return UserDefaults.standard.value(forKey: AuthManager.userSessionKey) as? String
     }
     
     
-    static func clearUserData(){
-        userDefaults.removeObject(forKey: AuthManager.userSessionKey)
+    func clearUserData(){
+        try!  Auth.auth().signOut()
+        UserDefaults.standard.removeObject(forKey: AuthManager.userSessionKey)
+        UserSettingsManager.clearUserData()
+        UserDefaults.standard.synchronize()
     }
     
 }

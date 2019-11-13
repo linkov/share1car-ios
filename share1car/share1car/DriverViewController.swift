@@ -59,11 +59,17 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         super.viewDidLoad()
         
         startCarPoolButton.layer.cornerRadius = 8
-        
         setupDriverMap()
         setupSearch()
         
+        
+        
+
         Loaf("Long press on map to find a route", state: .custom(.init(backgroundColor: .brandColor, icon: UIImage(named: "add-route"))), sender: self).show()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        OnboardingManager.shared.changePresentingViewController(viewController: self)
     }
     
 
@@ -88,7 +94,6 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         searchBarContainerView.addSubview(resultSearchController!.searchBar)
         
         resultSearchController!.hidesNavigationBarDuringPresentation = false
-        resultSearchController!.dimsBackgroundDuringPresentation = true
         definesPresentationContext = true
         locationSearchTVC.currentUserLocation = mapView.userLocation
         locationSearchTVC.completion = { (location, didCancel) in
@@ -120,6 +125,15 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
      
     @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         guard gesture.state == .ended else { return }
+        
+                
+        let shouldReturn = OnboardingManager.shared.showOnMapTapOnboardingReturning(mapView: mapView)
+        if (shouldReturn) {
+            return
+        }
+        
+        
+        
          
         let spot = gesture.location(in: mapView)
         guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else { return }
@@ -139,42 +153,6 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         }
         
     }
-    
-//    func startNavigation() {
-//
-////        let origin = mapView.userLocation?.coordinate
-////        let destination = currentDestination
-//
-//        guard let origin = mapView.userLocation?.coordinate, let destination = currentDestination else {
-//            Alerts.systemErrorAlert(error: "Origin or destination of the route was not set", inController: self)
-//            return
-//        }
-//
-//        let options = NavigationRouteOptions(coordinates: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
-//
-//        Directions.shared.calculate(options) { (waypoints, routes, error) in
-//            guard let route = routes?.first, error == nil else {
-//                Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self)
-//                return
-//            }
-//
-//
-//            // For demonstration purposes, simulate locations if the Simulate Navigation option is on.
-//            let navigationService = MapboxNavigationService(route: route, simulating: .always)
-//            let navigationOptions = NavigationOptions(navigationService: navigationService)
-//            self.turnByturnNavigationController = NavigationViewController(for: route, options: navigationOptions)
-//            self.turnByturnNavigationController!.modalPresentationStyle = .fullScreen
-//            self.turnByturnNavigationController!.delegate = self
-//
-//            DriverDataManager.shared.setRoute(routeString: self.currentRouteJSONString!, driverID: AuthManager.shared.currentUserID()!)
-//
-//            self.present(self.turnByturnNavigationController!, animated: true, completion: nil)
-//
-//        }
-//
-//
-//    }
-    
     
     
     func requestRouteOptions(destination: CLLocationCoordinate2D) {
@@ -208,7 +186,11 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
     @IBAction func onCarpoolTap(_ sender: Any) {
         
-
+//        let shouldReturn = OnboardingManager.shared.showCarpoolOverlayOnboardingReturning(carpoolButton: self.startCarPoolButton)
+//        if shouldReturn {
+//            return
+//        }
+    
         guard let route = currentRoute else { return }
         
         if (!AuthManager.shared.isLoggedIn()) {
@@ -230,44 +212,14 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         self.turnByturnNavigationController!.modalPresentationStyle = .fullScreen
         self.turnByturnNavigationController!.delegate = self
         
+        CarpoolAcceptManager.shared.configure(activeRoute: route, mapView: mapView, presentingViewController: self.turnByturnNavigationController!)
+        
         DriverDataManager.shared.setRoute(route: route, driverID: AuthManager.shared.currentUserID()!)
         
         self.show(self.turnByturnNavigationController!, sender: self)
         
     }
-    
-    
-//    func fetchDriverRoute() {
-//
-//        DriverDataManager.shared.getExistingDriverRoute(driverID: AuthManager.shared.currentUserID()!) { (route, error) in
-//
-//            if error != nil {
-//                Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self)
-//                return
-//            }
-//
-//            guard route != nil else {
-//
-//                Alerts.systemErrorAlert(error: "Driver route is empty", inController: self)
-//                return
-//
-//            }
-//
-//            let data = Data(route!.utf8)
-//            let feature = try! MGLShape(data: data, encoding: String.Encoding.utf8.rawValue) as! MGLPolylineFeature
-//
-//            let buffer = UnsafeBufferPointer(start: feature.coordinates, count: Int(feature.pointCount))
-//            let coordinates = Array(buffer)
-//
-//            self.currentDestination = coordinates.last!
-//            self.drawRouteFeature(driverID: AuthManager.shared.currentUserID()!, feature: feature)
-//            self.toggleCarpoolButton(active: true)
-//
-//
-//        }
-//
-//    }
-    
+
     
      // MARK: - NavigationViewControllerDelegate
     
@@ -280,7 +232,9 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         })
         
         routes = nil
-        toggleCarpoolButton(active: false)
+        toggleCarpoolButton(active: true)
+        
+        CarpoolAcceptManager.shared.handleRideCancellation()
         
        DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
     
@@ -323,29 +277,5 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         self.mapView.setCenter(self.mapView.userLocation!.coordinate, zoomLevel: 12, animated: false)
     }
     
-    
-    
-//    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-//
-//        guard let userLocation = mapView.userLocation else {
-//            return
-//        }
-//
-////        if (AuthManager.shared.isLoggedIn()) {
-////            fetchDriverRoute()
-////        }
-//
-//
-//        mapView.setCenter(userLocation.coordinate, zoomLevel: 12, animated: false)
-//    }
-    
-//    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
-//    // Always allow callouts to popup when annotations are tapped.
-//        return true
-//    }
-//
-//    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
-//
-//    }
 
 }

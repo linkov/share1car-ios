@@ -8,7 +8,12 @@
 
 import UIKit
 
+
 class MainTabBarController: UITabBarController {
+    
+    
+    var firstTabBarItem: UITabBarItem?
+    var secondTabBarItem: UITabBarItem?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +29,7 @@ class MainTabBarController: UITabBarController {
         
         firstVC.tabBarItem = firstTab
         
+        firstTabBarItem = tabBarItem
         
         let secondTab = UITabBarItem()
         secondTab.title = "Have a car"
@@ -31,7 +37,7 @@ class MainTabBarController: UITabBarController {
         
         secondVC.tabBarItem = secondTab
         
-        
+        secondTabBarItem = secondVC.tabBarItem
         
          let thirdTab = UITabBarItem()
          thirdTab.title = "Settings"
@@ -39,8 +45,13 @@ class MainTabBarController: UITabBarController {
          
          thirdVC.tabBarItem = thirdTab
 
+        self.tabBar.tintColor = UIColor.brandColor
+        
+       
     }
     
+
+
 
     /*
     // MARK: - Navigation

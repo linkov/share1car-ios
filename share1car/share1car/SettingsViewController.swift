@@ -13,6 +13,7 @@ import JGProgressHUD
 
 class SettingsViewController: FormViewController {
     
+    @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     var userID: String?
     var firstName: String = ""
@@ -31,6 +32,7 @@ class SettingsViewController: FormViewController {
        
         
         self.view.bringSubviewToFront(self.saveButton)
+        self.view.bringSubviewToFront(self.logoutButton)
              
     }
     
@@ -118,6 +120,13 @@ class SettingsViewController: FormViewController {
                }
     }
     
+    @IBAction func didTapLogout(_ sender: Any) {
+        
+        AuthManager.shared.logout { (didFinish) in
+            self.form.removeAll()
+            AuthManager.shared.presentAuthUIFrom(controller: self)
+        }
+    }
     
     @IBAction func didTapSave(_ sender: Any) {
         

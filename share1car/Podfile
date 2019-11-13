@@ -28,6 +28,7 @@ target 'share1car' do
   pod 'SDWebImage', '~> 5.0'
   pod 'BadgeSwift'
   pod 'Cosmos', '~> 20.0'
+  pod 'MaterialShowcase'
   
   # Input
   pod 'Eureka'

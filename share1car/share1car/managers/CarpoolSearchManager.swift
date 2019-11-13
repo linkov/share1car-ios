@@ -21,15 +21,10 @@ import Turf
 import Loaf
 import BLTNBoard
 
-class CarpoolManager: NSObject {
+class CarpoolSearchManager: NSObject {
     
-    
-    enum CarpoolRequestStatus: String {
-        case requested = "requested"
-        case accepted = "accepted"
-        case riderCancelled = "riderCancelled"
-        case confirmed = "confirmed"
-    }
+
+    var didSendRequestBlock: didfinish_block?
     
     var activeCarpoolStatus: CarpoolRequestStatus?
     var driversLocations: [String : MGLPointAnnotation] = [:]
@@ -44,11 +39,22 @@ class CarpoolManager: NSObject {
     
     var routeFeatures: [String:MGLPolylineFeature] = [:]
     
-    static let shared = CarpoolManager()
+    static let shared = CarpoolSearchManager()
 
      override init(){
         super.init()
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: NotificationsManager.onCarpoolAcceptNotificationReceivedNotification, object: nil)
+
+    
+        
+    }
+    
+    @objc func onDidReceiveData(_ notification:Notification) {
+        let info = Converters.userInfoFromRemoteNotification(userInfo: notification.userInfo!)
+        let title = info.title
+        Loaf(title, state: .info, sender: self.presentingViewController!).show()
     }
     
     
@@ -109,12 +115,30 @@ class CarpoolManager: NSObject {
         
         for (key, value) in routes {
             
-            let data = Data(value.utf8)
-            let feature = try! MGLShape(data: data, encoding: String.Encoding.utf8.rawValue) as! MGLPolylineFeature
+            if (AuthManager.shared.currentUserID() != nil) {
+                
+                if (key != AuthManager.shared.currentUserID()!) {
+                    
+                    let data = Data(value.utf8)
+                    let feature = try! MGLShape(data: data, encoding: String.Encoding.utf8.rawValue) as! MGLPolylineFeature
+                    
+                    routeFeatures[key] = feature
+                    drawRouteFeature(driverID: key, feature: feature)
+                    
+                }
+                
+            } else {
+                
+                let data = Data(value.utf8)
+                let feature = try! MGLShape(data: data, encoding: String.Encoding.utf8.rawValue) as! MGLPolylineFeature
+                
+                routeFeatures[key] = feature
+                drawRouteFeature(driverID: key, feature: feature)
+            }
             
-            routeFeatures[key] = feature
-            drawRouteFeature(driverID: key, feature: feature)
+
             
+
          
         }
         
@@ -214,8 +238,9 @@ class CarpoolManager: NSObject {
     }
     
     
-    func findCarpool(currentLocation: CLLocationCoordinate2D, dropOffLocation: CLLocationCoordinate2D , completion: @escaping carpool_search_result_error_block ) {
+    func findCarpool(currentLocation: CLLocationCoordinate2D, dropOffLocation: CLLocationCoordinate2D , didSendRequest: @escaping didfinish_block ) {
         
+        didSendRequestBlock = didSendRequest
         
         
         guard routeFeatures.count > 0 else {
@@ -239,7 +264,7 @@ class CarpoolManager: NSObject {
                 
                 DataManager.shared.getUserDetails(userID: driverID) { (userDetails, error) in
                     if error != nil {
-                        completion(nil, error!)
+                        
                         return
                     }
      
@@ -425,6 +450,7 @@ class CarpoolManager: NSObject {
         
     }
     
+    
     func showCarpoolSuggestion() {
         
         guard self.currentCarpoolSearchResult.filled() else {
@@ -442,15 +468,17 @@ class CarpoolManager: NSObject {
             photoURL: self.currentCarpoolSearchResult.driverDetails!.photoURL!, mainTitle: "Pickup at ca. \(formatedTime)", subtitle: "Meet \(self.currentCarpoolSearchResult.driverDetails!.name!) in: \( Int(self.currentCarpoolSearchResult.riderTimeToPickUpLocation ?? 0) ) minutes ", priceText: "price: $\(priceStringForDistance)")
         
         
-//        carpoolRequest.imageView?.sd_setImage(with: URL.init(string: self.currentCarpoolSearchResult.driverDetails!.photoURL!), completed: nil)
+
         carpoolRequest.actionHandler = { (item: BLTNActionItem) in
             
             self.requestCarpoolForCarpoolSearchResult(result: self.currentCarpoolSearchResult)
+            self.didSendRequestBlock!(true)
+            Loaf("We have sent request to the driver", state: .info, sender: self.presentingViewController!).show()
+            carpoolRequest.manager?.dismissBulletin()
+            
         }
         
-//        carpoolRequest.descriptionText = "Driver arrives to your pick up point in \( Int(self.currentCarpoolSearchResult.driverTimeToPickUpLocation ?? 0)  ) minutes. You can be at pick up point in \( Int(self.currentCarpoolSearchResult.riderTimeToPickUpLocation ?? 0) ) minutes"
-//
-//
+
         carpoolRequest.alternativeHandler = { (item: BLTNActionItem) in
             self.removeSourceWithIdentifier(routeID: "rider-route")
             carpoolRequest.manager?.dismissBulletin()
@@ -477,12 +505,7 @@ class CarpoolManager: NSObject {
         
     }
     
-    func showCarpoolSuggestionWithNameAndImage(name: String) {
-        
-                
 
-    }
-    
     
     
 }

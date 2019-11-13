@@ -222,6 +222,7 @@ PODS:
     - Solar (~> 2.1)
   - MapboxNavigationNative (6.2.1)
   - MapboxSpeech (0.1.1)
+  - MaterialShowcase (0.7.1)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -252,6 +253,7 @@ DEPENDENCIES:
   - MapboxDirections.swift (~> 0.30)
   - MapboxGeocoder.swift (~> 0.11)
   - MapboxNavigation
+  - MaterialShowcase
   - Polyline (~> 4.0)
   - SDWebImage (~> 5.0)
   - Spring (from `https://github.com/MengTo/Spring.git`)
@@ -301,6 +303,7 @@ SPEC REPOS:
     - MapboxNavigation
     - MapboxNavigationNative
     - MapboxSpeech
+    - MaterialShowcase
     - nanopb
     - Polyline
     - Protobuf
@@ -360,6 +363,7 @@ SPEC CHECKSUMS:
   MapboxNavigation: fb5e34ad36b89aab96aa89c637502fe79896bb45
   MapboxNavigationNative: 11dc22140f4698d3f26989f2b6379dc81ef0d4c1
   MapboxSpeech: 59b3984d3f433a443d24acf53097f918c5cc70f9
+  MaterialShowcase: baaca60627058085d6b304f5a30ee952e99cee21
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Polyline: 0e9890790292741c8186201a536b6bb6a78d02dd
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
@@ -368,6 +372,6 @@ SPEC CHECKSUMS:
   Spring: 3d113f14575ef79aec9c5f906dfa4f5001c03254
   Turf: c6bdf62d6a70c647874f295dd1cf4eefc0c3e9e6
 
-PODFILE CHECKSUM: 532202cbc937bdf8e0248d7cfd72722aac027361
+PODFILE CHECKSUM: e9bf0d242b531c0ab2d4eee908c91777f5c0b82a
 
 COCOAPODS: 1.7.5

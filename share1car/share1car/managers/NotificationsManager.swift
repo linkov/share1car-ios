@@ -11,14 +11,34 @@ import FirebaseMessaging
 
 class NotificationsManager: NSObject, UNUserNotificationCenterDelegate, MessagingDelegate {
 
+    static let onCarpoolRequestNotificationReceivedNotification = Notification.Name("onCarpoolRequestNotificationReceivedNotification")
+    static let onCarpoolAcceptNotificationReceivedNotification = Notification.Name("onCarpoolAcceptNotificationReceivedNotification")
+  
     static let shared = NotificationsManager()
 
      override init(){
+
     }
+    
+    
+    
+    
+    func checkNotificationsStatus() {
+        
+        UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { (settings) in
+            let enabled = settings.authorizationStatus == .authorized
+            UserSettingsManager.shared.saveUserNotificationsAuthorizationEnabled(enabled: enabled)
+        })
+        
+        
+    }
+
     
     func isNotificationsEnabled() -> Bool {
         
-     return  Messaging.messaging().fcmToken != nil
+        
+        let enabled = (Messaging.messaging().fcmToken != nil) && UserSettingsManager.shared.getUserNotificationsAuthorizationEnabled()
+        return enabled
         
     }
     
@@ -53,6 +73,9 @@ class NotificationsManager: NSObject, UNUserNotificationCenterDelegate, Messagin
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
          print("Firebase registration token: \(fcmToken)")
+        
+        
+        UserSettingsManager.shared.saveFCMToken(token: fcmToken)
         
         if  AuthManager.shared.currentUserID() == nil {
             return

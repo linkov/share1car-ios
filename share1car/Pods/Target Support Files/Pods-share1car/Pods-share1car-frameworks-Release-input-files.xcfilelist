@@ -24,6 +24,7 @@ ${BUILT_PRODUCTS_DIR}/MapboxNavigation/MapboxNavigation.framework
 ${PODS_ROOT}/MapboxNavigationNative/MapboxNavigationNative.framework
 ${PODS_ROOT}/MapboxNavigationNative/MapboxNavigationNative.framework.dSYM
 ${BUILT_PRODUCTS_DIR}/MapboxSpeech/MapboxSpeech.framework
+${BUILT_PRODUCTS_DIR}/MaterialShowcase/MaterialShowcase.framework
 ${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework
 ${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework

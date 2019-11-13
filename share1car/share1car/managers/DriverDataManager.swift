@@ -23,6 +23,41 @@ class DriverDataManager: NSObject {
         ref = Database.database().reference()
     }
     
+    func sendRideAccept(fromDriverID: String, toRiderID: String, status: CarpoolAcceptStatus ) {
+        
+        self.ref.child("RideAccepts").child(toRiderID).setValue([fromDriverID: status.rawValue])
+    }
+    
+    
+    func fetchCarpoolRequestForMyDriverID(completion: @escaping carpoolrequest_error_block) {
+        self.ref.child("RouteRequests").child(AuthManager.shared.currentUserID()!).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let result = snapshot.value {
+                completion((result as? [String : Any] ?? [:]), nil)
+            }
+                        
+          }) { (error) in
+            completion(nil, error)
+        }
+    }
+    
+    func startObservingCarpoolRequestForMyDriverID(completion: @escaping carpoolrequest_error_block) {
+        
+        self.ref.child("RouteRequests").child(AuthManager.shared.currentUserID()!).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let result = snapshot.value {
+                completion((result as? [String : Any] ?? [:]), nil)
+            }
+                        
+          }) { (error) in
+            completion(nil, error)
+        }
+    }
+    
+    func stopObservingCarpoolRequestForMyDriverID()  {
+        
+    }
+    
     
     func setRoute(route: Route, driverID: String) {
         
@@ -32,11 +67,8 @@ class DriverDataManager: NSObject {
         
         var routeCoordinates = route.coordinates!
         let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
-        
         let data: Data = polyline.geoJSONData(usingEncoding: String.Encoding.utf8.rawValue)
         let routeString =  String(data: data, encoding: .utf8)
-        
-        
         self.ref.child("DriverRoutes").child(driverID).setValue(routeString);
     }
     
