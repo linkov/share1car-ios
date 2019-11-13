@@ -32,10 +32,25 @@ class DataManager: NSObject {
         return storageRef.child(userID)
     }
     
+    
+    func getUserPhotoURL(userID: String, completion: @escaping imageurl_error_block) {
+        let userImageRef = storageRef.child(userID)
+        
+        userImageRef.downloadURL { (url, error) in
+            if error != nil {
+                 completion(nil, error)
+                 return
+             }
+            completion(url?.absoluteString, nil)
+        }
+        
+    }
+    
+    
     func getUserPhoto(userID: String, completion: @escaping imagedata_error_block) {
         let userImageRef = storageRef.child(userID)
         
-        userImageRef.getData(maxSize: 902077) { (data, error) in
+        userImageRef.getData(maxSize: 1902077) { (data, error) in
             if error != nil {
                 completion(nil, error)
                 return
@@ -97,34 +112,49 @@ class DataManager: NSObject {
         
     }
     
-    func getUserDetails(userID: String, completion: @escaping userdetails_error_block) {
+    func getUserDetails(userID: String, userDetailscompletion: @escaping userdetails_error_block) {
         
-        let photoURL = UserSettingsManager.shared.getUserImageURL()
+        var photoURL = UserSettingsManager.shared.getUserImageURL()
         
-        
-        self.ref.child("user_data").child(userID).observeSingleEvent(of: .value, with: { (snapshot) in
+
             
-            if let result = snapshot.value {
-                
-                
-                
-                let res = result as? [String:Any]
-                print(res)
-                if res == nil {
-                    completion(nil, nil)
+            DataManager.shared.getUserPhotoURL(userID: userID) { (URL, error) in
+                if error != nil {
+                    print(error?.localizedDescription as Any)
+                    userDetailscompletion(nil, error!)
                     return
                 }
-                var details = S1CUserDetails()
-                details.UID = userID
-                details.name = res!["firstName"] as? String
-                details.phone = res!["phone"] as? String
-                details.photoURL = photoURL
-                completion(details, nil)
-            }
+                
+                photoURL = URL
+                UserSettingsManager.shared.saveUserImageURL(imageURL: photoURL)
+                
+                self.ref.child("user_data").child(userID).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let result = snapshot.value {
                         
-          }) { (error) in
-            completion(nil, error)
+                        
+                        
+                        let res = result as? [String:Any]
+                        print(res)
+                        if res == nil {
+                            userDetailscompletion(nil, nil)
+                            return
+                        }
+                        var details = S1CUserDetails()
+                        details.UID = userID
+                        details.name = res!["firstName"] as? String
+                        details.phone = res!["phone"] as? String
+                        details.photoURL = photoURL
+                        userDetailscompletion(details, nil)
+                    }
+                                
+                  }) { (error) in
+                    userDetailscompletion(nil, error)
+                }
+
         }
+        
+
     }
     
     

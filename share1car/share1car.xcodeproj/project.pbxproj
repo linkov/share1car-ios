@@ -666,8 +666,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -676,6 +677,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdwr.share1car;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -687,8 +689,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -697,6 +700,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdwr.share1car;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

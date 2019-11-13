@@ -36,14 +36,8 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
 
         
         
-        setupRiderMap()
-        CarpoolSearchManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
-       
+            setupRiderMap()
         
-    }
-    
-
-    override func viewDidAppear(_ animated: Bool) {
         
             OnboardingManager.shared.changePresentingViewController(viewController: self)
             
@@ -55,7 +49,22 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
             if (LocationManager.shared.locationEnabled()) {
                 
                 mapView.showsUserLocation = true
+                
+                LocationManager.shared.findUserLocation { (coord) in
+                    
+                    self.mapView.setCenter(coord, zoomLevel: 12, animated: false)
+                }
             }
+        
+        CarpoolSearchManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
+       
+        
+    }
+    
+
+    override func viewDidAppear(_ animated: Bool) {
+        
+
     }
 
 
@@ -102,7 +111,7 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
         let spot = gesture.location(in: mapView)
         guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else { return }
          
-        CarpoolSearchManager.shared.findCarpool(currentLocation: mapView.userLocation!.coordinate, dropOffLocation: location, didSendRequest: { didSend in
+        CarpoolSearchManager.shared.findCarpool(currentLocation: mapView.userLocation!.coordinate, destination: location, didSendRequest: { didSend in
             
             if (didSend) {
                
@@ -140,7 +149,7 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
     
     func mapView(_ mapView: MGLMapView, didUpdate userLocation: MGLUserLocation?) {
         
-        self.mapView.setCenter(self.mapView.userLocation!.coordinate, zoomLevel: 12, animated: false)
+//        self.mapView.setCenter(self.mapView.userLocation!.coordinate, zoomLevel: 12, animated: false)
     }
     
 

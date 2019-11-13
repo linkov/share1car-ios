@@ -238,7 +238,7 @@ class CarpoolSearchManager: NSObject {
     }
     
     
-    func findCarpool(currentLocation: CLLocationCoordinate2D, dropOffLocation: CLLocationCoordinate2D , didSendRequest: @escaping didfinish_block ) {
+    func findCarpool(currentLocation: CLLocationCoordinate2D, destination: CLLocationCoordinate2D , didSendRequest: @escaping didfinish_block ) {
         
         didSendRequestBlock = didSendRequest
         
@@ -256,7 +256,7 @@ class CarpoolSearchManager: NSObject {
             
             let lineStringForDriverRoute = LineString(coordinates)
             let closestLocationOnDriverRouteForPickup = lineStringForDriverRoute.closestCoordinate(to: currentLocation)
-            
+            let closestLocationOnDriverRouteForDropOff = lineStringForDriverRoute.closestCoordinate(to: destination)
             
             
             if (Int(closestLocationOnDriverRouteForPickup!.distance) <= UserSettingsManager.shared.getMaximumPickupDistance()) {
@@ -269,12 +269,13 @@ class CarpoolSearchManager: NSObject {
                     }
      
                     
+                    self.drawRiderRouteFromCurrentLocationToPickUp(pickUp: closestLocationOnDriverRouteForPickup!.coordinate)
+                    self.drawRiderRouteFromDropOffToDestination(dropOff: closestLocationOnDriverRouteForDropOff!.coordinate, riderDestination: destination)
                     
-                    self.drawRiderRouteFromLocationViaPickUpToDropOff(pickUp: closestLocationOnDriverRouteForPickup!.coordinate, dropOff: dropOffLocation)
                     self.fetchTimingsForCarpool(driverID: userDetails!.UID!, pickUpLocation: closestLocationOnDriverRouteForPickup!.coordinate, currentLocation: currentLocation)
                     
                     self.currentCarpoolSearchResult.driverDetails = userDetails
-                    self.currentCarpoolSearchResult.dropOffLocation = dropOffLocation
+                    self.currentCarpoolSearchResult.dropOffLocation = closestLocationOnDriverRouteForDropOff!.coordinate
                     self.currentCarpoolSearchResult.pickUpLocation = closestLocationOnDriverRouteForPickup!.coordinate
                     
                     
@@ -390,17 +391,19 @@ class CarpoolSearchManager: NSObject {
     }
     
     
-    func addRiderRoute(feature:MGLPolylineFeature) {
+    
+    
+    func addRiderRoute(feature:MGLPolylineFeature, identifier: String) {
 
-            if let source = self.mapView!.style?.source(withIdentifier: "rider-route") as? MGLShapeSource {
+            if let source = self.mapView!.style?.source(withIdentifier: identifier) as? MGLShapeSource {
 
                 source.shape = feature
 
             } else {
 
-                let source = MGLShapeSource(identifier: "rider-route", features: [feature], options: nil)
+                let source = MGLShapeSource(identifier: identifier, features: [feature], options: nil)
 
-                let lineStyle = MGLLineStyleLayer(identifier: "rider-route", source: source)
+                let lineStyle = MGLLineStyleLayer(identifier: identifier, source: source)
                 lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1))
                 lineStyle.lineDashPattern = NSExpression(forConstantValue: [2, 1.5])
                 lineStyle.lineWidth = NSExpression(forConstantValue: 3)
@@ -413,17 +416,13 @@ class CarpoolSearchManager: NSObject {
 
         }
 
-
-    func drawRiderRouteFromLocationViaPickUpToDropOff(pickUp: CLLocationCoordinate2D, dropOff: CLLocationCoordinate2D ) {
-
+    
+    func drawRiderRouteFromCurrentLocationToPickUp(pickUp: CLLocationCoordinate2D) {
         guard let userLocation = mapView?.userLocation!.location else { return }
-        let userWaypoint = Waypoint(location: userLocation, heading: mapView?.userLocation?.heading, name: "user")
+        let userWaypoint = Waypoint(location: userLocation, heading: mapView?.userLocation?.heading, name: "Current location")
         let pickUpWaypoint = Waypoint(coordinate: pickUp)
-        let destinationWaypoint = Waypoint(coordinate: dropOff)
-         
-        let options = NavigationRouteOptions(waypoints: [userWaypoint, pickUpWaypoint, destinationWaypoint])
-
-
+        let options = NavigationRouteOptions(waypoints: [userWaypoint, pickUpWaypoint], profileIdentifier: .walking)
+        
         _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
 
             guard let route = routes?.first, error == nil else {
@@ -438,11 +437,39 @@ class CarpoolSearchManager: NSObject {
             var routeCoordinates = route.coordinates!
             let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
 
-            self.addRiderRoute(feature: polyline)
-
+            self.addRiderRoute(feature: polyline, identifier: "rider-route-in")
+            
 
         }
     }
+    
+    
+    func drawRiderRouteFromDropOffToDestination(dropOff: CLLocationCoordinate2D, riderDestination: CLLocationCoordinate2D) {
+
+        let dropOffWaypoint = Waypoint(coordinate: dropOff)
+        let riderDestinationWaypoint = Waypoint(coordinate: riderDestination)
+        let options = NavigationRouteOptions(waypoints: [dropOffWaypoint, riderDestinationWaypoint], profileIdentifier: .walking)
+        
+        _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
+
+            guard let route = routes?.first, error == nil else {
+                 Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
+                return
+            }
+            
+
+            guard route.coordinateCount > 0 else { return }
+
+
+            var routeCoordinates = route.coordinates!
+            let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
+
+            self.addRiderRoute(feature: polyline, identifier: "rider-route-out")
+            
+
+        }
+    }
+
     
     func requestCarpoolForCarpoolSearchResult(result: S1CCarpoolSearchResult) {
         
@@ -480,13 +507,15 @@ class CarpoolSearchManager: NSObject {
         
 
         carpoolRequest.alternativeHandler = { (item: BLTNActionItem) in
-            self.removeSourceWithIdentifier(routeID: "rider-route")
+            self.removeSourceWithIdentifier(routeID: "rider-route-in")
+            self.removeSourceWithIdentifier(routeID: "rider-route-out")
             carpoolRequest.manager?.dismissBulletin()
             
         }
         
         carpoolRequest.dismissalHandler =  { (item) in
-            self.removeSourceWithIdentifier(routeID: "rider-route")
+            self.removeSourceWithIdentifier(routeID: "rider-route-in")
+            self.removeSourceWithIdentifier(routeID: "rider-route-out")
             carpoolRequest.manager?.dismissBulletin()
                    
         }

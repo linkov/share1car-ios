@@ -11,6 +11,7 @@ import CoreLocation
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
     
+    var currentLocationBlock: current_location_block?
     var permissionRequestResult: location_permission_block?
     let manager = CLLocationManager()
     static let shared = LocationManager()
@@ -18,6 +19,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 
      override init(){
          
+    }
+    
+    func findUserLocation(currentLocation: @escaping current_location_block) {
+         manager.delegate = self
+        currentLocationBlock = currentLocation
+        manager.startUpdatingLocation()
+        
     }
     
     func requestLocationPermissions(didReceivePermission: @escaping location_permission_block) {
@@ -51,7 +59,14 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
 
-    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        if currentLocationBlock != nil {
+            manager.stopUpdatingLocation()
+            currentLocationBlock!(CLLocationCoordinate2D(latitude: (locations.last?.coordinate.latitude)!, longitude: (locations.last?.coordinate.longitude)! ))
+        }
+        
+    }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         

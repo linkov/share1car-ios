@@ -50,6 +50,10 @@ class MainTabBarController: UITabBarController {
        
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        NotificationsManager.shared.checkNotificationsStatus()
+    }
+    
 
 
 

@@ -14,6 +14,8 @@ import Firebase
 public typealias id_error_block = (Any?, Error?) -> Swift.Void
 public typealias coordinate_didCancel_block = (CLLocationCoordinate2D?, Bool?) -> Swift.Void
 
+public typealias current_location_block = (CLLocationCoordinate2D) -> Swift.Void
+
 
 public typealias distance_errorstring_block = (CLLocationDistance?, String?) -> Swift.Void
 
