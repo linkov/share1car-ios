@@ -85,6 +85,14 @@ class CarpoolSearchManager: NSObject {
             
             for (key, value) in locationsDictionary {
                 
+                if !AuthManager.shared.isLoggedIn() {
+                    return
+                }
+                
+                if key == AuthManager.shared.currentUserID()! {
+                    return
+                }
+                
                 let point = MGLPointAnnotation()
                 point.title = key
                 

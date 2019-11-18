@@ -39,14 +39,14 @@ class OnboardingManager: NSObject, ImagePickerDelegate, MaterialShowcaseDelegate
     
     
     
-    func showOnAppOpenOnboarding(mapView: NavigationMapView) {
+    func showOnAppOpenOnboardingReturning(mapView: NavigationMapView) -> Bool {
         self.mapView = mapView
         
         if (UserSettingsManager.shared.getUserDidSeeTabBarOverlayOnboadrding() == false) {
 
             let tabBarVC = self.presentingViewController!.parent as! UITabBarController
             showTabBarOverlayOnboarding(tabBar: tabBarVC.tabBar)
-            return
+            return true
 
         }
 
@@ -55,6 +55,8 @@ class OnboardingManager: NSObject, ImagePickerDelegate, MaterialShowcaseDelegate
             showLocationOnboarding()
             
         }
+        
+        return false
                      
     }
     
@@ -108,7 +110,7 @@ class OnboardingManager: NSObject, ImagePickerDelegate, MaterialShowcaseDelegate
             return false
         }
     }
-
+    
     func showTabBarOverlayOnboarding(tabBar: UITabBar) {
         
         if (UserSettingsManager.shared.getUserDidSeeTabBarOverlayOnboadrding() == true) {
@@ -116,24 +118,23 @@ class OnboardingManager: NSObject, ImagePickerDelegate, MaterialShowcaseDelegate
         }
         
         let showcase = MaterialShowcase()
-
         showcase.delegate = self
         showcase.setTargetView(tabBar: tabBar, itemIndex: 0)
         showcase.primaryText = "Als Mitfahrer"
         showcase.secondaryText = "Wenn eine Fahrt angeboten wird (rote Route auf der Karte), kannst Du als Mitfahrer durch einen kurzen Klick auf die Route dein Ziel auswählen."
-
+        
         let showcase1 = MaterialShowcase()
         showcase1.delegate = self
         showcase1.setTargetView(tabBar: tabBar, itemIndex: 1)
         showcase1.primaryText = "Als Fahrer"
         showcase1.secondaryText = "Als Fahrer kannst Du durch einen kurzen Klick auf die Karte oder über die Suchleiste Dein Fahrtziel auswählen."
-
-        showcase.show {
-
-        }
+        
+        sequence.temp(showcase).temp(showcase1).start()
                 
         UserSettingsManager.shared.saveUserDidSeeTabBarOverlayOnboadrding(didSee: true)
     }
+
+
     
     
     func showLocationOnboarding() {
@@ -144,6 +145,12 @@ class OnboardingManager: NSObject, ImagePickerDelegate, MaterialShowcaseDelegate
             LocationManager.shared.requestLocationPermissions { (didGetPermission) in
                 locationPermissions.manager?.dismissBulletin()
                 self.mapView!.showsUserLocation = true
+                LocationManager.shared.findUserLocation { (coord) in
+                        
+                    self.mapView!.setCenter(coord, zoomLevel: 12, animated: false)
+                }
+                
+                
             }
 
         }

@@ -29,44 +29,44 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
     let hud = JGProgressHUD(style: .light)
     
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupRiderMap()
-       
-         OnboardingManager.shared.changePresentingViewController(viewController: self)
+        CarpoolSearchManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
         
 
     }
     
 
-    override func viewWillAppear(_ animated: Bool) {
+
+        override func viewDidAppear(_ animated: Bool) {
         
-       
-        OnboardingManager.shared.showOnAppOpenOnboarding(mapView: mapView)
+            OnboardingManager.shared.changePresentingViewController(viewController: self)
+            
+            let shouldReturn = OnboardingManager.shared.showOnAppOpenOnboardingReturning(mapView: mapView)
+            if (shouldReturn) {
+                return
+            }
         
             if (LocationManager.shared.locationEnabled()) {
                 
                 mapView.showsUserLocation = true
                 
                 LocationManager.shared.findUserLocation { (coord) in
-                    
-                    self.mapView.setCenter(coord, zoomLevel: 12, animated: false)
+                        
+                        self.mapView.setCenter(coord, zoomLevel: 12, animated: false)
+                    }
                 }
-            }
-        
-         CarpoolSearchManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
-        
-    }
+      }
 
 
 
-    @objc func handleKeyWindowDidBecomeAvailableAfterLaunch(_ notification:Notification) {
-        
-        OnboardingManager.shared.changePresentingViewController(viewController: self)
-        OnboardingManager.shared.showOnAppOpenOnboarding(mapView: mapView)
-        
-    }
+//    @objc func handleKeyWindowDidBecomeAvailableAfterLaunch(_ notification:Notification) {
+//
+//        OnboardingManager.shared.changePresentingViewController(viewController: self)
+//        OnboardingManager.shared.showOnAppOpenOnboarding(mapView: mapView)
+//        
+//    }
     
     
     func setupRiderMap() {
