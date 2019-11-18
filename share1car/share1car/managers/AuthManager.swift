@@ -68,8 +68,16 @@ class AuthManager: NSObject, FUIAuthDelegate {
         
         let userID = authDataResult?.user.uid
         let name = authDataResult?.user.displayName
-        if (name != nil) {
+        if (name != nil && userID != nil) {
             DataManager.shared.updateUser(userID: userID!, firstName: name!, phone: "")
+            DataManager.shared.getUserPhotoURL(userID: userID!) { (url, error) in
+                if error != nil {
+                    print(error?.localizedDescription as Any)
+                    return
+                }
+                
+                UserSettingsManager.shared.saveUserImageURL(imageURL: url)
+            }
         }
         
         let currentToken = UserSettingsManager.shared.getFCMToken()

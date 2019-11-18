@@ -85,14 +85,7 @@ class CarpoolSearchManager: NSObject {
             
             for (key, value) in locationsDictionary {
                 
-                if !AuthManager.shared.isLoggedIn() {
-                    return
-                }
-                
-                if key == AuthManager.shared.currentUserID()! {
-                    return
-                }
-                
+
                 let point = MGLPointAnnotation()
                 point.title = key
                 
@@ -101,7 +94,10 @@ class CarpoolSearchManager: NSObject {
                 
                 point.coordinate = CLLocationCoordinate2D(latitude: coordsArray[0], longitude: coordsArray[1])
                 
-                
+        
+                if AuthManager.shared.isLoggedIn() && key == AuthManager.shared.currentUserID()! {
+                    return
+                }
                 
                 self.driversLocations[key] = point
                 self.mapView!.addAnnotation(point)
@@ -119,27 +115,23 @@ class CarpoolSearchManager: NSObject {
     
     func updateRoutesOnMap(routes: [String : String]) {
         
+        for (key, _) in routeFeatures {
+            
+            removeSourceWithIdentifier(routeID: key)
+        }
+        
+        routeFeatures = [:]
+        
         mapView?.removeRoutes()
         
         for (key, value) in routes {
             
-            if (AuthManager.shared.currentUserID() != nil) {
-                
-                if (key != AuthManager.shared.currentUserID()!) {
-                    
-                    let data = Data(value.utf8)
-                    let feature = try! MGLShape(data: data, encoding: String.Encoding.utf8.rawValue) as! MGLPolylineFeature
-                    
-                    routeFeatures[key] = feature
-                    drawRouteFeature(driverID: key, feature: feature)
-                    
-                }
-                
+            let data = Data(value.utf8)
+            let feature = try! MGLShape(data: data, encoding: String.Encoding.utf8.rawValue) as! MGLPolylineFeature
+            
+            if AuthManager.shared.isLoggedIn() && key == AuthManager.shared.currentUserID()! {
+               
             } else {
-                
-                let data = Data(value.utf8)
-                let feature = try! MGLShape(data: data, encoding: String.Encoding.utf8.rawValue) as! MGLPolylineFeature
-                
                 routeFeatures[key] = feature
                 drawRouteFeature(driverID: key, feature: feature)
             }
@@ -147,7 +139,6 @@ class CarpoolSearchManager: NSObject {
 
             
 
-         
         }
         
     }
@@ -521,6 +512,7 @@ class CarpoolSearchManager: NSObject {
             self.removeSourceWithIdentifier(routeID: "rider-route-in")
             self.removeSourceWithIdentifier(routeID: "rider-route-out")
             carpoolRequest.manager?.dismissBulletin()
+            self.didSendRequestBlock!(nil,"You cancelled the request")
             
         }
         
@@ -528,6 +520,7 @@ class CarpoolSearchManager: NSObject {
             self.removeSourceWithIdentifier(routeID: "rider-route-in")
             self.removeSourceWithIdentifier(routeID: "rider-route-out")
             carpoolRequest.manager?.dismissBulletin()
+            self.didSendRequestBlock!(nil,"You cancelled the request")
                    
         }
         

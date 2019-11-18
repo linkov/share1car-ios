@@ -46,6 +46,7 @@ class NotificationsManager: NSObject, UNUserNotificationCenterDelegate, Messagin
         
     }
     
+    
     func registerForNotifications()  {
         
         Messaging.messaging().delegate = self

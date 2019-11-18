@@ -85,10 +85,21 @@ class DriverDataManager: NSObject {
     }
     
     func removeRoute(driverID: String) {
-        self.ref.child("DriverRoutes").child(driverID).removeValue();
+        self.ref.child("DriverLocations").child(driverID).removeValue { (error, ref) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            
+        }
+        self.ref.child("DriverRoutes").child(driverID).removeValue()
     }
     
     func setCurrentLocation(location: CLLocationCoordinate2D, driverID: String) {
-        self.ref.child("DriverLocations").child(driverID).setValue([location.latitude, location.longitude])
+        self.ref.child("DriverLocations").child(driverID).setValue(([location.latitude, location.longitude])) { (error, ref) in
+            
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
     }
 }
