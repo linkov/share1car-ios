@@ -16,6 +16,8 @@ import MapboxNavigation
 import JGProgressHUD
 import Loaf
 
+import EasyPeasy
+
 import Spring
 
 class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationViewControllerDelegate, NavigationMapViewDelegate {
@@ -35,7 +37,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
     var currentRouteJSONString: String?
     
-    
+    var ETAs:[CLLocationDegrees:String] = [:]
     
     var currentRoute: Route? {
         get {
@@ -82,10 +84,13 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         }
     }
     
-
+    
 
     func setupDriverMap() {
-    
+        
+        
+        startCarPoolButton.addLightShadow()
+        
         mapView.navigationMapViewDelegate = self
         mapView.delegate = self
         mapView.showsUserLocation = true
@@ -99,9 +104,24 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         
         let locationSearchTVC = storyboard!.instantiateViewController(withIdentifier: "SearchTableViewController") as! SearchTableViewController
         resultSearchController = UISearchController(searchResultsController: locationSearchTVC)
+
+        resultSearchController!.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         resultSearchController!.searchResultsUpdater = locationSearchTVC as UISearchResultsUpdating
         resultSearchController!.searchBar.placeholder = "Search for places"
+        
+//        resultSearchController!.searchBar.easy.layout(Left(30),Right(30))
+        
         searchBarContainerView.addSubview(resultSearchController!.searchBar)
+        
+//        resultSearchController!.searchBar.layer.cornerRadius = 22
+        searchBarContainerView.layer.cornerRadius = 22
+        searchBarContainerView.clipsToBounds = true
+        
+
+//        resultSearchController!.searchBar.easy.layout(
+//            Left(20).to(resultSearchController!.searchBar.superview!, .left),
+//            Right(20).to(resultSearchController!.searchBar.superview!, .right)
+//        )
         
         resultSearchController!.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
@@ -149,7 +169,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else { return }
          
         requestRouteOptions(destination: location)
-        toggleCarpoolButton(active: true)
+        
     }
     
     func toggleCarpoolButton(active: Bool) {
@@ -164,8 +184,31 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         
     }
     
+    func showETAsForRoutes() {
+        
+        
+        for route in self.routes ?? [] {
+            guard route.coordinateCount > 0 else { return }
+            
+            let routeCenterCoordinate = route.coordinates![route.coordinates!.count/2]
+            let annotation = MGLPointAnnotation()
+            annotation.coordinate = routeCenterCoordinate
+            let str:String = String(format:"%.0f", route.expectedTravelTime/60)
+            ETAs[annotation.coordinate.latitude] = "\(str) min"
+             
+            // Add marker `hello` to the map.
+            mapView.addAnnotation(annotation)
+            
+        }
+    }
+    
     
     func requestRouteOptions(destination: CLLocationCoordinate2D) {
+        
+        if mapView.annotations != nil {
+            mapView.removeAnnotations(mapView!.annotations!)
+        }
+        
         
         guard let userLocation = mapView?.userLocation!.location else { return }
         let userWaypoint = Waypoint(location: userLocation, heading: mapView?.userLocation?.heading, name: "user")
@@ -175,22 +218,23 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
          
         hud.show(in: self.view)
         Directions.shared.calculate(options) { (waypoints, routes, error) in
-            guard let routes = routes else { return }
+            guard let routes = routes else {
+                Loaf("No routes found", state: .info, sender: self).show()
+                return
+                
+                
+            }
             self.routes = routes
             self.mapView?.showRoutes(routes)
             self.mapView?.showWaypoints(self.currentRoute!)
+            self.showETAsForRoutes()
+            self.toggleCarpoolButton(active: true)
             self.hud.dismiss()
         }
     }
     
     
-    
-    func showFeedback() {
-        
-         let feedbackVC = storyboard!.instantiateViewController(withIdentifier: "FeedbackViewController") as! FeedbackViewController
-        self.parent!.present(feedbackVC, animated: true, completion: nil)
-    }
-    
+
     
      // MARK: - Actions
     
@@ -236,19 +280,22 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     func navigationViewControllerDidDismiss(_ navigationViewController: NavigationViewController, byCanceling canceled: Bool) {
         print("navigationViewControllerDidDismiss")
         
-        turnByturnNavigationController?.navigationService.stop()
+        navigationViewController.navigationService.stop()
         turnByturnNavigationController?.dismiss(animated: true, completion: {
-             self.showFeedback()
+           
         })
         
+        mapView.removeAnnotations(mapView!.annotations!)
+        
         routes = nil
-        toggleCarpoolButton(active: true)
+        toggleCarpoolButton(active: false)
         
         CarpoolAcceptManager.shared.handleRideCancellation()
         
-       DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
+        DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
     
-       
+         NotificationCenter.default.post(name: NotificationsManager.onFeedbackScreenRequestedNotification, object: nil)
+         
     }
     
     func navigationViewController(_ navigationViewController: NavigationViewController, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {
@@ -278,7 +325,32 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         self.currentRoute = route
     }
     
-    
+    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
+        
+        guard annotation is MGLPointAnnotation else {
+            return nil
+        }
+        
+        let eta = ETAs[annotation.coordinate.latitude]
+        
+        if eta == nil {
+            return nil
+        }
+
+        let myClassNib = UINib(nibName: "RouteETAAnnotationView", bundle: nil)
+        let annotationView = myClassNib.instantiate(withOwner: nil, options: nil)[0] as! RouteETAAnnotationView
+        annotationView.setup(eta: eta!)
+        annotationView.bounds = CGRect(x: 0, y: 0, width: 60, height: 20)
+
+         
+        return annotationView
+    }
+     
+    // Allow callout view to appear when an annotation is tapped.
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        return true
+    }
     
 
 }
+

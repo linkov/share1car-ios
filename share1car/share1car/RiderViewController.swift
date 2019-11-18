@@ -32,28 +32,18 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
-        
-        
-            setupRiderMap()
-        
-        
-            OnboardingManager.shared.changePresentingViewController(viewController: self)
-            
-            let shouldReturn = OnboardingManager.shared.showOnAppOpenOnboardingReturning(mapView: mapView)
-            if (shouldReturn) {
-                return
-            }
-        
-
-        CarpoolSearchManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
+        setupRiderMap()
        
+         OnboardingManager.shared.changePresentingViewController(viewController: self)
         
+
     }
     
 
     override func viewWillAppear(_ animated: Bool) {
+        
+       
+        OnboardingManager.shared.showOnAppOpenOnboarding(mapView: mapView)
         
             if (LocationManager.shared.locationEnabled()) {
                 
@@ -65,9 +55,18 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
                 }
             }
         
+         CarpoolSearchManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
+        
     }
 
 
+
+    @objc func handleKeyWindowDidBecomeAvailableAfterLaunch(_ notification:Notification) {
+        
+        OnboardingManager.shared.changePresentingViewController(viewController: self)
+        OnboardingManager.shared.showOnAppOpenOnboarding(mapView: mapView)
+        
+    }
     
     
     func setupRiderMap() {
@@ -101,6 +100,8 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
         guard gesture.state == .ended else { return }
         
   
+
+        
         
         let shouldReturn = OnboardingManager.shared.showOnMapTapOnboardingReturning(mapView: mapView)
         
@@ -110,15 +111,20 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
         
         let spot = gesture.location(in: mapView)
         guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else { return }
-         
-        CarpoolSearchManager.shared.findCarpool(currentLocation: mapView.userLocation!.coordinate, destination: location, didSendRequest: { didSend in
+        
+        hud.show(in: self.view)
+        CarpoolSearchManager.shared.findCarpool(currentLocation: mapView.userLocation!.coordinate, destination: location, didSendRequest: { result, errorString in
             
-            if (didSend) {
-               
+            self.hud.dismiss()
+            
+            if errorString != nil {
+                Loaf(errorString!, state: .warning, sender: self).show()
+            } else {
+                Loaf("We have sent request to the driver", state: .info, sender: self).show()
             }
             
+            
         })
-        print(location)
 
     }
     
@@ -141,24 +147,13 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
     
     
     
-    
-    
      // MARK: - MGLMapViewDelegate
-    
-
-    
-    func mapView(_ mapView: MGLMapView, didUpdate userLocation: MGLUserLocation?) {
-        
-//        self.mapView.setCenter(self.mapView.userLocation!.coordinate, zoomLevel: 12, animated: false)
-    }
     
 
     func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
      
-        // For better performance, always try to reuse existing annotations.
         var annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "driverLocationItem")
          
-        // If there is no reusable annotation image available, initialize a new one.
         if(annotationImage == nil) {
             annotationImage = MGLAnnotationImage(image: UIImage(named: "driverLocationItem")!, reuseIdentifier: "driverLocationItem")
         }

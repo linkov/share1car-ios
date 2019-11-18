@@ -30,8 +30,15 @@ target 'share1car' do
   pod 'Cosmos', '~> 20.0'
   pod 'MaterialShowcase'
   
-  # Input
+  # Layout
+  pod "EasyPeasy"
+  
+  # User Input
   pod 'Eureka'
+  
+  
+  # Developer tools
+#  pod 'Reveal-SDK', :configurations => ['Debug']
   
   # Pods for share1car
 

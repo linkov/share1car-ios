@@ -39,25 +39,23 @@ class OnboardingManager: NSObject, ImagePickerDelegate, MaterialShowcaseDelegate
     
     
     
-    func showOnAppOpenOnboardingReturning(mapView: NavigationMapView) -> Bool {
+    func showOnAppOpenOnboarding(mapView: NavigationMapView) {
         self.mapView = mapView
         
         if (UserSettingsManager.shared.getUserDidSeeTabBarOverlayOnboadrding() == false) {
-           
+
             let tabBarVC = self.presentingViewController!.parent as! UITabBarController
             showTabBarOverlayOnboarding(tabBar: tabBarVC.tabBar)
-            return true
-            
+            return
+
         }
-        
+
         if (!LocationManager.shared.locationEnabled()) {
             
             showLocationOnboarding()
-            return true
             
         }
-        
-        return false
+                     
     }
     
     func showOnMapTapOnboardingReturning(mapView: NavigationMapView) -> Bool {
@@ -90,22 +88,25 @@ class OnboardingManager: NSObject, ImagePickerDelegate, MaterialShowcaseDelegate
     func showCarpoolOverlayOnboardingReturning(carpoolButton: UIButton) -> Bool {
         
         if (UserSettingsManager.shared.getDriverDidSeeCarpoolOverlayOnboadrding() == false) {
-            
             UserSettingsManager.shared.saveDriverDidSeeCarpoolOverlayOnboadrding(didSee: true)
-            let showcase = MaterialShowcase()
-            showcase.delegate = self
-            showcase.backgroundPromptColor = .brandColor
-            showcase.setTargetView(button: carpoolButton)
-            showcase.primaryText = "Carpool spontan anbieten"
-            showcase.secondaryText = "Um einen Carpool (Mitfahrt) spontan anzubieten, wähle auf der Karte dein Ziel aus, setz Dich ins Auto und starte hier die Navigation. Du kannst Mitfahranfragen während der Fahrt akzeptieren oder ablehnen."
-            showcase.show(completion: nil)
+            
+//            let showcase = MaterialShowcase()
+//            showcase.delegate = self
+//            showcase.backgroundPromptColor = .brandColor
+//            showcase.setTargetView(button: carpoolButton)
+//            showcase.primaryText = "Carpool spontan anbieten"
+//            showcase.secondaryText = "Um einen Carpool (Mitfahrt) spontan anzubieten, wähle auf der Karte dein Ziel aus, setz Dich ins Auto und starte hier die Navigation. Du kannst Mitfahranfragen während der Fahrt akzeptieren oder ablehnen."
+//            showcase.show(completion: nil)
+//            return true
+//        } else {
+//            return false
+//        }
+        
             return true
+        
         } else {
             return false
         }
-        
-        
-
     }
 
     func showTabBarOverlayOnboarding(tabBar: UITabBar) {
@@ -115,18 +116,21 @@ class OnboardingManager: NSObject, ImagePickerDelegate, MaterialShowcaseDelegate
         }
         
         let showcase = MaterialShowcase()
+
         showcase.delegate = self
         showcase.setTargetView(tabBar: tabBar, itemIndex: 0)
         showcase.primaryText = "Als Mitfahrer"
         showcase.secondaryText = "Wenn eine Fahrt angeboten wird (rote Route auf der Karte), kannst Du als Mitfahrer durch einen kurzen Klick auf die Route dein Ziel auswählen."
-        
+
         let showcase1 = MaterialShowcase()
         showcase1.delegate = self
         showcase1.setTargetView(tabBar: tabBar, itemIndex: 1)
         showcase1.primaryText = "Als Fahrer"
         showcase1.secondaryText = "Als Fahrer kannst Du durch einen kurzen Klick auf die Karte oder über die Suchleiste Dein Fahrtziel auswählen."
-        
-        sequence.temp(showcase).temp(showcase1).start()
+
+        showcase.show {
+
+        }
                 
         UserSettingsManager.shared.saveUserDidSeeTabBarOverlayOnboadrding(didSee: true)
     }
@@ -177,7 +181,7 @@ class OnboardingManager: NSObject, ImagePickerDelegate, MaterialShowcaseDelegate
     // MARK: - MaterialShowcaseDelegate
     
     func showCaseDidDismiss(showcase: MaterialShowcase, didTapTarget: Bool) {
-        
+
 
         sequence.showCaseWillDismis()
         if showcase.primaryText == "Als Fahrer" {

@@ -47,12 +47,24 @@ class MainTabBarController: UITabBarController {
 
         self.tabBar.tintColor = UIColor.brandColor
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onFeedbackScreenRequested(_:)), name: NotificationsManager.onFeedbackScreenRequestedNotification, object: nil)
+        
        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         NotificationsManager.shared.checkNotificationsStatus()
     }
+    
+    
+    
+    @objc func onFeedbackScreenRequested(_ notification:Notification) {
+        
+        let feedbackVC = storyboard!.instantiateViewController(withIdentifier: "FeedbackViewController") as! FeedbackViewController
+        self.present(feedbackVC, animated: true, completion: nil)
+    }
+    
     
 
 

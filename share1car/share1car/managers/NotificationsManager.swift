@@ -11,6 +11,10 @@ import FirebaseMessaging
 
 class NotificationsManager: NSObject, UNUserNotificationCenterDelegate, MessagingDelegate {
 
+    
+    static let onKeyWindowDidBecomeAvailableNotification = Notification.Name("onKeyWindowDidBecomeAvailableNotification")
+    static let onFeedbackScreenRequestedNotification = Notification.Name("onFeedbackScreenRequestedNotification")
+    
     static let onCarpoolRequestNotificationReceivedNotification = Notification.Name("onCarpoolRequestNotificationReceivedNotification")
     static let onCarpoolAcceptNotificationReceivedNotification = Notification.Name("onCarpoolAcceptNotificationReceivedNotification")
   

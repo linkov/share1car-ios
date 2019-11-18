@@ -24,7 +24,7 @@ import BLTNBoard
 class CarpoolSearchManager: NSObject {
     
 
-    var didSendRequestBlock: didfinish_block?
+    var didSendRequestBlock: result_errordescription_block?
     
     var activeCarpoolStatus: CarpoolRequestStatus?
     var driversLocations: [String : MGLPointAnnotation] = [:]
@@ -181,18 +181,21 @@ class CarpoolSearchManager: NSObject {
         
         fetchDriverRouteToPickUpLocation(driverID: driverID, pickUp: pickUpLocation, completion: { (result, error) in
             if error != nil {
-                Alerts.systemErrorAlert(error: error!, inController: self.presentingViewController!)
+                self.didSendRequestBlock!(nil,error!)
                 return
             }
             
             self.fetchWalkingRouteToPickUpLocation(currentLocation: currentLocation, pickUp: pickUpLocation, completion:  { (result, error) in
                 if error != nil {
-                    Alerts.systemErrorAlert(error: error!, inController: self.presentingViewController!)
+                    self.didSendRequestBlock!(nil,error!)
                     return
                 }
                
                 self.fetchDriverRouteFromPickUpToDropOff(pickup: pickUpLocation, dropoff: self.currentCarpoolSearchResult.dropOffLocation!) { (result, errorString) in
-                    
+                    if error != nil {
+                        self.didSendRequestBlock!(nil,error!)
+                        return
+                    }
                     self.showCarpoolSuggestion()
                 }
             })
@@ -238,13 +241,13 @@ class CarpoolSearchManager: NSObject {
     }
     
     
-    func findCarpool(currentLocation: CLLocationCoordinate2D, destination: CLLocationCoordinate2D , didSendRequest: @escaping didfinish_block ) {
+    func findCarpool(currentLocation: CLLocationCoordinate2D, destination: CLLocationCoordinate2D , didSendRequest: @escaping result_errordescription_block ) {
         
         didSendRequestBlock = didSendRequest
         
         
         guard routeFeatures.count > 0 else {
-            Loaf("There are no car pools available at the moment", state: .info, sender: self.presentingViewController!).show()
+            didSendRequestBlock!(nil,"No drivers available")
             return
         }
         
@@ -271,12 +274,14 @@ class CarpoolSearchManager: NSObject {
                     
                     self.drawRiderRouteFromCurrentLocationToPickUp(pickUp: closestLocationOnDriverRouteForPickup!.coordinate)
                     self.drawRiderRouteFromDropOffToDestination(dropOff: closestLocationOnDriverRouteForDropOff!.coordinate, riderDestination: destination)
-                    
-                    self.fetchTimingsForCarpool(driverID: userDetails!.UID!, pickUpLocation: closestLocationOnDriverRouteForPickup!.coordinate, currentLocation: currentLocation)
-                    
+                   
                     self.currentCarpoolSearchResult.driverDetails = userDetails
                     self.currentCarpoolSearchResult.dropOffLocation = closestLocationOnDriverRouteForDropOff!.coordinate
                     self.currentCarpoolSearchResult.pickUpLocation = closestLocationOnDriverRouteForPickup!.coordinate
+                    
+                    self.fetchTimingsForCarpool(driverID: userDetails!.UID!, pickUpLocation: closestLocationOnDriverRouteForPickup!.coordinate, currentLocation: currentLocation)
+                    
+
                     
                     
                 }
@@ -285,8 +290,7 @@ class CarpoolSearchManager: NSObject {
             
             
             } else {
-                
-                Loaf("There are no car pools available in \(UserSettingsManager.shared.getMaximumPickupDistance()) meters radius from your current location and your pick up location", state: .info, sender: self.presentingViewController!).show()
+                didSendRequestBlock!(nil,"There are no car pools available in \(UserSettingsManager.shared.getMaximumPickupDistance()) meters radius from your current location and your pick up location")
             }
             
 
@@ -499,8 +503,7 @@ class CarpoolSearchManager: NSObject {
         carpoolRequest.actionHandler = { (item: BLTNActionItem) in
             
             self.requestCarpoolForCarpoolSearchResult(result: self.currentCarpoolSearchResult)
-            self.didSendRequestBlock!(true)
-            Loaf("We have sent request to the driver", state: .info, sender: self.presentingViewController!).show()
+            
             carpoolRequest.manager?.dismissBulletin()
             
         }

@@ -12,7 +12,7 @@ import JGProgressHUD
 
 class FeedbackViewController: FormViewController {
 
-    
+
      let hud = JGProgressHUD(style: .dark)
     
     @IBOutlet weak var submitButton: UIButton!
@@ -32,6 +32,7 @@ class FeedbackViewController: FormViewController {
         
     }
     
+
     override func viewDidAppear(_ animated: Bool) {
         
         self.submitButton.layer.cornerRadius = 12
@@ -42,6 +43,8 @@ class FeedbackViewController: FormViewController {
         
         
     }
+    
+    
     
     
     func initForm() {
@@ -87,9 +90,10 @@ class FeedbackViewController: FormViewController {
                 
 
                  <<< TextAreaRow(){ row in
+                     row.textAreaHeight = TextAreaHeight.fixed(cellHeight: 90)
                      row.tag = "feedback"
                      row.placeholder = "Z. B. Was gefällt Dir? Was weniger? Wo gibt es Fehler? Welche Funktionalitäten wünscht Du dir in Zukunft?"
-                }
+                 }
 
 
     }
@@ -101,14 +105,17 @@ class FeedbackViewController: FormViewController {
         let text: TextAreaRow? = form.rowBy(tag: "feedback")
         let stars: CustomRateRow? = form.rowBy(tag: "stars")
         
-        guard text?.value != nil && stars?.value != nil else {
-            self.dismiss(animated: true, completion: nil)
-            return
-        }
-        
+        let feedbackText =  text!.value ?? "No written feedback"
+
 
         
-        DataManager.shared.sendFeedback(userID: AuthManager.shared.currentUserID()!, text: text!.value!, rating: stars!.value!) { (result, errorString) in
+        DataManager.shared.sendFeedback(userID: AuthManager.shared.currentUserID()!, text: feedbackText, rating: stars!.value!) { (result, errorString) in
+            
+            if errorString != nil {
+                Alerts.systemErrorAlert(error: errorString!, inController: self)
+                
+            }
+            
             
             self.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
             self.hud.textLabel.text = "Thank you!"

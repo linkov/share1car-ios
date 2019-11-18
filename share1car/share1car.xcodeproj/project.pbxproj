@@ -31,6 +31,7 @@
 		F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AEE23707D7900C8E9D0 /* RippleLayer.swift */; };
 		F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */; };
 		F11E2AF92370925200C8E9D0 /* Namedblocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11E2AF82370925200C8E9D0 /* Namedblocks.swift */; };
+		F121B2722382211E000746C1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121B2712382211E000746C1 /* SceneDelegate.swift */; };
 		F1369403237A453000F64C9B /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1369402237A453000F64C9B /* FeedbackViewController.swift */; };
 		F1369405237A45E100F64C9B /* FeedbackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1369404237A45E100F64C9B /* FeedbackHeaderView.swift */; };
 		F1369407237A45F200F64C9B /* FeedbackHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1369406237A45F200F64C9B /* FeedbackHeaderView.xib */; };
@@ -52,10 +53,12 @@
 		F13E6B8B236CC1DA008C136B /* ViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B8A236CC1DA008C136B /* ViewModels.swift */; };
 		F13E6B8D236CC2CF008C136B /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B8C236CC2CF008C136B /* AuthManager.swift */; };
 		F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A27825236C94DC004B9C8F /* AppDelegate.swift */; };
-		F1A27828236C94DC004B9C8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A27827236C94DC004B9C8F /* SceneDelegate.swift */; };
 		F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A2782D236C94DC004B9C8F /* Main.storyboard */; };
 		F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1A27830236C94E0004B9C8F /* Assets.xcassets */; };
 		F1A27834236C94E0004B9C8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A27832236C94E0004B9C8F /* LaunchScreen.storyboard */; };
+		F1AC5B6A237DD1D30052E1DE /* RouteETAAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AC5B69237DD1D30052E1DE /* RouteETAAnnotationView.swift */; };
+		F1AC5B6C237DE1B80052E1DE /* RouteETAAnnotationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1AC5B6B237DE1B80052E1DE /* RouteETAAnnotationView.xib */; };
+		F1AC5B6E237DF1CF0052E1DE /* UIView+S1C.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AC5B6D237DF1CF0052E1DE /* UIView+S1C.swift */; };
 		F1B65E8E2377FFFB003F39B8 /* Color+S1C.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */; };
 		F1EAC2F6236C982D001CE4C3 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F1EAC2F5236C982D001CE4C3 /* Podfile */; };
 		F1F73F5923786B2D00AA7E32 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F5823786B2D00AA7E32 /* NotificationsManager.swift */; };
@@ -95,6 +98,7 @@
 		F11E2AEE23707D7900C8E9D0 /* RippleLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RippleLayer.swift; sourceTree = "<group>"; };
 		F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F11E2AF82370925200C8E9D0 /* Namedblocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namedblocks.swift; sourceTree = "<group>"; };
+		F121B2712382211E000746C1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F1369402237A453000F64C9B /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		F1369404237A45E100F64C9B /* FeedbackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackHeaderView.swift; sourceTree = "<group>"; };
 		F1369406237A45F200F64C9B /* FeedbackHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedbackHeaderView.xib; sourceTree = "<group>"; };
@@ -118,11 +122,13 @@
 		F13E6B8C236CC2CF008C136B /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		F1A27822236C94DC004B9C8F /* share1car.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = share1car.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1A27825236C94DC004B9C8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F1A27827236C94DC004B9C8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F1A2782E236C94DC004B9C8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F1A27830236C94E0004B9C8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F1A27833236C94E0004B9C8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1A27835236C94E0004B9C8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1AC5B69237DD1D30052E1DE /* RouteETAAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteETAAnnotationView.swift; sourceTree = "<group>"; };
+		F1AC5B6B237DE1B80052E1DE /* RouteETAAnnotationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RouteETAAnnotationView.xib; sourceTree = "<group>"; };
+		F1AC5B6D237DF1CF0052E1DE /* UIView+S1C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+S1C.swift"; sourceTree = "<group>"; };
 		F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+S1C.swift"; sourceTree = "<group>"; };
 		F1EAC2F5236C982D001CE4C3 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F1F73F5823786B2D00AA7E32 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
@@ -169,6 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				F10D27C72378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib */,
+				F1AC5B69237DD1D30052E1DE /* RouteETAAnnotationView.swift */,
+				F1AC5B6B237DE1B80052E1DE /* RouteETAAnnotationView.xib */,
 				F1369408237A487700F64C9B /* CustomRateCell.swift */,
 				F136940A237A549000F64C9B /* CustomRateCell.xib */,
 				F1369404237A45E100F64C9B /* FeedbackHeaderView.swift */,
@@ -191,6 +199,7 @@
 				F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */,
 				F136A70A2374B9D60055DF4D /* Converters.swift */,
 				F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */,
+				F1AC5B6D237DF1CF0052E1DE /* UIView+S1C.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -304,7 +313,7 @@
 				F13E6B89236CC1B9008C136B /* ViewModels */,
 				F13E6B88236CC067008C136B /* managers */,
 				F1A27825236C94DC004B9C8F /* AppDelegate.swift */,
-				F1A27827236C94DC004B9C8F /* SceneDelegate.swift */,
+				F121B2712382211E000746C1 /* SceneDelegate.swift */,
 				F13E6B80236CA4AF008C136B /* RiderViewController.swift */,
 				F13E6B84236CA5FE008C136B /* MainTabBarController.swift */,
 				F10D27C32378B9E4009BC84F /* SettingsViewController.swift */,
@@ -406,6 +415,7 @@
 				F10D27CC2379DE6A009BC84F /* CarpoolRideInformationView.xib in Resources */,
 				F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */,
 				F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */,
+				F1AC5B6C237DE1B80052E1DE /* RouteETAAnnotationView.xib in Resources */,
 				F1369407237A45F200F64C9B /* FeedbackHeaderView.xib in Resources */,
 				F136A7162377909E0055DF4D /* Sameheads.gpx in Resources */,
 			);
@@ -482,6 +492,7 @@
 				F136A70B2374B9D60055DF4D /* Converters.swift in Sources */,
 				F1369403237A453000F64C9B /* FeedbackViewController.swift in Sources */,
 				F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */,
+				F1AC5B6A237DD1D30052E1DE /* RouteETAAnnotationView.swift in Sources */,
 				F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */,
 				F11E2AF223707D7900C8E9D0 /* WidgetExtensions.swift in Sources */,
 				F1F73F5923786B2D00AA7E32 /* NotificationsManager.swift in Sources */,
@@ -492,6 +503,7 @@
 				F136A70F23762D9F0055DF4D /* SidemenuViewController.swift in Sources */,
 				F10D27D12379E28C009BC84F /* CarpoolAlertBTLNItem.swift in Sources */,
 				F1369405237A45E100F64C9B /* FeedbackHeaderView.swift in Sources */,
+				F1AC5B6E237DF1CF0052E1DE /* UIView+S1C.swift in Sources */,
 				F11E2AF523707D7900C8E9D0 /* RippleLayer.swift in Sources */,
 				F11AD7912370E42E00B308E3 /* DriverDataManager.swift in Sources */,
 				F1F73F73237891A600AA7E32 /* CarpoolSearchManager.swift in Sources */,
@@ -504,6 +516,7 @@
 				F136940F237B945900F64C9B /* CarpoolAcceptManager.swift in Sources */,
 				F11E2AF72370906D00C8E9D0 /* SearchTableViewController.swift in Sources */,
 				F11E2AEF23707D7900C8E9D0 /* AnimHelper.swift in Sources */,
+				F121B2722382211E000746C1 /* SceneDelegate.swift in Sources */,
 				F13E6B81236CA4AF008C136B /* RiderViewController.swift in Sources */,
 				F10D27C62378CE7F009BC84F /* ImagePicker.swift in Sources */,
 				F11E2AF423707D7900C8E9D0 /* MaterialButton.swift in Sources */,
@@ -520,7 +533,6 @@
 				F11E2AF123707D7900C8E9D0 /* Extensions.swift in Sources */,
 				F11E2AF92370925200C8E9D0 /* Namedblocks.swift in Sources */,
 				F1F73F7023787CF200AA7E32 /* FeedbackGenerators.swift in Sources */,
-				F1A27828236C94DC004B9C8F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
