@@ -30,6 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         
          UserSettingsManager.shared.saveFCMToken(token: fcmToken)
+        if AuthManager.shared.currentUserID() != nil {
+              DataManager.shared.setNotificationsToken(userID: AuthManager.shared.currentUserID()!, token: fcmToken)
+        }
+      
     }
     
     
@@ -100,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        print("User tapped on notification")
+        print(#function)
 
     }
 
@@ -115,18 +119,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
 
 
-        let info = Converters.userInfoFromRemoteNotification(userInfo: userInfo)
+        let notificationType = Converters.notificationTypeFromNotificationUserInfo(userInfo: userInfo)
         
-        //TODO: decide based on message code or somwthing
-        if info.title == "Du hast eine neue Mitfahranfrage!" {
+        if notificationType == "requested" || notificationType == "riderCancelled" {
             
-            NotificationCenter.default.post(name: NotificationsManager.onCarpoolRequestNotificationReceivedNotification, object: nil)
+            NotificationCenter.default.post(name: NotificationsManager.onCarpoolRequestNotificationReceivedNotification, object: nil, userInfo: userInfo)
             
-        } else {
+        }
+        
+        if notificationType == "accepted" || notificationType == "rejected" || notificationType == "arrived"  {
             
             NotificationCenter.default.post(name: NotificationsManager.onCarpoolAcceptNotificationReceivedNotification, object: nil, userInfo: userInfo)
             
         }
+        
+        
+        
+        
 
         print(userInfo)
 

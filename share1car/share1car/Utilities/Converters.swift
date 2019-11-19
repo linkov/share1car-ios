@@ -21,6 +21,43 @@ class Converters: NSObject {
     }
     
     
+    
+    class func notificationTypeFromNotificationUserInfo(userInfo: [AnyHashable : Any]) -> String {
+        let info = Converters.userInfoFromRemoteNotification(userInfo: userInfo)
+        let title = info.title
+        let body = info.body
+        
+        var notificationType = "NA"
+        
+        
+        // RideRequests
+        if title == "Du hast eine neue Mitfahranfrage!" && body == "Klick hier, um sie zu sehen." {
+            notificationType = "requested"
+        }
+        
+        if title == "Der Mitfahrer hat die Anfrage zurückgezogen" {
+            notificationType = "riderCancelled"
+        }
+        
+        // RideAccepts
+        if title == "Deine Mitfahranfrage wurde bestätigt" {
+            notificationType = "accepted"
+        }
+        
+        if title == "Deine Mitfahranfrage wurde abgelehnt" {
+            notificationType = "rejected"
+        }
+        
+        
+        if title == "Deine Mitfahranfrage wurde arrived" {
+            notificationType = "arrived"
+        }
+        
+        
+        return notificationType
+    }
+    
+    
   class func userInfoFromRemoteNotification(userInfo: [AnyHashable : Any]) -> (title: String, body: String) {
         var info = (title: "", body: "")
         guard let aps = userInfo["aps"] as? [String: Any] else { return info }

@@ -17,13 +17,14 @@ import MapboxNavigation
 
 
 import Loaf
-
+import Spring
 
 import JGProgressHUD
 
 class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapViewDelegate {
 
     
+    @IBOutlet weak var cancelCarpoolButton: SpringButton!
     @IBOutlet weak var mapView: NavigationMapView!
     
     let hud = JGProgressHUD(style: .light)
@@ -31,6 +32,9 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        cancelCarpoolButton.layer.cornerRadius = 8
         setupRiderMap()
         CarpoolSearchManager.shared.configureAndStartSubscriptions(mapView: mapView, presentingViewController: self)
         
@@ -68,6 +72,25 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
 //        
 //    }
     
+    @IBAction func cancelCarpoolDidTap(_ sender: Any) {
+        
+        self.toggleCancelCarpoolButton(active: false)
+        CarpoolSearchManager.shared.cancelCarpool()
+    }
+    
+    
+    func toggleCancelCarpoolButton(active: Bool) {
+        
+        if (active) {
+            cancelCarpoolButton.animation = "fadeInUp"
+            cancelCarpoolButton.animate()
+            
+        } else {
+            cancelCarpoolButton.animation = "fadeOut"
+            cancelCarpoolButton.animate()
+        }
+        
+    }
     
     func setupRiderMap() {
     
@@ -119,10 +142,12 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
             
             if errorString != nil {
                 Loaf(errorString!, state: .warning, sender: self).show()
-            } else {
-                Loaf("We have sent request to the driver", state: .info, sender: self).show()
+                return
             }
             
+            if result != nil {
+                Loaf(result! as! String, state: .success, sender: self).show()
+            }
             
         })
 

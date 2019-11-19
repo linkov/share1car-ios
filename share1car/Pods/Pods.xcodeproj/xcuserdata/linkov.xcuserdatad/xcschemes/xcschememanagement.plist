@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>AwesomeSpotlightView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>BadgeSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -194,6 +199,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MDFInternationalization.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MDFTextAccessibility.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Mapbox-iOS-SDK.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -234,7 +249,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>MaterialShowcase.xcscheme</key>
+		<key>MaterialComponents.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -254,6 +269,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>RGSnackBar.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Reveal-SDK.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -265,6 +290,16 @@
 			<false/>
 		</dict>
 		<key>Spring.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SteviaLayout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftPriorityQueue.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

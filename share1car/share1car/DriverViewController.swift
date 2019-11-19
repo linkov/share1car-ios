@@ -20,12 +20,20 @@ import EasyPeasy
 
 import Spring
 
+
+import BLTNBoard
+
 class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationViewControllerDelegate, NavigationMapViewDelegate {
 
+    @IBOutlet weak var cancelPreplannedCarpoolButton: SpringButton!
+    @IBOutlet weak var startPlannedCarpoolSelector: SpringButton!
     @IBOutlet weak var startCarPoolButton: SpringButton!
     @IBOutlet weak var searchBarContainerView: UIView!
     @IBOutlet weak var mapView: NavigationMapView!
     
+    var preplannedCarpoolDate: Date?
+    
+    var bulletinManager: BLTNItemManager?
     
     let hud = JGProgressHUD(style: .light)
         
@@ -60,14 +68,18 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        startCarPoolButton.layer.cornerRadius = 8
+        startCarPoolButton.layer.cornerRadius = 22
+        startPlannedCarpoolSelector.layer.cornerRadius = 22
+        cancelPreplannedCarpoolButton.layer.cornerRadius = 22
+        cancelPreplannedCarpoolButton.addLightShadow()
+        
+        let timeOfNow = Date().addingTimeInterval(10*60)
+        let formatedTime = Converters.getFormattedDate(date: timeOfNow, format: "MMM dd HH:mm")
+        startPlannedCarpoolSelector.setTitle("Abfahrt: \(formatedTime)", for: .normal)
+        
         setupDriverMap()
         setupSearch()
-        
-        
-        
 
-        Loaf("Long press on map to find a route", state: .custom(.init(backgroundColor: .brandColor, icon: UIImage(named: "add-route"))), sender: self).show()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +92,19 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
             LocationManager.shared.findUserLocation { (coord) in
                 
                 self.mapView.setCenter(coord, zoomLevel: 12, animated: false)
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+    
+        DriverDataManager.shared.fetchPreplannedCarpool { (result, errorString) in
+            
+            if result != nil {
+                let dateString = result
+                self.preplannedCarpoolDate = Date.dateFromISOString(string: dateString as! String)
+                self.toggleCarpoolButton(active: true)
+                self.toggleUIForActivePreplannedCarpool(active: true)
             }
         }
     }
@@ -104,24 +129,13 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         
         let locationSearchTVC = storyboard!.instantiateViewController(withIdentifier: "SearchTableViewController") as! SearchTableViewController
         resultSearchController = UISearchController(searchResultsController: locationSearchTVC)
-
-        resultSearchController!.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         resultSearchController!.searchResultsUpdater = locationSearchTVC as UISearchResultsUpdating
         resultSearchController!.searchBar.placeholder = "Search for places"
-        
-//        resultSearchController!.searchBar.easy.layout(Left(30),Right(30))
-        
+        resultSearchController!.searchBar.addLightShadow()
         searchBarContainerView.addSubview(resultSearchController!.searchBar)
         
-//        resultSearchController!.searchBar.layer.cornerRadius = 22
         searchBarContainerView.layer.cornerRadius = 22
         searchBarContainerView.clipsToBounds = true
-        
-
-//        resultSearchController!.searchBar.easy.layout(
-//            Left(20).to(resultSearchController!.searchBar.superview!, .left),
-//            Right(20).to(resultSearchController!.searchBar.superview!, .right)
-//        )
         
         resultSearchController!.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
@@ -131,7 +145,6 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
 
             self.resultSearchController?.dismiss(animated: true, completion: nil)
             self.requestRouteOptions(destination:  location!)
-//            self.drawRoute(origin: (self.mapView.userLocation!.coordinate), destination: location!)
             self.toggleCarpoolButton(active: true)
             
         }
@@ -149,7 +162,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
 
 
-    
+
 
     
      
@@ -162,7 +175,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
             return
         }
         
-        
+
         
          
         let spot = gesture.location(in: mapView)
@@ -177,7 +190,17 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         if (active) {
             startCarPoolButton.animation = "fadeInUp"
             startCarPoolButton.animate()
+            
+            startPlannedCarpoolSelector.animation = "zoomIn"
+            startPlannedCarpoolSelector.animate()
+
+            
         } else {
+            
+            
+            startPlannedCarpoolSelector.animation = "zoomOut"
+            startPlannedCarpoolSelector.animate()
+            
             startCarPoolButton.animation = "fadeOut"
             startCarPoolButton.animate()
         }
@@ -228,8 +251,15 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
             self.mapView?.showRoutes(routes)
             self.mapView?.showWaypoints(self.currentRoute!)
             self.showETAsForRoutes()
+            self.mapView.setVisibleCoordinateBounds(MGLCoordinateBounds(sw: (self.currentRoute?.coordinates?.first)!, ne: (self.currentRoute?.coordinates?.last)!), edgePadding: UIEdgeInsets(top: 120, left: 120, bottom: 180, right: 120), animated: true) {
+                
+            }
             self.toggleCarpoolButton(active: true)
             self.hud.dismiss()
+            
+            OnboardingManager.shared.showCarpoolOverlayOnboarding(carpoolButton: self.startCarPoolButton, plannedCarpoolButton: self.startPlannedCarpoolSelector)
+
+            
         }
     }
     
@@ -237,14 +267,61 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
 
     
      // MARK: - Actions
+    @IBAction func onPlannedCarpoolTap(_ sender: Any) {
+        
+        
+                let timeOfNow = Date().addingTimeInterval(10*60)
+               
+
+               let carpoolPlanning = BulletinDataSource.makeDatePage()
+                carpoolPlanning.actionHandler = { item in
+                
+                    carpoolPlanning.manager?.dismissBulletin()
+                   
+                }
+
+                carpoolPlanning.datePicker.setDate(timeOfNow, animated: true)
+                carpoolPlanning.datePicker.addTarget(self, action: #selector(carpoolDatePickerChanged(picker:)), for: .valueChanged)
+
+                       
+               
+//
+//               carpoolPlanning.actionHandler = { (item: BLTNActionItem) in
+//
+//
+//               }
+//
+//
+//               carpoolPlanning.alternativeHandler = { (item: BLTNActionItem) in
+//
+//
+//               }
+//
+
+               
+               bulletinManager = BLTNItemManager(rootItem: carpoolPlanning)
+               bulletinManager!.backgroundViewStyle = .dimmed
+               
+               bulletinManager!.statusBarAppearance = .hidden
+               bulletinManager!.showBulletin(above: self)
+        
+        
+    }
+    
+    
+    @objc func carpoolDatePickerChanged(picker: UIDatePicker) {
+        print(picker.date)
+        if picker.date >  Date().addingTimeInterval(10*60) {
+            preplannedCarpoolDate = picker.date
+        }
+        
+        let formatedTime = Converters.getFormattedDate(date: picker.date, format: "MMM dd HH:mm")
+        startPlannedCarpoolSelector.setTitle("Abfahrt: \(formatedTime)", for: .normal)
+    }
     
     @IBAction func onCarpoolTap(_ sender: Any) {
         
-//        let shouldReturn = OnboardingManager.shared.showCarpoolOverlayOnboardingReturning(carpoolButton: self.startCarPoolButton)
-//        if shouldReturn {
-//            return
-//        }
-    
+ 
         guard let route = currentRoute else { return }
         
         if (!AuthManager.shared.isLoggedIn()) {
@@ -260,6 +337,30 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
             simMode = .never
         }
         
+        if preplannedCarpoolDate != nil {
+            
+            
+           let shouldReturn = OnboardingManager.shared.showPlannedCarpoolOverlayReturning()
+            if shouldReturn {
+                return
+            }
+            hud.show(in: self.view)
+            DriverDataManager.shared.addPreplannedCarpool(date: preplannedCarpoolDate!, completion: { (result, errorString) in
+                self.hud.dismiss()
+                if errorString != nil {
+                    Alerts.systemErrorAlert(error: errorString!, inController: self)
+                    return
+                }
+                
+                
+                self.toggleUIForActivePreplannedCarpool(active: true)
+                
+            })
+            
+            return
+        }
+        
+        
         let navigationService = MapboxNavigationService(route: route, simulating: simMode)
         let navigationOptions = NavigationOptions(navigationService: navigationService)
         self.turnByturnNavigationController = NavigationViewController(for: route, options: navigationOptions)
@@ -272,6 +373,41 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         
         self.show(self.turnByturnNavigationController!, sender: self)
         
+    }
+    
+    @IBAction func didTapCancelPreplannedCarpool(_ sender: Any) {
+        
+        preplannedCarpoolDate = nil
+        hud.show(in: self.view)
+        DriverDataManager.shared.removePreplannedCarpool(completion: { (result, errorString) in
+            self.hud.dismiss()
+            if errorString != nil {
+                Alerts.systemErrorAlert(error: errorString!, inController: self)
+                return
+            }
+            
+            
+            self.toggleUIForActivePreplannedCarpool(active: false)
+            
+        })
+        
+    }
+    
+    func toggleUIForActivePreplannedCarpool(active: Bool) {
+    
+        if active {
+            
+            startCarPoolButton.backgroundColor = .orange
+            startCarPoolButton.setTitle("Start now", for: .normal)
+            cancelPreplannedCarpoolButton.animation = "zoomIn"
+            cancelPreplannedCarpoolButton.animate()
+            
+        } else {
+            startCarPoolButton.setTitle("Start carpool", for: .normal)
+            startCarPoolButton.backgroundColor = .brandColor
+            cancelPreplannedCarpoolButton.animation = "zoomOut"
+            cancelPreplannedCarpoolButton.animate()
+        }
     }
 
     
@@ -300,11 +436,11 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
     func navigationViewController(_ navigationViewController: NavigationViewController, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {
         
-        print("navigationViewController didUpdate")
-        print("progress: \(progress)")
-        print("location: \(location)")
-        print("rawLocation: \(rawLocation)")
-        
+//        print("navigationViewController didUpdate")
+//        print("progress: \(progress)")
+//        print("location: \(location)")
+//        print("rawLocation: \(rawLocation)")
+//
         DriverDataManager.shared.setCurrentLocation(location: location.coordinate, driverID: AuthManager.shared.currentUserID()!)
     }
     
@@ -313,6 +449,12 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
                print("waypoint: \(waypoint)")
                print("remainingTimeInterval: \(remainingTimeInterval)")
                print("distance: \(distance)")
+        
+    
+        
+        //CarpoolAcceptManager.shared.informAboutCloseProximityToRiderPickUpPoint()
+        
+        // send notification when driver is near pick up
     }
     
     

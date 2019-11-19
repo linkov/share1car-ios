@@ -19,7 +19,7 @@ class DatePickerBLTNItem: BLTNPageItem {
      */
 
     override func makeViewsUnderDescription(with interfaceBuilder: BLTNInterfaceBuilder) -> [UIView]? {
-        datePicker.datePickerMode = .date
+        datePicker.datePickerMode = .dateAndTime
         return [datePicker]
     }
 

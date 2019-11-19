@@ -13,6 +13,7 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 
+import Polyline
 
 class DriverDataManager: NSObject {
     
@@ -58,6 +59,44 @@ class DriverDataManager: NSObject {
         
     }
     
+    func fetchPreplannedCarpool(completion: @escaping result_errordescription_block) {
+        
+        
+        self.ref.child("DateTime").child(AuthManager.shared.currentUserID()!).child("preplan").observe(.value) { (snapshot) in
+            
+            if let result = snapshot.value {
+                completion((result as? String), nil)
+            } else {
+                completion(nil, nil)
+            }
+        }
+        
+    }
+    
+    func addPreplannedCarpool(date: Date, completion: @escaping result_errordescription_block) {
+        
+        self.ref.child("DateTime").child(AuthManager.shared.currentUserID()!).child("preplan").setValue(Date.ISOStringFromDate(date: date), withCompletionBlock:
+            { (error, ref) in
+                if error != nil {
+                    completion(nil, error!.localizedDescription)
+                }
+                
+                completion(ref, nil)
+            })
+    }
+    
+    func removePreplannedCarpool( completion: @escaping result_errordescription_block) {
+        
+        self.ref.child("DateTime").child(AuthManager.shared.currentUserID()!).removeValue { (error, ref) in
+
+                if error != nil {
+                    completion(nil, error!.localizedDescription)
+                }
+                
+                completion(ref, nil)
+
+        }
+    }
     
     func setRoute(route: Route, driverID: String) {
         
@@ -65,11 +104,14 @@ class DriverDataManager: NSObject {
         guard route.coordinateCount > 0 else { return }
         
         
-        var routeCoordinates = route.coordinates!
-        let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
-        let data: Data = polyline.geoJSONData(usingEncoding: String.Encoding.utf8.rawValue)
-        let routeString =  String(data: data, encoding: .utf8)
-        self.ref.child("DriverRoutes").child(driverID).setValue(routeString);
+        let routeCoordinates = route.coordinates!
+        
+        
+        let polyline = Polyline(coordinates: routeCoordinates, levels: nil, precision: 1e6)
+        
+        let encodedPolyline: String = polyline.encodedPolyline
+        
+        self.ref.child("DriverRoutes").child(driverID).setValue(encodedPolyline);
     }
     
     func getExistingRoute(driverID: String, completion: @escaping driver_route_geometry_error_block) {

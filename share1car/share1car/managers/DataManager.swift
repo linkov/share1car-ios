@@ -159,7 +159,7 @@ class DataManager: NSObject {
     
     
     func updateUser(userID: String, firstName: String, phone: String) -> Void {
-        self.ref.child("user_data").child(userID).setValue(["firstName": firstName, "phone": phone]) { (error, ref) in
+        self.ref.child("user_data").child(userID).setValue(["platform":"iOS", "firstName": firstName, "phone": phone]) { (error, ref) in
             
         }
     }

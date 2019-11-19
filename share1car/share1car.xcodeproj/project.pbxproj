@@ -41,7 +41,6 @@
 		F136940F237B945900F64C9B /* CarpoolAcceptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136940E237B945900F64C9B /* CarpoolAcceptManager.swift */; };
 		F136A709237471560055DF4D /* RiderDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A708237471560055DF4D /* RiderDataManager.swift */; };
 		F136A70B2374B9D60055DF4D /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A70A2374B9D60055DF4D /* Converters.swift */; };
-		F136A70D237605FA0055DF4D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F136A70C237605FA0055DF4D /* GoogleService-Info.plist */; };
 		F136A70F23762D9F0055DF4D /* SidemenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A70E23762D9F0055DF4D /* SidemenuViewController.swift */; };
 		F136A7112377012A0055DF4D /* Kotti Dang.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F136A7102377012A0055DF4D /* Kotti Dang.gpx */; };
 		F136A71323774A080055DF4D /* UserSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136A71223774A080055DF4D /* UserSettingsManager.swift */; };
@@ -60,6 +59,9 @@
 		F1AC5B6C237DE1B80052E1DE /* RouteETAAnnotationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1AC5B6B237DE1B80052E1DE /* RouteETAAnnotationView.xib */; };
 		F1AC5B6E237DF1CF0052E1DE /* UIView+S1C.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AC5B6D237DF1CF0052E1DE /* UIView+S1C.swift */; };
 		F1B65E8E2377FFFB003F39B8 /* Color+S1C.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */; };
+		F1E09BC2238323180063F70E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E09BC1238323180063F70E /* Constants.swift */; };
+		F1E09BC4238338B70063F70E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F1E09BC3238338B70063F70E /* GoogleService-Info.plist */; };
+		F1E09BC623837BAD0063F70E /* Date+S1C.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E09BC523837BAD0063F70E /* Date+S1C.swift */; };
 		F1EAC2F6236C982D001CE4C3 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F1EAC2F5236C982D001CE4C3 /* Podfile */; };
 		F1F73F5923786B2D00AA7E32 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F5823786B2D00AA7E32 /* NotificationsManager.swift */; };
 		F1F73F622378774F00AA7E32 /* BulletinDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F73F5F2378771200AA7E32 /* BulletinDataSource.swift */; };
@@ -108,7 +110,6 @@
 		F136940E237B945900F64C9B /* CarpoolAcceptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolAcceptManager.swift; sourceTree = "<group>"; };
 		F136A708237471560055DF4D /* RiderDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderDataManager.swift; sourceTree = "<group>"; };
 		F136A70A2374B9D60055DF4D /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
-		F136A70C237605FA0055DF4D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F136A70E23762D9F0055DF4D /* SidemenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidemenuViewController.swift; sourceTree = "<group>"; };
 		F136A7102377012A0055DF4D /* Kotti Dang.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Kotti Dang.gpx"; sourceTree = "<group>"; };
 		F136A71223774A080055DF4D /* UserSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsManager.swift; sourceTree = "<group>"; };
@@ -130,6 +131,9 @@
 		F1AC5B6B237DE1B80052E1DE /* RouteETAAnnotationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RouteETAAnnotationView.xib; sourceTree = "<group>"; };
 		F1AC5B6D237DF1CF0052E1DE /* UIView+S1C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+S1C.swift"; sourceTree = "<group>"; };
 		F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+S1C.swift"; sourceTree = "<group>"; };
+		F1E09BC1238323180063F70E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F1E09BC3238338B70063F70E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F1E09BC523837BAD0063F70E /* Date+S1C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+S1C.swift"; sourceTree = "<group>"; };
 		F1EAC2F5236C982D001CE4C3 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F1F73F5823786B2D00AA7E32 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		F1F73F5B2378771200AA7E32 /* FeedbackPageBulletinItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackPageBulletinItem.swift; sourceTree = "<group>"; };
@@ -193,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				F10D27C52378CE7F009BC84F /* ImagePicker.swift */,
+				F1E09BC1238323180063F70E /* Constants.swift */,
 				F1F73F5F2378771200AA7E32 /* BulletinDataSource.swift */,
 				F11E2AF82370925200C8E9D0 /* Namedblocks.swift */,
 				F11AD78E2370E0A900B308E3 /* Alerts.swift */,
@@ -200,6 +205,7 @@
 				F136A70A2374B9D60055DF4D /* Converters.swift */,
 				F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */,
 				F1AC5B6D237DF1CF0052E1DE /* UIView+S1C.swift */,
+				F1E09BC523837BAD0063F70E /* Date+S1C.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -321,7 +327,7 @@
 				F13E6B82236CA576008C136B /* DriverViewController.swift */,
 				F1369402237A453000F64C9B /* FeedbackViewController.swift */,
 				F11E2AF62370906D00C8E9D0 /* SearchTableViewController.swift */,
-				F136A70C237605FA0055DF4D /* GoogleService-Info.plist */,
+				F1E09BC3238338B70063F70E /* GoogleService-Info.plist */,
 				F1A2782D236C94DC004B9C8F /* Main.storyboard */,
 				F1A27830236C94E0004B9C8F /* Assets.xcassets */,
 				F1A27832236C94E0004B9C8F /* LaunchScreen.storyboard */,
@@ -404,7 +410,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11E2AE323707D6900C8E9D0 /* Roboto-Bold.ttf in Resources */,
-				F136A70D237605FA0055DF4D /* GoogleService-Info.plist in Resources */,
 				F11E2AE223707D6900C8E9D0 /* Roboto-Regular.ttf in Resources */,
 				F1EAC2F6236C982D001CE4C3 /* Podfile in Resources */,
 				F1A27834236C94E0004B9C8F /* LaunchScreen.storyboard in Resources */,
@@ -413,6 +418,7 @@
 				F136A7112377012A0055DF4D /* Kotti Dang.gpx in Resources */,
 				F136940B237A549000F64C9B /* CustomRateCell.xib in Resources */,
 				F10D27CC2379DE6A009BC84F /* CarpoolRideInformationView.xib in Resources */,
+				F1E09BC4238338B70063F70E /* GoogleService-Info.plist in Resources */,
 				F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */,
 				F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */,
 				F1AC5B6C237DE1B80052E1DE /* RouteETAAnnotationView.xib in Resources */,
@@ -511,6 +517,7 @@
 				F1369409237A487700F64C9B /* CustomRateCell.swift in Sources */,
 				F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */,
 				F136940D237A588700F64C9B /* OnboardingManager.swift in Sources */,
+				F1E09BC2238323180063F70E /* Constants.swift in Sources */,
 				F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */,
 				F136A71323774A080055DF4D /* UserSettingsManager.swift in Sources */,
 				F136940F237B945900F64C9B /* CarpoolAcceptManager.swift in Sources */,
@@ -527,6 +534,7 @@
 				F10D27CE2379E062009BC84F /* CarpoolRideInformationView.swift in Sources */,
 				F1F73F6A2378777A00AA7E32 /* BackgroundStyles.swift in Sources */,
 				F1F73F692378777A00AA7E32 /* FeedbackPageBulletinItem.swift in Sources */,
+				F1E09BC623837BAD0063F70E /* Date+S1C.swift in Sources */,
 				F1B65E8E2377FFFB003F39B8 /* Color+S1C.swift in Sources */,
 				F1F73F6C2378777A00AA7E32 /* TextFieldBulletinPage.swift in Sources */,
 				F11AD7932370F70400B308E3 /* LocationManager.swift in Sources */,
@@ -680,7 +688,7 @@
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -703,7 +711,7 @@
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

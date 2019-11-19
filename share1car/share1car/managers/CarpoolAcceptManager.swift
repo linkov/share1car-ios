@@ -26,7 +26,9 @@ class CarpoolAcceptManager: NSObject {
     var presentingViewController: UIViewController?
     
     var bulletinManager: BLTNItemManager?
+
     
+    var carpoolRequest: CarpoolAlertBTLNItem?
     var currentCarpoolRequestRiderID: String?
     var currentCarpoolAcceptResult = S1CCarpoolSearchResult()
     var activeCarpoolStatus: CarpoolRequestStatus?
@@ -41,6 +43,7 @@ class CarpoolAcceptManager: NSObject {
         
         NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: NotificationsManager.onCarpoolRequestNotificationReceivedNotification, object: nil)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: NotificationsManager.onCarpoolAcceptNotificationReceivedNotification, object: nil)
         
         
     }
@@ -53,7 +56,12 @@ class CarpoolAcceptManager: NSObject {
     }
     
     @objc func onDidReceiveData(_ notification:Notification) {
-       self.fetchInfoForNewCarpoolRequest()
+        
+        let info = Converters.userInfoFromRemoteNotification(userInfo: notification.userInfo!)
+        let title = info.title
+        print("onCarpoolRequestNotificationReceivedNotification NOTIFICATION TITLE: \(title)")
+       
+        self.fetchInfoForNewCarpoolRequest()
     }
     
     func fetchInfoForNewCarpoolRequest() {
@@ -64,11 +72,18 @@ class CarpoolAcceptManager: NSObject {
                 Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
                 return
             }
-            
+            let status = result!["status"] as! String
             let riderID = result!["RiderID"] as! String
             let dropOff = result!["RiderDropoffLocation"]! as! [Double]
             let pickUp = result!["RiderPickupLocation"]! as! [Double]
             
+            if status == "riderCancelled" {
+                
+                if self.carpoolRequest != nil {
+                    self.presentingViewController?.dismiss(animated: true, completion: nil)
+                }
+                return
+            }
             
             self.currentCarpoolRequestRiderID = riderID
             
@@ -193,39 +208,38 @@ class CarpoolAcceptManager: NSObject {
             let formatedTime = Converters.getFormattedDate(date: timeOfRendevous, format: "HH:mm")
             
             let priceStringForDistance = PriceCalculation.driverFeeStringForDistance(travelDistance: self.currentCarpoolAcceptResult.carpoolDistance!)
-            let carpoolRequest = BulletinDataSource.makeCarpoolRequestPage(
+            carpoolRequest = BulletinDataSource.makeCarpoolRequestPage(
                 
                 
                 title: "Pick up \(self.currentCarpoolAcceptResult.driverDetails!.name!)",
                 photoURL: self.currentCarpoolAcceptResult.driverDetails!.photoURL!, mainTitle: "Pickup at ca. \(formatedTime)", subtitle: "Meet \(self.currentCarpoolAcceptResult.driverDetails!.name!) in: \( Int(self.currentCarpoolAcceptResult.driverTimeToPickUpLocation ?? 0) ) minutes ", priceText: "price: $\(priceStringForDistance)")
             
             
-    //        carpoolRequest.imageView?.sd_setImage(with: URL.init(string: self.currentCarpoolSearchResult.driverDetails!.photoURL!), completed: nil)
-            carpoolRequest.actionHandler = { (item: BLTNActionItem) in
+            carpoolRequest!.actionHandler = { (item: BLTNActionItem) in
                 
                 self.acceptCarpoolRequest()
-                 carpoolRequest.manager?.dismissBulletin()
+                self.carpoolRequest!.manager?.dismissBulletin()
             }
         
-        carpoolRequest.actionButtonTitle = "Accept request"
+        carpoolRequest!.actionButtonTitle = "Accept request"
             
     //        carpoolRequest.descriptionText = "Driver arrives to your pick up point in \( Int(self.currentCarpoolSearchResult.driverTimeToPickUpLocation ?? 0)  ) minutes. You can be at pick up point in \( Int(self.currentCarpoolSearchResult.riderTimeToPickUpLocation ?? 0) ) minutes"
     //
     //
-            carpoolRequest.alternativeHandler = { (item: BLTNActionItem) in
+            carpoolRequest!.alternativeHandler = { (item: BLTNActionItem) in
                 self.cancelCarpoolRequest()
-                carpoolRequest.manager?.dismissBulletin()
+                self.carpoolRequest!.manager?.dismissBulletin()
                 
                 
             }
             
-            carpoolRequest.dismissalHandler =  { (item) in
-                 self.cancelCarpoolRequest()
-                carpoolRequest.manager?.dismissBulletin()
+            carpoolRequest!.dismissalHandler =  { (item) in
+//                 self.cancelCarpoolRequest()
+//                carpoolRequest.manager?.dismissBulletin()
                        
             }
             
-            bulletinManager = BLTNItemManager(rootItem: carpoolRequest)
+            bulletinManager = BLTNItemManager(rootItem: carpoolRequest!)
             bulletinManager!.backgroundViewStyle = .dimmed
             
             bulletinManager!.statusBarAppearance = .hidden
@@ -240,6 +254,11 @@ class CarpoolAcceptManager: NSObject {
         }
     
     
+    func informAboutCloseProximityToRiderPickUpPoint() {
+        
+    }
+    
+    
     func acceptCarpoolRequest() {
         
         activeCarpoolStatus = .accepted
@@ -249,6 +268,7 @@ class CarpoolAcceptManager: NSObject {
         let originaDriverDestimation: Waypoint = Waypoint(coordinate: (activeRoute?.coordinates?.last)!, coordinateAccuracy: -1, name: "Final destination")
         
           let options = NavigationRouteOptions(waypoints: [riderPickupLocation, riderDropOff, originaDriverDestimation ], profileIdentifier: .automobileAvoidingTraffic)
+        options.includesSteps = true
         
         _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
 

@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import Firebase
 
+public typealias empty_block = () -> Swift.Void
 
 public typealias id_error_block = (Any?, Error?) -> Swift.Void
 public typealias coordinate_didCancel_block = (CLLocationCoordinate2D?, Bool?) -> Swift.Void

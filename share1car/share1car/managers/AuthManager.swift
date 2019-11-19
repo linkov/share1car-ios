@@ -83,6 +83,16 @@ class AuthManager: NSObject, FUIAuthDelegate {
         let currentToken = UserSettingsManager.shared.getFCMToken()
         if currentToken != nil {
              DataManager.shared.setNotificationsToken(userID: AuthManager.shared.currentUserID()!, token: currentToken!)
+        } else {
+            InstanceID.instanceID().instanceID { (result, error) in
+              if let error = error {
+                print("Error fetching remote instance ID: \(error)")
+              } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+                UserSettingsManager.shared.saveFCMToken(token: result.token)
+                 DataManager.shared.setNotificationsToken(userID: AuthManager.shared.currentUserID()!, token: result.token)
+              }
+            }
         }
        
     }

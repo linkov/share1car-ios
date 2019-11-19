@@ -23,13 +23,14 @@ target 'share1car' do
   # UI
   pod 'BulletinBoard'
   pod 'Loaf'
+  pod "RGSnackBar"
+  pod 'MaterialComponents/Snackbar'
   pod 'JGProgressHUD'
   pod 'Spring', :git => 'https://github.com/MengTo/Spring.git'
   pod 'SDWebImage', '~> 5.0'
   pod 'BadgeSwift'
   pod 'Cosmos', '~> 20.0'
-  pod 'MaterialShowcase'
-  
+  pod 'AwesomeSpotlightView'
   # Layout
   pod "EasyPeasy"
   
@@ -38,7 +39,7 @@ target 'share1car' do
   
   
   # Developer tools
-#  pod 'Reveal-SDK', :configurations => ['Debug']
+  pod 'Reveal-SDK', :configurations => ['Debug']
   
   # Pods for share1car
 

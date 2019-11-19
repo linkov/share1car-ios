@@ -24,6 +24,27 @@ class RiderDataManager: NSObject {
         ref = Database.database().reference()
     }
     
+    func cancelCarpool(driverID: String, riderID: String, completion: @escaping result_errordescription_block) {
+        
+        self.ref.child("RouteRequests").child(driverID).child("status").setValue("riderCancelled") { (error, ref) in
+            if error != nil {
+                completion(nil,error?.localizedDescription)
+                return
+            }
+            
+            self.ref.child("RideAccepts").child(riderID).child(driverID).removeValue { (error, ref) in
+                if error != nil {
+                    completion(nil,error?.localizedDescription)
+                    return
+                }
+            }
+            
+            completion(true,nil)
+            
+        }
+        
+        
+    }
 
     func requestCarpool(pickUpLocation: CLLocationCoordinate2D, dropOffLocation: CLLocationCoordinate2D, driverID: String) {
         

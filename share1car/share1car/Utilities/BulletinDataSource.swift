@@ -25,6 +25,48 @@ enum BulletinDataSource {
         return page
 
     }
+    
+    static func makeCarpoolWaitingForConfirmationPage(title: String) -> FeedbackPageBLTNItem {
+    
+           let page = FeedbackPageBLTNItem(title: title)
+        
+           page.actionButtonTitle = "Cancel request"
+           page.isDismissable = false
+
+           let tintColor: UIColor
+           if #available(iOS 13.0, *) {
+               tintColor = .systemRed
+           } else {
+               tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+           }
+           page.appearance.actionButtonColor = tintColor
+          
+
+           return page
+
+    }
+    
+    static func makeCarpoolProgressUpdatePage(title: String, cancelTitle: String) -> FeedbackPageBLTNItem {
+
+        let page = FeedbackPageBLTNItem(title: title)
+     
+        page.actionButtonTitle = cancelTitle
+        page.actionButton?.setTitleColor(.red, for: .normal)
+        page.isDismissable = false
+        page.shouldStartWithActivityIndicator = true
+
+        let tintColor: UIColor
+        if #available(iOS 13.0, *) {
+            tintColor = .systemRed
+        } else {
+            tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        }
+        page.appearance.actionButtonColor = tintColor
+       
+
+        return page
+
+    }
 
     
     
@@ -118,8 +160,41 @@ enum BulletinDataSource {
         return page
 
     }
+    
+    static func makeDatePage() -> DatePickerBLTNItem {
 
-    static func makeDatePage(userName: String?) -> BLTNItem {
+        let page = DatePickerBLTNItem(title: "Plan a Carpool")
+        page.descriptionText = "When you want to start carpool?"
+        page.isDismissable = true
+        page.actionButtonTitle = "Done"
+        let tintColor: UIColor
+        if #available(iOS 13.0, *) {
+            tintColor = .systemGreen
+        } else {
+            tintColor = #colorLiteral(red: 0.195412606, green: 0.6979529858, blue: 0.6217982173, alpha: 1)
+        }
+        page.appearance.actionButtonColor = tintColor
+
+        return page
+
+    }
+    
+//    static func makeTimePage() -> DatePickerBLTNItem {
+//
+//        let page = DatePickerBLTNItem(title: "Carpool Date")
+//        page.descriptionText = "When you want to start carpool?"
+//        page.isDismissable = true
+//        page.actionButtonTitle = "Done"
+//
+//
+//
+//        return page
+//
+//    }
+//
+    
+
+    static func makeDatePage(userName: String?) -> DatePickerBLTNItem {
 
         var greeting = userName ?? "Lone Ranger"
 
@@ -140,10 +215,7 @@ enum BulletinDataSource {
         page.isDismissable = false
         page.actionButtonTitle = "Done"
 
-        page.actionHandler = { item in
-            print(page.datePicker.date)
-            item.manager?.displayNextItem()
-        }
+
 
         page.next = makeNotitificationsPage()
 

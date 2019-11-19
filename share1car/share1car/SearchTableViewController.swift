@@ -21,11 +21,6 @@ class SearchTableViewController: UITableViewController, MGLMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source / delegate
@@ -38,8 +33,7 @@ class SearchTableViewController: UITableViewController, MGLMapViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let selectedItem = matchingItems[indexPath.row]
         cell.textLabel?.text = selectedItem.qualifiedName
-        //TODO: put only postal address instead of full name again
-//        cell.detailTextLabel?.text = selectedItem.qualifiedName
+
         return cell
     }
     
@@ -69,7 +63,6 @@ extension SearchTableViewController : UISearchResultsUpdating {
         
         let options = ForwardGeocodeOptions(query: searchBarText!)
         
-        // To refine the search, you can set various properties on the options object.
         options.allowedISOCountryCodes = ["DE"]     //only German addresses allowed
 //        options.focalLocation = CLLocation(latitude: self.currentUserLocation!.coordinate.latitude, longitude: self.currentUserLocation!.coordinate.longitude)
         options.allowedScopes = [.address, .pointOfInterest]
@@ -77,9 +70,7 @@ extension SearchTableViewController : UISearchResultsUpdating {
         
         
         geocoder.geocode(options) { (placemarks, attribution, error) in
-            guard let placemark = placemarks?.first else {
-                return
-            }
+
             guard let placemarks = placemarks else {
                 return
             }
@@ -87,24 +78,6 @@ extension SearchTableViewController : UISearchResultsUpdating {
             self.matchingItems = placemarks
             self.tableView.reloadData()
 
-            
-            
-            print(placemark.name)
-//            // 200 Queen St
-            print(placemark.qualifiedName!)
-//            // 200 Queen St, Saint John, New Brunswick E2L 2X1, Canada
-        
-//            let coordinate = placemark.location!.coordinate
-//            print("\(coordinate.latitude), \(coordinate.longitude)")
-//            // 45.270093, -66.050985
-//
-//            #if !os(tvOS)
-//            let formatter = CNPostalAddressFormatter()
-//            print(formatter.string(from: placemark.postalAddress!))
-//            // 200 Queen St
-//            // Saint John New Brunswick E2L 2X1
-//            // Canada
-//            #endif
         }
 
         

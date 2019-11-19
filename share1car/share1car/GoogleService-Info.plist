@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>680513897792-aovp324gfsdic8hvqtflnn4p8unq08j6.apps.googleusercontent.com</string>
+	<string>497931304062-62eipt2c5ov8vtsjrskcdgpg94njs4ft.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.680513897792-aovp324gfsdic8hvqtflnn4p8unq08j6</string>
+	<string>com.googleusercontent.apps.497931304062-62eipt2c5ov8vtsjrskcdgpg94njs4ft</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCnirB1pK87ft2xv43i4Ifom381cQdczGM</string>
+	<string>AIzaSyBfPOsj6Zdc3LiSrxd_eH2z3LnQx_bMagA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>680513897792</string>
+	<string>497931304062</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.sdwr.share1car</string>
 	<key>PROJECT_ID</key>
-	<string>ios-test-163ec</string>
+	<string>s1c-test</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ios-test-163ec.appspot.com</string>
+	<string>s1c-test.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:680513897792:ios:37e7d0c62ed7e318dea6a5</string>
+	<string>1:497931304062:ios:fa984a50d8ca1b0a616c2f</string>
 	<key>DATABASE_URL</key>
-	<string>https://ios-test-163ec.firebaseio.com</string>
+	<string>https://s1c-test.firebaseio.com</string>
 </dict>
 </plist>
