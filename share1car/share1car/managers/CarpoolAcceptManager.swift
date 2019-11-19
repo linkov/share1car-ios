@@ -293,12 +293,6 @@ class CarpoolAcceptManager: NSObject {
 
         }
         
-        
-        // add pickup and dropoff to route
-
-        
-        // send rideAccept
-        
     }
     
     func handleRideCancellation() {

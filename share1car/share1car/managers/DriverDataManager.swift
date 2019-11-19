@@ -44,7 +44,7 @@ class DriverDataManager: NSObject {
     
     func startObservingCarpoolRequestForMyDriverID(completion: @escaping carpoolrequest_error_block) {
         
-        self.ref.child("RouteRequests").child(AuthManager.shared.currentUserID()!).observeSingleEvent(of: .value, with: { (snapshot) in
+        self.ref.child("RouteRequests").child(AuthManager.shared.currentUserID()!).observe( .value, with: { (snapshot) in
             
             if let result = snapshot.value {
                 completion((result as? [String : Any] ?? [:]), nil)
@@ -54,10 +54,7 @@ class DriverDataManager: NSObject {
             completion(nil, error)
         }
     }
-    
-    func stopObservingCarpoolRequestForMyDriverID()  {
-        
-    }
+
     
     func fetchPreplannedCarpool(completion: @escaping result_errordescription_block) {
         

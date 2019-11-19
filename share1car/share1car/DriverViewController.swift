@@ -31,6 +31,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     @IBOutlet weak var searchBarContainerView: UIView!
     @IBOutlet weak var mapView: NavigationMapView!
     
+    @IBOutlet weak var userLocationButton: UIButton!
     var preplannedCarpoolDate: Date?
     
     var bulletinManager: BLTNItemManager?
@@ -72,6 +73,9 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         startPlannedCarpoolSelector.layer.cornerRadius = 22
         cancelPreplannedCarpoolButton.layer.cornerRadius = 22
         cancelPreplannedCarpoolButton.addLightShadow()
+        
+        userLocationButton.layer.cornerRadius = 22
+        userLocationButton.addLightShadow()
         
         let timeOfNow = Date().addingTimeInterval(10*60)
         let formatedTime = Converters.getFormattedDate(date: timeOfNow, format: "MMM dd HH:mm")
@@ -308,6 +312,14 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         
     }
     
+    @IBAction func userLocationDidTap(_ sender: Any) {
+        
+        LocationManager.shared.findUserLocation { (coord) in
+            
+            self.mapView.setCenter(coord, zoomLevel: 12, animated: true)
+        }
+        
+    }
     
     @objc func carpoolDatePickerChanged(picker: UIDatePicker) {
         print(picker.date)

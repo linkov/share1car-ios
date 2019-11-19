@@ -47,6 +47,21 @@ class DataManager: NSObject {
     }
     
     
+    func getTotalUserCount(completion: @escaping result_errordescription_block) {
+        
+        self.ref.child("user_data").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let array = snapshot.value as! [String:Any]
+            
+            completion(array.count,nil)
+            
+        }) { (error) in
+            
+            completion(nil, error.localizedDescription)
+        }
+    }
+    
+    
     func getUserPhoto(userID: String, completion: @escaping imagedata_error_block) {
         let userImageRef = storageRef.child(userID)
         
@@ -76,7 +91,7 @@ class DataManager: NSObject {
         ]) { (error, ref) in
          
             if error != nil {
-                completion(ref, error!.localizedDescription)
+                completion(nil, error!.localizedDescription)
                 return
             }
             completion(ref, nil)

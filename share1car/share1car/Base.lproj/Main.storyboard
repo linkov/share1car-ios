@@ -42,12 +42,62 @@
                                             <action selector="cancelCarpoolDidTap:" destination="9pv-A4-QxB" eventType="touchUpInside" id="d4F-yA-zIi"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U3o-wG-eOK">
+                                        <rect key="frame" x="345" y="738" width="44" height="44"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="7Xk-Nu-JmC"/>
+                                            <constraint firstAttribute="height" constant="44" id="m1A-Zh-8KO"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="crosshair"/>
+                                        <connections>
+                                            <action selector="userLocationDidTap:" destination="9pv-A4-QxB" eventType="touchUpInside" id="5Lm-dG-V98"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nk7-At-j2S">
+                                        <rect key="frame" x="0.0" y="60" width="414" height="55"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="55" id="tiY-G1-5eQ"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fDj-V5-sf5" customClass="SpringButton" customModule="Spring">
+                                        <rect key="frame" x="20" y="140" width="287" height="44"/>
+                                        <color key="backgroundColor" red="0.17254901959999999" green="0.64705882349999999" blue="0.55294117649999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="dXS-RH-NPj"/>
+                                            <constraint firstAttribute="width" constant="200" id="gCO-qj-TEf"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <state key="normal" title="Only 20 users. Help needed!">
+                                            <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="autohide" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="animation" value="fadeInRight"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                                                <real key="value" value="0.40000000000000002"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="criticalMassDidTap:" destination="9pv-A4-QxB" eventType="touchUpInside" id="1xL-W2-zUG"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstItem="Vh8-4i-RUP" firstAttribute="centerX" secondItem="wWJ-Vu-TjV" secondAttribute="centerX" id="7nG-7q-sqQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="U3o-wG-eOK" secondAttribute="bottom" constant="37" id="CU2-RO-tNJ"/>
                                     <constraint firstAttribute="bottom" secondItem="Vh8-4i-RUP" secondAttribute="bottom" constant="37" id="Dzj-NS-0Fi"/>
+                                    <constraint firstItem="fDj-V5-sf5" firstAttribute="leading" secondItem="wWJ-Vu-TjV" secondAttribute="leading" constant="20" id="EuX-ed-vy9"/>
+                                    <constraint firstItem="nk7-At-j2S" firstAttribute="leading" secondItem="wWJ-Vu-TjV" secondAttribute="leading" id="cSb-rX-qk1"/>
+                                    <constraint firstAttribute="trailing" secondItem="U3o-wG-eOK" secondAttribute="trailing" constant="25" id="fg5-pf-rKo"/>
+                                    <constraint firstAttribute="trailing" secondItem="nk7-At-j2S" secondAttribute="trailing" id="gAo-ER-ip9"/>
                                     <constraint firstItem="shD-us-rNt" firstAttribute="top" secondItem="wWJ-Vu-TjV" secondAttribute="top" constant="102" id="iCV-vt-4P2"/>
+                                    <constraint firstItem="fDj-V5-sf5" firstAttribute="top" secondItem="nk7-At-j2S" secondAttribute="bottom" constant="10" id="li0-jt-nHq"/>
+                                    <constraint firstItem="nk7-At-j2S" firstAttribute="top" secondItem="wWJ-Vu-TjV" secondAttribute="top" constant="60" id="yd3-T2-9Dn"/>
                                     <constraint firstItem="shD-us-rNt" firstAttribute="leading" secondItem="wWJ-Vu-TjV" secondAttribute="leading" constant="46" id="zHj-tc-kX5"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -69,12 +119,15 @@
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="cancelCarpoolButton" destination="Vh8-4i-RUP" id="Ba9-l9-cCy"/>
+                        <outlet property="criticalMassButton" destination="fDj-V5-sf5" id="XhX-NQ-3zf"/>
                         <outlet property="mapView" destination="wWJ-Vu-TjV" id="Bbz-gR-Yw7"/>
+                        <outlet property="searchBarContainerView" destination="nk7-At-j2S" id="Wtw-U3-ORn"/>
+                        <outlet property="userLocationButton" destination="U3o-wG-eOK" id="iOa-FK-zEx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-320"/>
+            <point key="canvasLocation" x="749.27536231884062" y="-320.08928571428572"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="twi-Ml-7HU">
@@ -113,10 +166,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tnS-uo-hTB" customClass="MBNavigationMapView">
-                                <rect key="frame" x="0.0" y="4" width="414" height="809"/>
+                                <rect key="frame" x="0.0" y="2" width="414" height="811"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ui-Ld-IvR" customClass="SpringButton" customModule="Spring">
-                                        <rect key="frame" x="107" y="677" width="200" height="44"/>
+                                        <rect key="frame" x="107" y="679" width="200" height="44"/>
                                         <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="Hkb-uW-MyL"/>
@@ -143,7 +196,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fwm-RD-sLk" customClass="SpringButton" customModule="Spring">
-                                        <rect key="frame" x="35" y="677" width="44" height="44"/>
+                                        <rect key="frame" x="35" y="679" width="44" height="44"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="44" id="NnF-jd-g8V"/>
@@ -161,18 +214,34 @@
                                             <action selector="didTapCancelPreplannedCarpool:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="zbu-Pg-Mu7"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6e7-3c-GOP">
+                                        <rect key="frame" x="345" y="731" width="44" height="44"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="rL6-um-Mi7"/>
+                                            <constraint firstAttribute="width" constant="44" id="sWu-SN-I2q"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="crosshair"/>
+                                        <connections>
+                                            <action selector="userLocationDidTap:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="UDL-S6-643"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstItem="6Ui-Ld-IvR" firstAttribute="centerX" secondItem="tnS-uo-hTB" secondAttribute="centerX" id="9ea-p2-QYZ"/>
                                     <constraint firstItem="fwm-RD-sLk" firstAttribute="centerY" secondItem="6Ui-Ld-IvR" secondAttribute="centerY" id="M9U-EA-kew"/>
+                                    <constraint firstAttribute="bottom" secondItem="6e7-3c-GOP" secondAttribute="bottom" constant="36" id="YMd-gx-feR"/>
                                     <constraint firstItem="6Ui-Ld-IvR" firstAttribute="leading" secondItem="fwm-RD-sLk" secondAttribute="trailing" constant="28" id="v3p-lV-8vQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="6e7-3c-GOP" secondAttribute="trailing" constant="25" id="zql-iH-qLY"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IVd-pQ-4KB">
-                                <rect key="frame" x="0.0" y="54" width="414" height="70"/>
+                                <rect key="frame" x="0.0" y="54" width="414" height="55"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="EaD-0h-WDa"/>
+                                    <constraint firstAttribute="height" constant="55" id="EaD-0h-WDa"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HPj-Hq-Ro2" customClass="SpringButton" customModule="Spring">
@@ -207,7 +276,7 @@
                             <constraint firstItem="HPj-Hq-Ro2" firstAttribute="top" secondItem="6Ui-Ld-IvR" secondAttribute="bottom" constant="4" id="kQ5-Kg-r0L"/>
                             <constraint firstItem="O1u-W8-tvY" firstAttribute="bottom" secondItem="HPj-Hq-Ro2" secondAttribute="bottom" constant="40" id="ta8-dl-YN3"/>
                             <constraint firstItem="tnS-uo-hTB" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="z2O-sY-5K3"/>
-                            <constraint firstItem="tnS-uo-hTB" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" constant="-40" id="zAX-Xw-wdm"/>
+                            <constraint firstItem="tnS-uo-hTB" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" constant="-42" id="zAX-Xw-wdm"/>
                             <constraint firstItem="HPj-Hq-Ro2" firstAttribute="centerX" secondItem="O1u-W8-tvY" secondAttribute="centerX" id="zB2-dq-XGx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
@@ -219,6 +288,7 @@
                         <outlet property="searchBarContainerView" destination="IVd-pQ-4KB" id="QzG-xm-2Si"/>
                         <outlet property="startCarPoolButton" destination="HPj-Hq-Ro2" id="xKa-3Y-Mgq"/>
                         <outlet property="startPlannedCarpoolSelector" destination="6Ui-Ld-IvR" id="Sic-y4-JQc"/>
+                        <outlet property="userLocationButton" destination="6e7-3c-GOP" id="QNf-c3-8j7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -366,6 +436,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="crosshair" width="35" height="35"/>
         <image name="first" width="30" height="30"/>
         <image name="ic_clear" width="24" height="24"/>
         <image name="second" width="30" height="30"/>
