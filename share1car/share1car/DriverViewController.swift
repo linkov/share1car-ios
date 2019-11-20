@@ -102,15 +102,19 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
     override func viewDidAppear(_ animated: Bool) {
     
-        DriverDataManager.shared.fetchPreplannedCarpool { (result, errorString) in
+        if AuthManager.shared.isLoggedIn() {
             
-            if result != nil {
-                let dateString = result
-                self.preplannedCarpoolDate = Date.dateFromISOString(string: dateString as! String)
-                self.toggleCarpoolButton(active: true)
-                self.toggleUIForActivePreplannedCarpool(active: true)
+            DriverDataManager.shared.fetchPreplannedCarpool { (result, errorString) in
+                
+                if result != nil {
+                    let dateString = result
+                    self.preplannedCarpoolDate = Date.dateFromISOString(string: dateString as! String)
+                    self.toggleCarpoolButton(active: true)
+                    self.toggleUIForActivePreplannedCarpool(active: true)
+                }
             }
         }
+
     }
     
     

@@ -129,49 +129,40 @@ class DataManager: NSObject {
     
     func getUserDetails(userID: String, userDetailscompletion: @escaping userdetails_error_block) {
         
-        var photoURL = UserSettingsManager.shared.getUserImageURL()
-        
-
+        let photoURL = UserSettingsManager.shared.getUserImageURL()
+        self.ref.child("user_data").child(userID).observeSingleEvent(of: .value, with: { (snapshot) in
             
-            DataManager.shared.getUserPhotoURL(userID: userID) { (URL, error) in
-                if error != nil {
-                    print(error?.localizedDescription as Any)
-                    userDetailscompletion(nil, error!)
+            if let result = snapshot.value {
+                
+                
+                
+                let res = result as? [String:Any]
+                print(res)
+                if res == nil {
+                    userDetailscompletion(nil, nil)
                     return
                 }
-                
-                photoURL = URL
-                UserSettingsManager.shared.saveUserImageURL(imageURL: photoURL)
-                
-                self.ref.child("user_data").child(userID).observeSingleEvent(of: .value, with: { (snapshot) in
-                    
-                    if let result = snapshot.value {
+                var details = S1CUserDetails()
+                details.UID = userID
+                details.name = res!["firstName"] as? String
+                details.phone = res!["phone"] as? String
+                details.photoURL = photoURL
+                userDetailscompletion(details, nil)
+            }
                         
-                        
-                        
-                        let res = result as? [String:Any]
-                        print(res)
-                        if res == nil {
-                            userDetailscompletion(nil, nil)
-                            return
-                        }
-                        var details = S1CUserDetails()
-                        details.UID = userID
-                        details.name = res!["firstName"] as? String
-                        details.phone = res!["phone"] as? String
-                        details.photoURL = photoURL
-                        userDetailscompletion(details, nil)
-                    }
-                                
-                  }) { (error) in
-                    userDetailscompletion(nil, error)
-                }
-
+          }) { (error) in
+            userDetailscompletion(nil, error)
         }
         
 
     }
     
+    func updateUserPhone(userID: String, phoneNumber: String) {
+        
+        self.ref.child("user_data").child(userID).child("phone").setValue(phoneNumber) { (error, ref) in
+            
+        }
+    }
     
     func updateUser(userID: String, firstName: String, phone: String) -> Void {
         self.ref.child("user_data").child(userID).setValue(["platform":"iOS", "firstName": firstName, "phone": phone]) { (error, ref) in

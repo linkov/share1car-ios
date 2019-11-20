@@ -26,6 +26,7 @@ class SettingsViewController: FormViewController {
         super.viewDidLoad()
         
         self.saveButton.layer.cornerRadius = 12
+        self.logoutButton.layer.cornerRadius = 12
         
     
        
@@ -75,7 +76,20 @@ class SettingsViewController: FormViewController {
                     row.value =  self.email
                 }
             
+            
+            <<< ButtonRow() {
+                $0.title = "Send feedback"
+            }
+            .onCellSelection {  cell, row in
+                
+                 NotificationCenter.default.post(name: NotificationsManager.onFeedbackScreenRequestedNotification, object: nil)
+
+            }.cellSetup() {cell, row in
+                cell.tintColor = .brandColor
+            }
+            
         +++ Section("Developer settings")
+            
             <<< SwitchRow("simulateNavigation") {
                 $0.tag = "shouldSimMovement"
                 $0.title = "Simulate turn by turn"
@@ -88,6 +102,20 @@ class SettingsViewController: FormViewController {
                 self.hud.show(in: self.view)
                 self.hud.dismiss(afterDelay: 1)
             })
+
+            
+      +++ Section("")
+            +++ Section("")
+            +++ Section("")
+            +++ Section("")
+            +++ Section("")
+            +++ Section("")
+            +++ Section("")
+            +++ Section("")
+            +++ Section("")
+            +++ Section("")
+            
+
                 
     }
     
@@ -95,6 +123,7 @@ class SettingsViewController: FormViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         if (!AuthManager.shared.isLoggedIn()) {
+            logoutButton.isHidden = true
             AuthManager.shared.presentAuthUIFrom(controller: self)
             return
         }
@@ -104,20 +133,19 @@ class SettingsViewController: FormViewController {
         self.userID = AuthManager.shared.currentUserID()!
         
         DataManager.shared.getUserDetails(userID: AuthManager.shared.currentUserID()!) { (details, error) in
-                   if error != nil {
-                       Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self)
-                   }
+            if error != nil {
+                Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self)
+                return
+            }
+            
+            if details != nil {
+                self.firstName = details!.name ?? ""
+                self.phoneNumber = details!.phone ?? ""
+                self.email = AuthManager.shared.authUI?.auth?.currentUser?.email ?? "no email"
+                self.initForm()
+            }
                    
-                if details == nil {
-                        
-                }
-                   
-                   self.firstName = details!.name ?? ""
-                   self.phoneNumber = details!.phone ?? ""
-                    self.email = AuthManager.shared.authUI?.auth?.currentUser?.email ?? "no email"
-                    self.initForm()
-                   
-               }
+        }
     }
     
     @IBAction func didTapLogout(_ sender: Any) {

@@ -13,6 +13,10 @@ class UserSettingsManager: NSObject {
     static let userSettingsFCMToken = "com.sdwr.share1car.usersettings.FCMToken"
     static let userSettingsNotificationsAuthorized = "com.sdwr.share1car.usersettings.NotificationsAuthorized"
     
+    
+    // Onboarding status
+    static let userSettingsRiderDidSeeCarpoolOverlayOnboadrding = "com.sdwr.share1car.usersettings.RiderDidSeeCarpoolOverlayOnboadrding"
+    static let userSettingsUserDidSeeCriticalMassOverlayOnboadrding = "com.sdwr.share1car.usersettings.UserDidSeeCriticalMassOverlayOnboadrding"
     static let userSettingsDriverDidSeeCarpoolOverlayOnboadrding = "com.sdwr.share1car.usersettings.DriverDidSeeCarpoolOverlayOnboadrding"
     static let userSettingsRiderDidSeeOverlayOnboadrding = "com.sdwr.share1car.usersettings.RiderDidSeeOverlayOnboadrding"
     static let userSettingsDriverDidSeeOverlayOnboadrding = "com.sdwr.share1car.usersettings.DriverDidSeeOverlayOnboadrding"
@@ -35,6 +39,22 @@ class UserSettingsManager: NSObject {
     }
     
     
+    func clearUserDefaultsOnFirstLaunch() {
+        
+        let userDefaults = UserDefaults.standard
+
+        if userDefaults.bool(forKey: "hasRunBefore") == false {
+            
+            
+            let defaults = UserDefaults.standard
+             let dictionary = defaults.dictionaryRepresentation()
+             dictionary.keys.forEach { key in
+                 defaults.removeObject(forKey: key)
+             }
+
+             userDefaults.set(true, forKey: "hasRunBefore")
+        }
+    }
     
     
     func getUserNotificationsAuthorizationEnabled() -> Bool {
@@ -124,6 +144,7 @@ class UserSettingsManager: NSObject {
     
     
     static func clearUserData(){
+        
         userDefaults.removeObject(forKey: AuthManager.userSessionKey)
         userDefaults.removeObject(forKey: UserSettingsManager.userSettingsFCMToken)
         userDefaults.removeObject(forKey: UserSettingsManager.userSettingsMaximumPickUpDistance)
@@ -135,6 +156,36 @@ class UserSettingsManager: NSObject {
 
 //MARK: - Onboarding
 extension UserSettingsManager {
+    
+    
+    func saveRiderDidSeeCarpoolOverlayOnboadrding(didSee: Bool) {
+        
+        UserSettingsManager.userDefaults.set(didSee,
+                        forKey: UserSettingsManager.userSettingsRiderDidSeeCarpoolOverlayOnboadrding)
+    }
+    
+    
+    func getRiderDidSeeCarpoolOverlayOnboadrding() -> Bool? {
+        let saved = UserSettingsManager.userDefaults.value(forKey: UserSettingsManager.userSettingsRiderDidSeeCarpoolOverlayOnboadrding) as? Bool
+        
+        return (saved != nil) ? saved! : false
+    }
+    
+    
+    
+    func saveUserDidSeeCriticalMassOverlayOnboadrding(didSee: Bool) {
+        
+        UserSettingsManager.userDefaults.set(didSee,
+                        forKey: UserSettingsManager.userSettingsUserDidSeeCriticalMassOverlayOnboadrding)
+    }
+    
+    
+    func getUserDidSeeCriticalMassOverlayOnboadrding() -> Bool? {
+        let saved = UserSettingsManager.userDefaults.value(forKey: UserSettingsManager.userSettingsUserDidSeeCriticalMassOverlayOnboadrding) as? Bool
+        
+        return (saved != nil) ? saved! : false
+    }
+    
     
     
     func saveDriverDidSeeCarpoolOverlayOnboadrding(didSee: Bool) {

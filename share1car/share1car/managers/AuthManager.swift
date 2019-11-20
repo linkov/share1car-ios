@@ -15,6 +15,7 @@ class AuthManager: NSObject, FUIAuthDelegate {
     
     static let userSessionKey = "com.sdwr.share1car.usersession"
     
+    var presentingVC: UIViewController?
     var authUI: FUIAuth?
     
     static let shared = AuthManager()
@@ -30,7 +31,7 @@ class AuthManager: NSObject, FUIAuthDelegate {
         self.authUI!.providers = providers
         
     }
-    
+
     
     func isLoggedIn() -> Bool {
         let useIDExists = (getUserID() != nil)
@@ -44,7 +45,7 @@ class AuthManager: NSObject, FUIAuthDelegate {
     
     
     func logout(completion: @escaping didfinish_block) {
-        
+        UserSettingsManager.shared.clearUserDefaultsOnFirstLaunch()
         clearUserData()
         completion(true)
         
@@ -59,6 +60,13 @@ class AuthManager: NSObject, FUIAuthDelegate {
     }
     
     func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
+        
+        if error != nil {
+            Alerts.systemErrorAlert(error: error!.localizedDescription, inController: presentingVC!)
+            return
+        }
+        
+        
         
         let currentUser = Auth.auth().currentUser
         if currentUser == nil {
@@ -94,6 +102,11 @@ class AuthManager: NSObject, FUIAuthDelegate {
               }
             }
         }
+        
+        if (authDataResult?.additionalUserInfo?.isNewUser)! {
+            OnboardingManager.shared.showPhoneNumberOnboarding()
+        }
+        
        
     }
     

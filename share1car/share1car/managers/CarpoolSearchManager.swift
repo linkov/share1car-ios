@@ -619,6 +619,10 @@ class CarpoolSearchManager: NSObject {
             
             return
         }
+        
+        
+        
+        
         let timeOfRendevous = Date().addingTimeInterval(self.currentCarpoolSearchResult.riderTimeToPickUpLocation!*60)
         let formatedTime = Converters.getFormattedDate(date: timeOfRendevous, format: "HH:mm")
         
@@ -661,7 +665,7 @@ class CarpoolSearchManager: NSObject {
         
         
 
-        
+        OnboardingManager.shared.showRiderCarpoolInfoOverlayOnboarding(imageView: carpoolRequest.imageView!, infoView: carpoolRequest.infoView! )
 
         
     }

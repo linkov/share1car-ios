@@ -146,16 +146,12 @@ enum BulletinDataSource {
      */
     static func makeTextFieldPage() -> TextFieldBulletinPage {
 
-        let page = TextFieldBulletinPage(title: "Enter your Name")
-        page.isDismissable = false
-        page.descriptionText = "To create your profile, please tell us your name. We will use it to customize your feed."
-        page.actionButtonTitle = "Sign Up"
+        let page = TextFieldBulletinPage(title: "Phone number")
+        page.isDismissable = true
+        page.descriptionText = "Do you want to enter your mobile number? It will only be shown to your ride partners. This makes it easier to find each other and allows contact if something does not work out"
+        page.actionButtonTitle = "Continue"
 
-        page.textInputHandler = { (item, text) in
-            print("Text: \(text ?? "nil")")
-            let datePage = self.makeDatePage(userName: text)
-            item.manager?.push(item: datePage)
-        }
+
 
         return page
 
@@ -179,49 +175,7 @@ enum BulletinDataSource {
 
     }
     
-//    static func makeTimePage() -> DatePickerBLTNItem {
-//
-//        let page = DatePickerBLTNItem(title: "Carpool Date")
-//        page.descriptionText = "When you want to start carpool?"
-//        page.isDismissable = true
-//        page.actionButtonTitle = "Done"
-//
-//
-//
-//        return page
-//
-//    }
-//
-    
 
-    static func makeDatePage(userName: String?) -> DatePickerBLTNItem {
-
-        var greeting = userName ?? "Lone Ranger"
-
-        if let name = userName {
-
-            let formatter = PersonNameComponentsFormatter()
-
-            if #available(iOS 10.0, *) {
-                if let components = formatter.personNameComponents(from: name) {
-                    greeting = components.givenName ?? name
-                }
-            }
-
-        }
-
-        let page = DatePickerBLTNItem(title: "Enter Birth Date")
-        page.descriptionText = "When were you born, \(greeting)?"
-        page.isDismissable = false
-        page.actionButtonTitle = "Done"
-
-
-
-        page.next = makeNotitificationsPage()
-
-        return page
-
-    }
 
     /**
      * Create the notifications page.

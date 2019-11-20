@@ -22,6 +22,11 @@ import Spring
 
 import JGProgressHUD
 
+
+//extension RiderViewController: S1CMainRiderControllerProtocol {
+//    var criticalMassButton: SpringButton
+//}
+
 class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapViewDelegate {
 
     @IBOutlet weak var criticalMassButton: SpringButton!
@@ -91,12 +96,7 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
 //        OnboardingManager.shared.showOnAppOpenOnboarding(mapView: mapView)
 //        
 //    }
-    
-    @IBAction func cancelCarpoolDidTap(_ sender: Any) {
-        
-        self.toggleCancelCarpoolButton(active: false)
-        CarpoolSearchManager.shared.cancelCarpool()
-    }
+
     
     
     func toggleCancelCarpoolButton(active: Bool) {
@@ -174,23 +174,40 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
                 Loaf(result! as! String, state: .success, sender: self).show()
             }
             
+           
+            
         })
     }
     
     // MARK: - Actions
     
+    
+    @IBAction func cancelCarpoolDidTap(_ sender: Any) {
+        
+        self.toggleCancelCarpoolButton(active: false)
+        CarpoolSearchManager.shared.cancelCarpool()
+    }
+    
     @IBAction func criticalMassDidTap(_ sender: Any) {
         
+        let shouldReturn = OnboardingManager.shared.showCriticalMassOverlayOnboardingReturning(criticalMassButton: criticalMassButton)
+        
+        if shouldReturn {
+            return
+        }
         
         let logo = UIImage(named: "feedbackLogo")
         
         let share = [logo, "Share 1 car and save time and planet", URL(string: "https://share1car.de")] as [Any]
         
         
-        
+        hud.show(in: self.view)
         let activityViewController = UIActivityViewController(activityItems: share, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)
+        self.present(activityViewController, animated: true, completion: {
+            
+            self.hud.dismiss()
+        })
         
 
     }

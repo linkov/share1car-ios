@@ -51,6 +51,7 @@
 		F13E6B87236CC062008C136B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B86236CC062008C136B /* DataManager.swift */; };
 		F13E6B8B236CC1DA008C136B /* ViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B8A236CC1DA008C136B /* ViewModels.swift */; };
 		F13E6B8D236CC2CF008C136B /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B8C236CC2CF008C136B /* AuthManager.swift */; };
+		F16673762384932900D37005 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16673752384932900D37005 /* Protocols.swift */; };
 		F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A27825236C94DC004B9C8F /* AppDelegate.swift */; };
 		F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A2782D236C94DC004B9C8F /* Main.storyboard */; };
 		F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1A27830236C94E0004B9C8F /* Assets.xcassets */; };
@@ -121,6 +122,7 @@
 		F13E6B86236CC062008C136B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		F13E6B8A236CC1DA008C136B /* ViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels.swift; sourceTree = "<group>"; };
 		F13E6B8C236CC2CF008C136B /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		F16673752384932900D37005 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		F1A27822236C94DC004B9C8F /* share1car.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = share1car.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1A27825236C94DC004B9C8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1A2782E236C94DC004B9C8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				F1E09BC1238323180063F70E /* Constants.swift */,
 				F1F73F5F2378771200AA7E32 /* BulletinDataSource.swift */,
 				F11E2AF82370925200C8E9D0 /* Namedblocks.swift */,
+				F16673752384932900D37005 /* Protocols.swift */,
 				F11AD78E2370E0A900B308E3 /* Alerts.swift */,
 				F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */,
 				F136A70A2374B9D60055DF4D /* Converters.swift */,
@@ -502,6 +505,7 @@
 				F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */,
 				F11E2AF223707D7900C8E9D0 /* WidgetExtensions.swift in Sources */,
 				F1F73F5923786B2D00AA7E32 /* NotificationsManager.swift in Sources */,
+				F16673762384932900D37005 /* Protocols.swift in Sources */,
 				F136A709237471560055DF4D /* RiderDataManager.swift in Sources */,
 				F1F73F6D2378777A00AA7E32 /* DatePickerBulletinItem.swift in Sources */,
 				F13E6B8D236CC2CF008C136B /* AuthManager.swift in Sources */,
@@ -688,7 +692,7 @@
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -711,7 +715,7 @@
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
