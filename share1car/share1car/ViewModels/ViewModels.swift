@@ -13,6 +13,7 @@ import CoreLocation
 enum CarpoolAcceptStatus: String {
     case accepted = "accepted"
     case rejected = "rejected"
+    case confirmed = "confirmed"
     case arrived = "arrived"
 }
 
@@ -31,6 +32,22 @@ public struct S1CUserDetails {
     var phone: String?
     var photoURL: String?
     var name: String?
+}
+
+
+ public struct S1CCarpoolRequest {
+    
+    var status: CarpoolRequestStatus?
+    var riderDetails: S1CUserDetails?
+    
+    var riderTimeToPickUpLocation: TimeInterval?
+    var driverTimeToPickUpLocation: TimeInterval?
+    
+    var pickUpLocation: CLLocationCoordinate2D?
+    var dropOffLocation: CLLocationCoordinate2D?
+    
+    var carpoolDistance: CLLocationDistance?
+    
 }
 
 public struct S1CCarpoolSearchResult {

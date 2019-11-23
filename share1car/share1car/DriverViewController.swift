@@ -384,7 +384,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         self.turnByturnNavigationController!.delegate = self
         
         CarpoolAcceptManager.shared.configure(activeRoute: route, mapView: mapView, presentingViewController: self.turnByturnNavigationController!)
-        
+        CarpoolAcceptManager.shared.startObservingCarpoolRequestsForMyDriverID()
         DriverDataManager.shared.setRoute(route: route, driverID: AuthManager.shared.currentUserID()!)
         
         self.show(self.turnByturnNavigationController!, sender: self)
@@ -442,7 +442,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         routes = nil
         toggleCarpoolButton(active: false)
         
-        CarpoolAcceptManager.shared.handleRideCancellation()
+        CarpoolAcceptManager.shared.cancelCarpoolRequest()
         
         DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
     
@@ -452,11 +452,9 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
     func navigationViewController(_ navigationViewController: NavigationViewController, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {
         
-//        print("navigationViewController didUpdate")
-//        print("progress: \(progress)")
-//        print("location: \(location)")
-//        print("rawLocation: \(rawLocation)")
-//
+        print(#function)
+        //let simulatedDriverLocation = CLLocationCoordinate2D(latitude: 52.4778, longitude: 13.4393)
+        
         DriverDataManager.shared.setCurrentLocation(location: location.coordinate, driverID: AuthManager.shared.currentUserID()!)
     }
     

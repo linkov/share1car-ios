@@ -57,6 +57,22 @@ class Converters: NSObject {
         return notificationType
     }
     
+  
+    class func latLongCoordinateToAndroidCompatibleCoordinateArray(coord: CLLocationCoordinate2D) -> [Double] {
+     
+        return [coord.longitude,coord.latitude]
+    }
+
+   class func androidCompatibleLongLatToLatLongCoordinateArray(coordsArray: [Double]) -> [Double] {
+    
+        return [coordsArray[1],coordsArray[0]]
+   }
+    
+    class func androidCompatibleLongLatToLatLongCoordinates(coordsArray: [Double]) -> CLLocationCoordinate2D {
+     
+         return CLLocationCoordinate2D(latitude: coordsArray[1], longitude: coordsArray[0])
+    }
+    
     
   class func userInfoFromRemoteNotification(userInfo: [AnyHashable : Any]) -> (title: String, body: String) {
         var info = (title: "", body: "")

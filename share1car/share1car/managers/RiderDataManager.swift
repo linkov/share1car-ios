@@ -24,6 +24,20 @@ class RiderDataManager: NSObject {
         ref = Database.database().reference()
     }
     
+    func startObservingRideAcceptForMyRiderID(completion: @escaping carpoolrequest_error_block) {
+
+        self.ref.child("RideAccepts").child(AuthManager.shared.currentUserID()!).observe( .value, with: { (snapshot) in
+            
+            if let result = snapshot.value {
+                completion((result as? [String : Any] ?? [:]), nil)
+            }
+                        
+          }) { (error) in
+            completion(nil, error)
+        }
+    }
+
+    
     func cancelCarpool(driverID: String, riderID: String, completion: @escaping result_errordescription_block) {
         
         self.ref.child("RouteRequests").child(driverID).child("status").setValue("riderCancelled") { (error, ref) in
@@ -49,13 +63,16 @@ class RiderDataManager: NSObject {
     func requestCarpool(pickUpLocation: CLLocationCoordinate2D, dropOffLocation: CLLocationCoordinate2D, driverID: String) {
         
         let riderID = AuthManager.shared.currentUserID()!
-        let riderPickUp = [pickUpLocation.latitude, pickUpLocation.longitude]
-        let riderDropOff = [dropOffLocation.latitude, dropOffLocation.longitude]
+//        let riderPickUp = [pickUpLocation.latitude, pickUpLocation.longitude]
+//        let riderDropOff = [dropOffLocation.latitude, dropOffLocation.longitude]
+        
+        let androidFormatPickUp = Converters.latLongCoordinateToAndroidCompatibleCoordinateArray(coord: pickUpLocation)
+        let androidFormatDropOff = Converters.latLongCoordinateToAndroidCompatibleCoordinateArray(coord: dropOffLocation)
         
         let request = [
             "RiderID": riderID,
-            "RiderPickupLocation": riderPickUp,
-            "RiderDropoffLocation": riderDropOff,
+            "RLoc": androidFormatPickUp,
+            "RDrop": androidFormatDropOff,
             "DoReroute": false,
             "status": "requested"
             ] as [String : Any]
@@ -63,6 +80,14 @@ class RiderDataManager: NSObject {
         
         self.ref.child("RouteRequests").child(driverID).updateChildValues(request)
     }
+    
+    
+    func confirmCarpool(driverID: String) {
+        
+
+        self.ref.child("RideAccepts").child(driverID).child("status").setValue("confirmed")
+    }
+    
     
     
     func lastLocationForDriver(driverID: String) -> CLLocationCoordinate2D? {
@@ -82,12 +107,12 @@ class RiderDataManager: NSObject {
         
     }
     
-    func getDriversLocationa(updates: @escaping drivers_locations_block) {
+    func getDriversLocations(updates: @escaping drivers_locations_block) {
         
         
         self.ref.child("DriverLocations").observe(DataEventType.value) { (DataSnapshot) in
             
-            var resultDict = DataSnapshot.value as? [String : Any] ?? [:]
+            var resultDict = DataSnapshot.value as? [String : [Double]] ?? [:]
             
             if AuthManager.shared.currentUserID() != nil {
 
@@ -96,6 +121,10 @@ class RiderDataManager: NSObject {
                 })
             }
             
+            resultDict = resultDict.mapValues({ (coordsArray) -> [Double] in
+                
+                return Converters.androidCompatibleLongLatToLatLongCoordinateArray(coordsArray: coordsArray)
+            })
 
             self.liveDriversLocations = resultDict
         
@@ -104,6 +133,8 @@ class RiderDataManager: NSObject {
 
         }
     }
+    
+
     
     func getAvailableDriverRoutes(updates: @escaping routes_geometries_block) {
         self.ref.child("DriverRoutes").observe(DataEventType.value) { (DataSnapshot) in

@@ -16,7 +16,6 @@ class UserSettingsManager: NSObject {
     
     // Onboarding status
     static let userSettingsRiderDidSeeCarpoolOverlayOnboadrding = "com.sdwr.share1car.usersettings.RiderDidSeeCarpoolOverlayOnboadrding"
-    static let userSettingsUserDidSeeCriticalMassOverlayOnboadrding = "com.sdwr.share1car.usersettings.UserDidSeeCriticalMassOverlayOnboadrding"
     static let userSettingsDriverDidSeeCarpoolOverlayOnboadrding = "com.sdwr.share1car.usersettings.DriverDidSeeCarpoolOverlayOnboadrding"
     static let userSettingsRiderDidSeeOverlayOnboadrding = "com.sdwr.share1car.usersettings.RiderDidSeeOverlayOnboadrding"
     static let userSettingsDriverDidSeeOverlayOnboadrding = "com.sdwr.share1car.usersettings.DriverDidSeeOverlayOnboadrding"
@@ -170,22 +169,6 @@ extension UserSettingsManager {
         
         return (saved != nil) ? saved! : false
     }
-    
-    
-    
-    func saveUserDidSeeCriticalMassOverlayOnboadrding(didSee: Bool) {
-        
-        UserSettingsManager.userDefaults.set(didSee,
-                        forKey: UserSettingsManager.userSettingsUserDidSeeCriticalMassOverlayOnboadrding)
-    }
-    
-    
-    func getUserDidSeeCriticalMassOverlayOnboadrding() -> Bool? {
-        let saved = UserSettingsManager.userDefaults.value(forKey: UserSettingsManager.userSettingsUserDidSeeCriticalMassOverlayOnboadrding) as? Bool
-        
-        return (saved != nil) ? saved! : false
-    }
-    
     
     
     func saveDriverDidSeeCarpoolOverlayOnboadrding(didSee: Bool) {

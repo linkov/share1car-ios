@@ -40,9 +40,18 @@ class NotificationsManager: NSObject, UNUserNotificationCenterDelegate, Messagin
     
     func isNotificationsEnabled() -> Bool {
         
+        #if targetEnvironment(simulator)
         
-        let enabled = (Messaging.messaging().fcmToken != nil) && UserSettingsManager.shared.getUserNotificationsAuthorizationEnabled()
-        return enabled
+            return true
+    
+        #else
+        
+            //let enabled = (Messaging.messaging().fcmToken != nil) && UserSettingsManager.shared.getUserNotificationsAuthorizationEnabled() // this is not returning true untill we restart the app, we will ignore full check now
+            let enabled = (Messaging.messaging().fcmToken != nil)
+            return enabled
+        
+        #endif
+        
         
     }
     

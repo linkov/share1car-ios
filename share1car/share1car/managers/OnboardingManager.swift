@@ -18,7 +18,7 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
     
     var mapView: NavigationMapView?
     var imagepicker: ImagePicker?
-    
+    var completionBlock: didfinish_block?
     
     let hud = JGProgressHUD(style: .light)
     
@@ -44,7 +44,8 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
         if (UserSettingsManager.shared.getUserDidSeeTabBarOverlayOnboadrding() == false) {
 
             let tabBarVC = self.presentingViewController!.parent as! UITabBarController
-            showTabBarOverlayOnboarding(tabBarVC: tabBarVC)
+            let criticalMassButton = (self.presentingViewController! as! RiderViewController).criticalMassButton
+            showTabBarOverlayOnboarding(tabBarVC: tabBarVC, criticalMassButton: criticalMassButton!)
             return true
 
         }
@@ -89,29 +90,6 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
     }
     
 
-    
-    func showCriticalMassOverlayOnboardingReturning(criticalMassButton: UIButton) -> Bool {
-       
-        if (UserSettingsManager.shared.getUserDidSeeCriticalMassOverlayOnboadrding() == false) {
-        
-            UserSettingsManager.shared.saveUserDidSeeCriticalMassOverlayOnboadrding(didSee: true)
-            
-            let biggerFrame = CGRect(x: criticalMassButton.frame.origin.x - 8, y: criticalMassButton.frame.origin.y - 16, width:  criticalMassButton.frame.width + 16, height: criticalMassButton.frame.height + 16)
-            
-            let spotlight1 = AwesomeSpotlight(withRect: biggerFrame, shape: .roundRectangle, text: "Die share1car App funktioniert nur dann, wenn es genug Fahrer und Mitfahrer gibt (also eine kritische Masse erreicht ist). Du kannst aktiv mithelfen die App in Deiner Gegend bekannt zu machen, indem Du mit diesem Knopf die App mit Deinen Freunden und Bekannten teilst.", isAllowPassTouchesThroughSpotlight: true)
-
-            let spotlightView = AwesomeSpotlightView(frame: presentingViewController!.view.frame, spotlight: [spotlight1])
-                spotlightView.cutoutRadius = 8
-                spotlightView.delegate = self
-                presentingViewController!.view.addSubview(spotlightView)
-                spotlightView.start()
-            
-            return true
-        
-        }
-        return false
-    }
-    
 
     func showPlannedCarpoolOverlayReturning() -> Bool {
         
@@ -143,15 +121,17 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
     }
     
     
-    func showRiderCarpoolInfoOverlayOnboarding(imageView: UIView, infoView: UIView) {
+    func showRiderCarpoolInfoOverlayOnboarding(completionBlock: @escaping didfinish_block) {
+        
+        self.completionBlock = completionBlock
         
         if (UserSettingsManager.shared.getRiderDidSeeCarpoolOverlayOnboadrding() == false) {
         
             UserSettingsManager.shared.saveRiderDidSeeCarpoolOverlayOnboadrding(didSee: true)
             
-            let spotlight1 = AwesomeSpotlight(withRect: imageView.frame, shape: .circle, text: "You have now selected your destination on the driver's route and can now send a ride request. The first red needle marks the pickup (near your location: there you have to get in), the second red needle marks the dropoff (there you get off). If you want to change the dropoff, click on Cancel and select another destination on the route.", isAllowPassTouchesThroughSpotlight: true)
+            let spotlight1 = AwesomeSpotlight(withRect: CGRect.zero, shape: .circle, text: "You have now selected your destination on the driver's route and can now send a ride request. The first red needle marks the pickup (near your location: there you have to get in), the second red needle marks the dropoff (there you get off). If you want to change the dropoff, click on Cancel and select another destination on the route.", isAllowPassTouchesThroughSpotlight: true)
         
-                let spotlight2 = AwesomeSpotlight(withRect: infoView.frame, shape: .rectangle, text: "The price is about the fuel costs that you have to refund the driver (currently with cash!). If you agree, you can send a request to the driver now. It is important that you are at pickup time at the time indicated")
+                let spotlight2 = AwesomeSpotlight(withRect: CGRect.zero, shape: .circle, text: "The price is about the fuel costs that you have to refund the driver (currently with cash!). If you agree, you can send a request to the driver now. It is important that you are at pickup time at the time indicated")
         
                 let spotlightView = AwesomeSpotlightView(frame: presentingViewController!.view.frame, spotlight: [spotlight1, spotlight2])
                 spotlightView.cutoutRadius = 8
@@ -161,6 +141,9 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
                 spotlightView.start()
         
         
+        } else {
+            
+            completionBlock(true)
         }
     }
     
@@ -185,12 +168,14 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
 
     }
     
-    func showTabBarOverlayOnboarding(tabBarVC: UITabBarController) {
+    func showTabBarOverlayOnboarding(tabBarVC: UITabBarController, criticalMassButton: UIButton) {
         
         if (UserSettingsManager.shared.getUserDidSeeTabBarOverlayOnboadrding() == true) {
             return
         }
         
+        
+        let biggerFrameForCriticalMassButton = CGRect(x: criticalMassButton.frame.origin.x - 8, y: criticalMassButton.frame.origin.y - 16, width:  criticalMassButton.frame.width + 16, height: criticalMassButton.frame.height + 16)
         
         let firstFrame = CGRect(x: tabBarVC.tabBar.frame.origin.x, y: tabBarVC.tabBar.frame.origin.y, width: tabBarVC.tabBar.frame.width / 3, height: tabBarVC.tabBar.frame.height)
         let secondFrame = CGRect(x: firstFrame.origin.x + firstFrame.width, y: tabBarVC.tabBar.frame.origin.y, width: tabBarVC.tabBar.frame.width / 3, height: tabBarVC.tabBar.frame.height)
@@ -198,8 +183,13 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
         let spotlight1 = AwesomeSpotlight(withRect: firstFrame, shape: .roundRectangle, text: "Wenn eine Fahrt angeboten wird (rote Route auf der Karte), kannst Du als Mitfahrer durch einen kurzen Klick auf die Route dein Ziel auswählen.", isAllowPassTouchesThroughSpotlight: true)
 
         let spotlight2 = AwesomeSpotlight(withRect: secondFrame, shape: .roundRectangle, text: "Als Fahrer kannst Du durch einen kurzen Klick auf die Karte oder über die Suchleiste Dein Fahrtziel auswählen.")
+        
 
-        let spotlightView = AwesomeSpotlightView(frame: presentingViewController!.view.frame, spotlight: [spotlight1, spotlight2])
+        
+        let spotlight3 = AwesomeSpotlight(withRect: biggerFrameForCriticalMassButton, shape: .roundRectangle, text: "Die share1car App funktioniert nur dann, wenn es genug Fahrer und Mitfahrer gibt (also eine kritische Masse erreicht ist). Du kannst aktiv mithelfen die App in Deiner Gegend bekannt zu machen, indem Du mit diesem Knopf die App mit Deinen Freunden und Bekannten teilst.", isAllowPassTouchesThroughSpotlight: true)
+
+
+        let spotlightView = AwesomeSpotlightView(frame: presentingViewController!.view.frame, spotlight: [spotlight1, spotlight2, spotlight3])
         
         spotlightView.cutoutRadius = 8
         spotlightView.delegate = self
@@ -285,6 +275,10 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
         if !LocationManager.shared.locationEnabled() {
         
             self.showLocationOnboarding()
+        }
+        
+        if completionBlock != nil {
+            completionBlock!(true)
         }
         
         

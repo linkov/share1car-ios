@@ -21,7 +21,10 @@ public typealias current_location_block = (CLLocationCoordinate2D) -> Swift.Void
 public typealias distance_errorstring_block = (CLLocationDistance?, String?) -> Swift.Void
 
 public typealias time_errorstring_block = (TimeInterval?, String?) -> Swift.Void
-public typealias carpoolrequest_error_block = ([String : Any]?, Error?) -> Swift.Void
+public typealias carpoolrequest_riderID_error_block = (S1CCarpoolRequest?, String?, Error?) -> Swift.Void
+
+
+public typealias carpoolrequest_error_block = ( [String : Any]?, Error?) -> Swift.Void
 
 public typealias drivers_locations_block = ([String : Any]) -> Swift.Void
 public typealias routes_geometries_block = ([String : String]) -> Swift.Void

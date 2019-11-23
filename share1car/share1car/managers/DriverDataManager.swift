@@ -24,36 +24,42 @@ class DriverDataManager: NSObject {
         ref = Database.database().reference()
     }
     
-    func sendRideAccept(fromDriverID: String, toRiderID: String, status: CarpoolAcceptStatus ) {
+    func setRideAccept(fromDriverID: String, toRiderID: String, status: CarpoolAcceptStatus ) {
         
         self.ref.child("RideAccepts").child(toRiderID).setValue([fromDriverID: status.rawValue])
     }
     
-    
-    func fetchCarpoolRequestForMyDriverID(completion: @escaping carpoolrequest_error_block) {
-        self.ref.child("RouteRequests").child(AuthManager.shared.currentUserID()!).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            if let result = snapshot.value {
-                completion((result as? [String : Any] ?? [:]), nil)
-            }
-                        
-          }) { (error) in
-            completion(nil, error)
-        }
+    func setRequestAccept(fromDriverID: String, toRiderID: String, status: CarpoolRequestStatus ) {
+        
+        self.ref.child("RouteRequests").child(fromDriverID).child("status").setValue(status.rawValue)
     }
     
-    func startObservingCarpoolRequestForMyDriverID(completion: @escaping carpoolrequest_error_block) {
-        
+    
+    func observeCarpoolRequestForMyDriverID(completion: @escaping carpoolrequest_riderID_error_block) {
         self.ref.child("RouteRequests").child(AuthManager.shared.currentUserID()!).observe( .value, with: { (snapshot) in
             
-            if let result = snapshot.value {
-                completion((result as? [String : Any] ?? [:]), nil)
+            if let result = snapshot.value as? [String : Any] {
+                
+                let status = result["status"] as! String
+                let riderID = result["RiderID"] as! String
+                let dropOff = result["RDrop"]! as! [Double]
+                let pickUp = result["RLoc"]! as! [Double]
+                
+                var request = S1CCarpoolRequest()
+                request.status = CarpoolRequestStatus(rawValue: status)
+                request.pickUpLocation = Converters.androidCompatibleLongLatToLatLongCoordinates(coordsArray: pickUp)
+                request.dropOffLocation = Converters.androidCompatibleLongLatToLatLongCoordinates(coordsArray: dropOff)
+                
+    
+                completion(request, riderID, nil)
             }
                         
           }) { (error) in
-            completion(nil, error)
+            completion(nil,nil, error)
         }
     }
+    
+
 
     
     func fetchPreplannedCarpool(completion: @escaping result_errordescription_block) {
@@ -134,7 +140,10 @@ class DriverDataManager: NSObject {
     }
     
     func setCurrentLocation(location: CLLocationCoordinate2D, driverID: String) {
-        self.ref.child("DriverLocations").child(driverID).setValue(([location.latitude, location.longitude])) { (error, ref) in
+        
+        let androidCoordArray = Converters.latLongCoordinateToAndroidCompatibleCoordinateArray(coord: location)
+        
+        self.ref.child("DriverLocations").child(driverID).setValue(androidCoordArray) { (error, ref) in
             
             if error != nil {
                 print(error!.localizedDescription)

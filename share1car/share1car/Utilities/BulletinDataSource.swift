@@ -30,7 +30,8 @@ enum BulletinDataSource {
     
            let page = FeedbackPageBLTNItem(title: title)
         
-           page.actionButtonTitle = "Cancel request"
+            page.actionButton?.isHidden = true
+           page.alternativeButtonTitle = "Cancel request"
            page.isDismissable = false
 
            let tintColor: UIColor
@@ -39,7 +40,7 @@ enum BulletinDataSource {
            } else {
                tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
            }
-           page.appearance.actionButtonColor = tintColor
+//           page.appearance.actionButtonColor = tintColor
           
 
            return page

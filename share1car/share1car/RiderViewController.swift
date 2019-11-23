@@ -190,15 +190,9 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
     
     @IBAction func criticalMassDidTap(_ sender: Any) {
         
-        let shouldReturn = OnboardingManager.shared.showCriticalMassOverlayOnboardingReturning(criticalMassButton: criticalMassButton)
-        
-        if shouldReturn {
-            return
-        }
-        
         let logo = UIImage(named: "feedbackLogo")
         
-        let share = [logo, "Share 1 car and save time and planet", URL(string: "https://share1car.de")] as [Any]
+        let share = [logo!, "Share 1 car and save time and planet", URL(string: "https://share1car.de")!] as [Any]
         
         
         hud.show(in: self.view)

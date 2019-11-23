@@ -20,18 +20,23 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 
+import Loaf
+
 class CarpoolAcceptManager: NSObject {
 
+    
+    var isObservingDriverRequests = false
+    var isPresentingCarpoolRequest = false
+    
     var mapView: NavigationMapView?
     var presentingViewController: UIViewController?
     
     var bulletinManager: BLTNItemManager?
 
     
-    var carpoolRequest: CarpoolAlertBTLNItem?
+    var carpoolRequestAlert: CarpoolAlertBTLNItem?
     var currentCarpoolRequestRiderID: String?
-    var currentCarpoolAcceptResult = S1CCarpoolSearchResult()
-    var activeCarpoolStatus: CarpoolRequestStatus?
+    var currentCarpoolRequest = S1CCarpoolRequest()
     
     var activeRoute: Route?
     
@@ -57,75 +62,108 @@ class CarpoolAcceptManager: NSObject {
     
     @objc func onDidReceiveData(_ notification:Notification) {
         
-        let info = Converters.userInfoFromRemoteNotification(userInfo: notification.userInfo!)
-        let title = info.title
-        print("onCarpoolRequestNotificationReceivedNotification NOTIFICATION TITLE: \(title)")
-       
-        self.fetchInfoForNewCarpoolRequest()
+        if isObservingDriverRequests == false {
+            self.startObservingCarpoolRequestsForMyDriverID()
+        }
+        
     }
     
-    func fetchInfoForNewCarpoolRequest() {
-        activeCarpoolStatus = .requested
+    
+    func processStatus(request: S1CCarpoolRequest) {
         
-        DriverDataManager.shared.fetchCarpoolRequestForMyDriverID { (result, error) in
+        
+        if request.status == .requested && currentCarpoolRequest.status != .requested {
+            currentCarpoolRequest = request
+            processNewCarpoolRequest()
+        }
+        
+        if request.status == .accepted && currentCarpoolRequest.status != .accepted {
+            currentCarpoolRequest = request
+        }
+    
+        if request.status == .riderCancelled && currentCarpoolRequest.status != .riderCancelled {
+            currentCarpoolRequest = request
+            
+            showRequestUpdate(title: "Rider cancelled request", subtitle: nil)
+        }
+        
+        
+        if request.status == .confirmed && currentCarpoolRequest.status != .confirmed {
+            currentCarpoolRequest = request
+            showRequestUpdate(title: "Rider confirmed request", subtitle: nil)
+        }
+        
+        
+        if request.status == .cancelled && currentCarpoolRequest.status != .cancelled {
+            showRequestUpdate(title: "Ride was cancelled", subtitle: nil)
+        }
+
+
+    }
+    
+    
+    func processNewCarpoolRequest() {
+     
+        DataManager.shared.getUserDetails(userID: self.currentCarpoolRequestRiderID!) { (details, error) in
             if error != nil {
-                Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
                 return
             }
-            let status = result!["status"] as! String
-            let riderID = result!["RiderID"] as! String
-            let dropOff = result!["RiderDropoffLocation"]! as! [Double]
-            let pickUp = result!["RiderPickupLocation"]! as! [Double]
-            
-            if status == "riderCancelled" {
-                
-                if self.carpoolRequest != nil {
-                    self.presentingViewController?.dismiss(animated: true, completion: nil)
-                }
-                return
-            }
-            
-            self.currentCarpoolRequestRiderID = riderID
-            
-            DataManager.shared.getUserDetails(userID: riderID) { (details, error) in
+
+
+            self.currentCarpoolRequest.riderDetails = details
+
+
+            self.fetchMyTravelToPickupLocation(pickUp: self.currentCarpoolRequest.pickUpLocation!) { (time, errorString) in
                 if error != nil {
-                    return
-                }
+                    Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
+                     return
+                 }
                 
                 
-                self.currentCarpoolAcceptResult.driverDetails = details
-                self.currentCarpoolAcceptResult.dropOffLocation = CLLocationCoordinate2D(latitude: dropOff[0], longitude: dropOff[1])
-                self.currentCarpoolAcceptResult.pickUpLocation = CLLocationCoordinate2D(latitude: pickUp[0], longitude: pickUp[1])
-                
-                self.fetchMyTravelToPickupLocation(pickUp: CLLocationCoordinate2D(latitude: pickUp[0], longitude: pickUp[1])) { (time, errorString) in
+
+                self.currentCarpoolRequest.driverTimeToPickUpLocation = time
+
+                self.fetchDistanceFromPickUpToDropoff(pickup: self.currentCarpoolRequest.pickUpLocation!, dropoff: self.currentCarpoolRequest.dropOffLocation!) { (distance, errorString) in
+
                     if error != nil {
                         Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
                          return
                      }
-                    
-                    self.currentCarpoolAcceptResult.driverTimeToPickUpLocation = time
-                    
-                    self.fetchDistanceFromPickUpToDropoff(pickup: CLLocationCoordinate2D(latitude: pickUp[0], longitude: pickUp[1]), dropoff: CLLocationCoordinate2D(latitude: dropOff[0], longitude: dropOff[1])) { (distance, errorString) in
-                        
-                        if error != nil {
-                            Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
-                             return
-                         }
-                        
-                        self.currentCarpoolAcceptResult.carpoolDistance = distance
-                        self.showCarpoolRequest()
-                        
-                        
-                    }
-                    
+
+                    self.currentCarpoolRequest.carpoolDistance = distance
+                    self.showCarpoolRequest()
+
+
                 }
-                
+
             }
-            
-            
+
         }
         
     }
+    
+    
+    func startObservingCarpoolRequestsForMyDriverID() {
+        isObservingDriverRequests = true
+        
+        DriverDataManager.shared.observeCarpoolRequestForMyDriverID { (poolRequest, riderID, error) in
+            
+            if error != nil {
+                Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
+                return
+            }
+            
+            
+            if poolRequest == nil  {
+                return
+            }
+            
+            self.currentCarpoolRequestRiderID = riderID
+            self.processStatus(request: poolRequest!)
+            
+        }
+    }
+    
     
     
     func fetchDistanceFromPickUpToDropoff(pickup: CLLocationCoordinate2D, dropoff:CLLocationCoordinate2D, completion: @escaping distance_errorstring_block ) {
@@ -155,10 +193,6 @@ class CarpoolAcceptManager: NSObject {
             
 
             
-            
-            
-            
-
 
     }
     
@@ -174,9 +208,9 @@ class CarpoolAcceptManager: NSObject {
         let driverWaypoint = Waypoint(location: CLLocation(latitude: driverLocation!.latitude, longitude: driverLocation!.longitude))
         let pickUpWaypoint = Waypoint(coordinate: pickUp)
                    
-                  let options = NavigationRouteOptions(waypoints: [driverWaypoint, pickUpWaypoint], profileIdentifier: .walking)
+        let options = NavigationRouteOptions(waypoints: [driverWaypoint, pickUpWaypoint], profileIdentifier: .walking)
                   
-                  _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
+        _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
 
                       guard let route = routes?.first, error == nil else {
                           completion(nil, error!.localizedDescription)
@@ -191,55 +225,74 @@ class CarpoolAcceptManager: NSObject {
                        }
                                         
                     completion(route.expectedTravelTime/60, nil)
-                   
-                      
-                      
-                     
 
-
-                  }
+        }
         
     }
+    
+    func showRequestUpdate(title: String, subtitle: String?) {
+        
+            let waitingConfirmationPage =  BulletinDataSource.makeCarpoolWaitingForConfirmationPage(title: title)
+            waitingConfirmationPage.isDismissable = true
+            if subtitle != nil {
+                waitingConfirmationPage.descriptionText = subtitle
+            }
+        
+            
+            waitingConfirmationPage.alternativeHandler = { (item: BLTNActionItem) in
+                 self.cancelCarpoolRequest()
+                 self.bulletinManager!.dismissBulletin()
+            }
+            
+            waitingConfirmationPage.dismissalHandler = { (item: BLTNItem) in
+    //            self.showFloatingCarpoolCancelButton()
+            }
+            
+            
+            self.bulletinManager?.push(item: waitingConfirmationPage)
+            
+            
+        }
     
     func showCarpoolRequest() {
             
 
-            let timeOfRendevous = Date().addingTimeInterval(self.currentCarpoolAcceptResult.driverTimeToPickUpLocation!*60)
+            let timeOfRendevous = Date().addingTimeInterval(self.currentCarpoolRequest.driverTimeToPickUpLocation!*60)
             let formatedTime = Converters.getFormattedDate(date: timeOfRendevous, format: "HH:mm")
             
-            let priceStringForDistance = PriceCalculation.driverFeeStringForDistance(travelDistance: self.currentCarpoolAcceptResult.carpoolDistance!)
-            carpoolRequest = BulletinDataSource.makeCarpoolRequestPage(
+            let priceStringForDistance = PriceCalculation.driverFeeStringForDistance(travelDistance: self.currentCarpoolRequest.carpoolDistance!)
+            carpoolRequestAlert = BulletinDataSource.makeCarpoolRequestPage(
                 
                 
-                title: "Pick up \(self.currentCarpoolAcceptResult.driverDetails!.name!)",
-                photoURL: self.currentCarpoolAcceptResult.driverDetails!.photoURL!, mainTitle: "Pickup at ca. \(formatedTime)", subtitle: "Meet \(self.currentCarpoolAcceptResult.driverDetails!.name!) in: \( Int(self.currentCarpoolAcceptResult.driverTimeToPickUpLocation ?? 0) ) minutes ", priceText: "price: $\(priceStringForDistance)")
+                title: "Pick up \(self.currentCarpoolRequest.riderDetails!.name!)",
+                photoURL: self.currentCarpoolRequest.riderDetails!.photoURL!, mainTitle: "Pickup at ca. \(formatedTime)", subtitle: "Meet \(self.currentCarpoolRequest.riderDetails!.name!) in: \( Int(self.currentCarpoolRequest.driverTimeToPickUpLocation ?? 0) ) minutes ", priceText: "price: $\(priceStringForDistance)")
             
             
-            carpoolRequest!.actionHandler = { (item: BLTNActionItem) in
-                
+            carpoolRequestAlert!.actionHandler = { (item: BLTNActionItem) in
                 self.acceptCarpoolRequest()
-                self.carpoolRequest!.manager?.dismissBulletin()
+                
+                self.showRequestUpdate(title: "Pick up \(self.currentCarpoolRequest.riderDetails!.name!) in \( Int(self.currentCarpoolRequest.driverTimeToPickUpLocation ?? 0) ) minutes", subtitle: nil)
             }
         
-        carpoolRequest!.actionButtonTitle = "Accept request"
+        carpoolRequestAlert!.actionButtonTitle = "Accept request"
             
     //        carpoolRequest.descriptionText = "Driver arrives to your pick up point in \( Int(self.currentCarpoolSearchResult.driverTimeToPickUpLocation ?? 0)  ) minutes. You can be at pick up point in \( Int(self.currentCarpoolSearchResult.riderTimeToPickUpLocation ?? 0) ) minutes"
     //
     //
-            carpoolRequest!.alternativeHandler = { (item: BLTNActionItem) in
+            carpoolRequestAlert!.alternativeHandler = { (item: BLTNActionItem) in
                 self.cancelCarpoolRequest()
-                self.carpoolRequest!.manager?.dismissBulletin()
-                
+                self.carpoolRequestAlert!.manager?.dismissBulletin()
                 
             }
             
-            carpoolRequest!.dismissalHandler =  { (item) in
+            carpoolRequestAlert!.dismissalHandler =  { (item) in
+                self.isPresentingCarpoolRequest = false
 //                 self.cancelCarpoolRequest()
 //                carpoolRequest.manager?.dismissBulletin()
                        
             }
             
-            bulletinManager = BLTNItemManager(rootItem: carpoolRequest!)
+            bulletinManager = BLTNItemManager(rootItem: carpoolRequestAlert!)
             bulletinManager!.backgroundViewStyle = .dimmed
             
             bulletinManager!.statusBarAppearance = .hidden
@@ -260,11 +313,10 @@ class CarpoolAcceptManager: NSObject {
     
     
     func acceptCarpoolRequest() {
+
         
-        activeCarpoolStatus = .accepted
-        
-        let riderPickupLocation: Waypoint = Waypoint(coordinate: currentCarpoolAcceptResult.pickUpLocation!, coordinateAccuracy: -1, name: "Pick up")
-        let riderDropOff: Waypoint = Waypoint(coordinate: currentCarpoolAcceptResult.dropOffLocation!, coordinateAccuracy: -1, name: "Drop off")
+        let riderPickupLocation: Waypoint = Waypoint(coordinate: currentCarpoolRequest.pickUpLocation!, coordinateAccuracy: -1, name: "Pick up")
+        let riderDropOff: Waypoint = Waypoint(coordinate: currentCarpoolRequest.dropOffLocation!, coordinateAccuracy: -1, name: "Drop off")
         let originaDriverDestimation: Waypoint = Waypoint(coordinate: (activeRoute?.coordinates?.last)!, coordinateAccuracy: -1, name: "Final destination")
         
           let options = NavigationRouteOptions(waypoints: [riderPickupLocation, riderDropOff, originaDriverDestimation ], profileIdentifier: .automobileAvoidingTraffic)
@@ -288,23 +340,27 @@ class CarpoolAcceptManager: NSObject {
             navVC.route = route
             
 
-            DriverDataManager.shared.sendRideAccept(fromDriverID: AuthManager.shared.currentUserID()!, toRiderID: self.currentCarpoolRequestRiderID!, status: .accepted)
+            DriverDataManager.shared.setRideAccept(fromDriverID: AuthManager.shared.currentUserID()!, toRiderID: self.currentCarpoolRequestRiderID!, status: .accepted)
+            DriverDataManager.shared.setRequestAccept(fromDriverID: AuthManager.shared.currentUserID()!, toRiderID: self.currentCarpoolRequestRiderID!, status: .accepted)
+            
+            DriverDataManager.shared.setRoute(route: route, driverID: AuthManager.shared.currentUserID()!)
             
 
         }
         
     }
     
-    func handleRideCancellation() {
-        
-        if activeCarpoolStatus == .accepted {
-            DriverDataManager.shared.sendRideAccept(fromDriverID: AuthManager.shared.currentUserID()!, toRiderID: self.currentCarpoolRequestRiderID!, status: .rejected)
-        }
-        
-    }
+
     
     func cancelCarpoolRequest() {
-        DriverDataManager.shared.sendRideAccept(fromDriverID: AuthManager.shared.currentUserID()!, toRiderID: self.currentCarpoolRequestRiderID!, status: .rejected)
+        
+        DriverDataManager.shared.removeRoute(driverID:  AuthManager.shared.currentUserID()!)
+        
+        if self.currentCarpoolRequestRiderID != nil {
+            
+            DriverDataManager.shared.setRideAccept(fromDriverID: AuthManager.shared.currentUserID()!, toRiderID: self.currentCarpoolRequestRiderID!, status: .rejected)
+        }
+
     }
     
     
