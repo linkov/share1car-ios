@@ -23,12 +23,16 @@ import Spring
 import JGProgressHUD
 
 
-//extension RiderViewController: S1CMainRiderControllerProtocol {
-//    var criticalMassButton: SpringButton
-//}
-
 class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapViewDelegate {
 
+    
+    
+    // MARK: General
+    let hud = JGProgressHUD(style: .light)
+    var resultSearchController: UISearchController?
+    
+    // MARK: IBOutlets
+    
     @IBOutlet weak var criticalMassButton: SpringButton!
     @IBOutlet weak var searchBarContainerView: UIView!
     
@@ -36,8 +40,10 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
     @IBOutlet weak var cancelCarpoolButton: SpringButton!
     @IBOutlet weak var mapView: NavigationMapView!
     
-    let hud = JGProgressHUD(style: .light)
-    var resultSearchController: UISearchController?
+
+
+    
+    // MARK: - Lifecycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,52 +72,27 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
         }
     }
     
-
-
-        override func viewDidAppear(_ animated: Bool) {
-        
-            OnboardingManager.shared.changePresentingViewController(viewController: self)
-            
-            let shouldReturn = OnboardingManager.shared.showOnAppOpenOnboardingReturning(mapView: mapView)
-            if (shouldReturn) {
-                return
-            }
-        
-            if (LocationManager.shared.locationEnabled()) {
-                
-                mapView.showsUserLocation = true
-                
-                LocationManager.shared.findUserLocation { (coord) in
-                        
-                        self.mapView.setCenter(coord, zoomLevel: 12, animated: false)
-                    }
-                }
-      }
-
-
-
-//    @objc func handleKeyWindowDidBecomeAvailableAfterLaunch(_ notification:Notification) {
-//
-//        OnboardingManager.shared.changePresentingViewController(viewController: self)
-//        OnboardingManager.shared.showOnAppOpenOnboarding(mapView: mapView)
-//        
-//    }
-
     
-    
-    func toggleCancelCarpoolButton(active: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
-        if (active) {
-            cancelCarpoolButton.animation = "fadeInUp"
-            cancelCarpoolButton.animate()
-            
-        } else {
-            cancelCarpoolButton.animation = "fadeOut"
-            cancelCarpoolButton.animate()
+        OnboardingManager.shared.changePresentingViewController(viewController: self)
+        let shouldReturn = OnboardingManager.shared.showOnAppOpenOnboardingReturning(mapView: mapView)
+        
+        if (shouldReturn) {
+            return
         }
         
+        if (LocationManager.shared.locationEnabled()) {
+            mapView.showsUserLocation = true
+            LocationManager.shared.findUserLocation { (coord) in
+                self.mapView.setCenter(coord, zoomLevel: 12, animated: false)
+            }
+        }
     }
-    
+
+
+    // MARK: - Map & search setup
+
     func setupRiderMap() {
     
         mapView.delegate = self
@@ -158,9 +139,14 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
     }
 
     
+
+    
+    // MARK: - Actions
+    
     func findCarpool(location: CLLocationCoordinate2D) {
         
         hud.show(in: self.view)
+        
         CarpoolSearchManager.shared.findCarpool(currentLocation: mapView.userLocation!.coordinate, destination: location, didSendRequest: { result, errorString in
             
             self.hud.dismiss()
@@ -179,7 +165,19 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
         })
     }
     
-    // MARK: - Actions
+    
+    func toggleCancelCarpoolButton(active: Bool) {
+        
+        if (active) {
+            cancelCarpoolButton.animation = "fadeInUp"
+            cancelCarpoolButton.animate()
+            
+        } else {
+            cancelCarpoolButton.animation = "fadeOut"
+            cancelCarpoolButton.animate()
+        }
+        
+    }
     
     
     @IBAction func cancelCarpoolDidTap(_ sender: Any) {

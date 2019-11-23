@@ -25,30 +25,18 @@ import BLTNBoard
 
 class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationViewControllerDelegate, NavigationMapViewDelegate {
 
-    @IBOutlet weak var cancelPreplannedCarpoolButton: SpringButton!
-    @IBOutlet weak var startPlannedCarpoolSelector: SpringButton!
-    @IBOutlet weak var startCarPoolButton: SpringButton!
-    @IBOutlet weak var searchBarContainerView: UIView!
-    @IBOutlet weak var mapView: NavigationMapView!
     
-    @IBOutlet weak var userLocationButton: UIButton!
-    var preplannedCarpoolDate: Date?
+    // MARK: General
+    private var bulletinManager: BLTNItemManager?
+    private let hud = JGProgressHUD(style: .light)
+    private let geocoder = Geocoder.shared
+    private var resultSearchController: UISearchController?
+    private var turnByturnNavigationController: NavigationViewController?
     
-    var bulletinManager: BLTNItemManager?
-    
-    let hud = JGProgressHUD(style: .light)
-        
-    let geocoder = Geocoder.shared
-    
-    var resultSearchController: UISearchController?
-    
-    var turnByturnNavigationController: NavigationViewController?
-    
-    var currentRouteJSONString: String?
-    
-    var ETAs:[CLLocationDegrees:String] = [:]
-    
-    var currentRoute: Route? {
+    // MARK: Model
+    private var preplannedCarpoolDate: Date?
+    private var ETAs:[CLLocationDegrees:String] = [:]
+    private var currentRoute: Route? {
         get {
                 return routes?.first
             }
@@ -58,13 +46,27 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
             self.routes = [selected] + routes.filter { $0 != selected }
         }
     }
-    var routes: [Route]? {
+    private var routes: [Route]? {
         didSet {
             guard let routes = routes, let current = routes.first else { mapView.removeRoutes(); return }
             mapView.showRoutes(routes)
             mapView.showWaypoints(current)
         }
     }
+    
+    // MARK: IBOutlets
+    
+    @IBOutlet weak var cancelPreplannedCarpoolButton: SpringButton!
+    @IBOutlet weak var startPlannedCarpoolSelector: SpringButton!
+    @IBOutlet weak var startCarPoolButton: SpringButton!
+    @IBOutlet weak var searchBarContainerView: UIView!
+    @IBOutlet weak var mapView: NavigationMapView!
+    
+    @IBOutlet weak var userLocationButton: UIButton!
+
+    
+    
+    // MARK: - Lifecycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,6 +120,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     }
     
     
+    // MARK: - Map & search setup
 
     func setupDriverMap() {
         
@@ -158,22 +161,10 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         }
     }
     
-    
-    func removeRouteWithIdentifier(driverID: String) {
-        
-        if let source = self.mapView.style?.source(withIdentifier: driverID) as? MGLShapeSource {
-            
-            self.mapView.style?.removeSource(source)
-            
-        }
-    }
-    
-
-
-
 
     
-     
+    // MARK: - Actions
+    
     @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         guard gesture.state == .ended else { return }
         
@@ -271,10 +262,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         }
     }
     
-    
 
-    
-     // MARK: - Actions
     @IBAction func onPlannedCarpoolTap(_ sender: Any) {
         
         
@@ -291,22 +279,6 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
                 carpoolPlanning.datePicker.setDate(timeOfNow, animated: true)
                 carpoolPlanning.datePicker.addTarget(self, action: #selector(carpoolDatePickerChanged(picker:)), for: .valueChanged)
 
-                       
-               
-//
-//               carpoolPlanning.actionHandler = { (item: BLTNActionItem) in
-//
-//
-//               }
-//
-//
-//               carpoolPlanning.alternativeHandler = { (item: BLTNActionItem) in
-//
-//
-//               }
-//
-
-               
                bulletinManager = BLTNItemManager(rootItem: carpoolPlanning)
                bulletinManager!.backgroundViewStyle = .dimmed
                
@@ -355,11 +327,6 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         
         if preplannedCarpoolDate != nil {
             
-            
-           let shouldReturn = OnboardingManager.shared.showPlannedCarpoolOverlayReturning()
-            if shouldReturn {
-                return
-            }
             hud.show(in: self.view)
             DriverDataManager.shared.addPreplannedCarpool(date: preplannedCarpoolDate!, completion: { (result, errorString) in
                 self.hud.dismiss()
@@ -383,9 +350,8 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         self.turnByturnNavigationController!.modalPresentationStyle = .fullScreen
         self.turnByturnNavigationController!.delegate = self
         
-        CarpoolAcceptManager.shared.configure(activeRoute: route, mapView: mapView, presentingViewController: self.turnByturnNavigationController!)
-        CarpoolAcceptManager.shared.startObservingCarpoolRequestsForMyDriverID()
-        DriverDataManager.shared.setRoute(route: route, driverID: AuthManager.shared.currentUserID()!)
+        CarpoolAcceptManager.shared.configureAndStartSubscriptions(activeRoute: route, mapView: mapView, presentingViewController: self.turnByturnNavigationController!)
+        
         
         self.show(self.turnByturnNavigationController!, sender: self)
         
@@ -451,10 +417,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     }
     
     func navigationViewController(_ navigationViewController: NavigationViewController, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {
-        
-        print(#function)
-        //let simulatedDriverLocation = CLLocationCoordinate2D(latitude: 52.4778, longitude: 13.4393)
-        
+                
         DriverDataManager.shared.setCurrentLocation(location: location.coordinate, driverID: AuthManager.shared.currentUserID()!)
     }
     
@@ -464,11 +427,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
                print("remainingTimeInterval: \(remainingTimeInterval)")
                print("distance: \(distance)")
         
-    
-        
-        //CarpoolAcceptManager.shared.informAboutCloseProximityToRiderPickUpPoint()
-        
-        // send notification when driver is near pick up
+
     }
     
     

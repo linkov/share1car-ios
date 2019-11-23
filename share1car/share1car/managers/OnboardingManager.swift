@@ -90,37 +90,6 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
     }
     
 
-
-    func showPlannedCarpoolOverlayReturning() -> Bool {
-        
-        
-        if (UserSettingsManager.shared.getDriverDidSeeCarpoolOverlayOnboadrding() == false) {
-        
-            UserSettingsManager.shared.saveDriverDidSeeCarpoolOverlayOnboadrding(didSee: true)
-            
-                let spotlight1 = AwesomeSpotlight(withRect: CGRect(x: 75, y: 75, width: 100, height: 100), shape: .circle, text: "Wenn eine Fahrt angeboten wird (rote Route auf der Karte), kannst Du als Mitfahrer durch einen kurzen Klick auf die Route dein Ziel auswählen.", isAllowPassTouchesThroughSpotlight: true)
-        
-                let spotlight2 = AwesomeSpotlight(withRect: CGRect(x: 20, y: 200, width: 130, height: 25), shape: .rectangle, text: "Als Fahrer kannst Du durch einen kurzen Klick auf die Karte oder über die Suchleiste Dein Fahrtziel auswählen.")
-        
-                let spotlightView = AwesomeSpotlightView(frame: presentingViewController!.view.frame, spotlight: [spotlight1, spotlight2])
-                spotlightView.cutoutRadius = 8
-                spotlightView.delegate = self
-                presentingViewController!.view.addSubview(spotlightView)
-                spotlightView.start()
-        
-        
-        return true
-        }
-        
-        return false
-        
-
-        
-        
-        
-    }
-    
-    
     func showRiderCarpoolInfoOverlayOnboarding(completionBlock: @escaping didfinish_block) {
         
         self.completionBlock = completionBlock
@@ -152,9 +121,9 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
         if (UserSettingsManager.shared.getDriverDidSeeCarpoolOverlayOnboadrding() == false) {
             UserSettingsManager.shared.saveDriverDidSeeCarpoolOverlayOnboadrding(didSee: true)
             
-            let spotlight1 = AwesomeSpotlight(withRect:  carpoolButton.frame, shape: .roundRectangle, text: "Um einen Carpool (Mitfahrt) spontan anzubieten, wähle auf der Karte dein Ziel aus, setz Dich ins Auto und starte hier die Navigation. Du kannst Mitfahranfragen während der Fahrt akzeptieren oder ablehnen.", isAllowPassTouchesThroughSpotlight: true)
+            let spotlight1 = AwesomeSpotlight(withRect:  carpoolButton.frame, shape: .roundRectangle, text: "To spontaneously offer a carpool (ride), select your destination on the map, sit in the car and start navigation here. You can accept or decline carpool requests while driving.", isAllowPassTouchesThroughSpotlight: true)
 
-        let spotlight2 = AwesomeSpotlight(withRect: plannedCarpoolButton.frame, shape: .roundRectangle, text: "Um einen Carpool im Voraus zu planen, kannst Du hier Deine geplante Abfahrtszeit auswählen. Dadurch erhöht sich die Chance, dass Du einen Mitfahrer findest!")
+        let spotlight2 = AwesomeSpotlight(withRect: plannedCarpoolButton.frame, shape: .roundRectangle, text: "To plan a carpool in advance, you can choose your planned departure time here. This increases the chance that you will find a passenger!")
 
         let spotlightView = AwesomeSpotlightView(frame: presentingViewController!.view.frame, spotlight: [spotlight1, spotlight2])
         spotlightView.cutoutRadius = 30
@@ -180,13 +149,13 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
         let firstFrame = CGRect(x: tabBarVC.tabBar.frame.origin.x, y: tabBarVC.tabBar.frame.origin.y, width: tabBarVC.tabBar.frame.width / 3, height: tabBarVC.tabBar.frame.height)
         let secondFrame = CGRect(x: firstFrame.origin.x + firstFrame.width, y: tabBarVC.tabBar.frame.origin.y, width: tabBarVC.tabBar.frame.width / 3, height: tabBarVC.tabBar.frame.height)
         
-        let spotlight1 = AwesomeSpotlight(withRect: firstFrame, shape: .roundRectangle, text: "Wenn eine Fahrt angeboten wird (rote Route auf der Karte), kannst Du als Mitfahrer durch einen kurzen Klick auf die Route dein Ziel auswählen.", isAllowPassTouchesThroughSpotlight: true)
+        let spotlight1 = AwesomeSpotlight(withRect: firstFrame, shape: .roundRectangle, text: "If a ride is offered (red route on the map), you as a passenger can choose your destination by a short click on the route.", isAllowPassTouchesThroughSpotlight: true)
 
-        let spotlight2 = AwesomeSpotlight(withRect: secondFrame, shape: .roundRectangle, text: "Als Fahrer kannst Du durch einen kurzen Klick auf die Karte oder über die Suchleiste Dein Fahrtziel auswählen.")
+        let spotlight2 = AwesomeSpotlight(withRect: secondFrame, shape: .roundRectangle, text: "As a driver you can select your destination by a short click on the map or via the search bar.")
         
 
         
-        let spotlight3 = AwesomeSpotlight(withRect: biggerFrameForCriticalMassButton, shape: .roundRectangle, text: "Die share1car App funktioniert nur dann, wenn es genug Fahrer und Mitfahrer gibt (also eine kritische Masse erreicht ist). Du kannst aktiv mithelfen die App in Deiner Gegend bekannt zu machen, indem Du mit diesem Knopf die App mit Deinen Freunden und Bekannten teilst.", isAllowPassTouchesThroughSpotlight: true)
+        let spotlight3 = AwesomeSpotlight(withRect: biggerFrameForCriticalMassButton, shape: .roundRectangle, text: "The share1car app works only when there are enough drivers and passengers (so a critical mass is reached). You can actively help make the app known in your area by using this button to share the app with your friends and acquaintances.", isAllowPassTouchesThroughSpotlight: true)
 
 
         let spotlightView = AwesomeSpotlightView(frame: presentingViewController!.view.frame, spotlight: [spotlight1, spotlight2, spotlight3])
