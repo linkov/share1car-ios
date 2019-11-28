@@ -2,7 +2,7 @@
 //  Models.swift
 //  share1car
 //
-//  Created by Alex Linkov on 11/1/19.
+//  Created by Alex Linkov on 11/24/19.
 //  Copyright © 2019 SDWR. All rights reserved.
 //
 

@@ -26,7 +26,6 @@ import JGProgressHUD
 class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapViewDelegate {
 
     
-    
     // MARK: General
     let hud = JGProgressHUD(style: .light)
     var resultSearchController: UISearchController?
@@ -230,6 +229,7 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
         guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else { return }
         
         findCarpool(location: location)
+         
 
     }
     

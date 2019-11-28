@@ -11,7 +11,7 @@ import Foundation
 class PriceCalculation: NSObject {
     
     
-   class func driverFeeStringForDistance(travelDistance: Double) -> String {
+   public class func driverFeeStringForDistance(travelDistance: Double) -> String {
         
     let price = driverFeeForDistance(travelDistance: travelDistance / 1000)
     let priceString = driverFeeStringValue(fee: price)
@@ -20,7 +20,7 @@ class PriceCalculation: NSObject {
     }
     
     
-   class func driverFeeForDistance(travelDistance: Double) -> Double {
+   private class func driverFeeForDistance(travelDistance: Double) -> Double {
         
 
         var roundedPrice: Double
@@ -39,7 +39,7 @@ class PriceCalculation: NSObject {
     }
     
     
-   class func driverFeeStringValue(fee: Double) -> String {
+   private class func driverFeeStringValue(fee: Double) -> String {
         let str:String = String(format:"%.2f", fee)
         return str
     }

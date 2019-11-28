@@ -18,6 +18,7 @@
 		F115066423875CC800BB960D /* GoogleService-Info-ios.plist in Resources */ = {isa = PBXBuildFile; fileRef = F115066323875CC800BB960D /* GoogleService-Info-ios.plist */; };
 		F115066623885CAF00BB960D /* TwinPigs.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F115066523885CAF00BB960D /* TwinPigs.gpx */; };
 		F11506682388723F00BB960D /* Tempelhofer.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F11506672388723F00BB960D /* Tempelhofer.gpx */; };
+		F11506822389F50E00BB960D /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11506812389F50E00BB960D /* Models.swift */; };
 		F11AD78B2370CC5600B308E3 /* PriceCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */; };
 		F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */; };
 		F11AD78F2370E0A900B308E3 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11AD78E2370E0A900B308E3 /* Alerts.swift */; };
@@ -52,7 +53,6 @@
 		F13E6B83236CA576008C136B /* DriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B82236CA576008C136B /* DriverViewController.swift */; };
 		F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B84236CA5FE008C136B /* MainTabBarController.swift */; };
 		F13E6B87236CC062008C136B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B86236CC062008C136B /* DataManager.swift */; };
-		F13E6B8B236CC1DA008C136B /* ViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B8A236CC1DA008C136B /* ViewModels.swift */; };
 		F13E6B8D236CC2CF008C136B /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B8C236CC2CF008C136B /* AuthManager.swift */; };
 		F16673762384932900D37005 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16673752384932900D37005 /* Protocols.swift */; };
 		F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A27825236C94DC004B9C8F /* AppDelegate.swift */; };
@@ -91,6 +91,7 @@
 		F115066323875CC800BB960D /* GoogleService-Info-ios.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-ios.plist"; sourceTree = "<group>"; };
 		F115066523885CAF00BB960D /* TwinPigs.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TwinPigs.gpx; sourceTree = "<group>"; };
 		F11506672388723F00BB960D /* Tempelhofer.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Tempelhofer.gpx; sourceTree = "<group>"; };
+		F11506812389F50E00BB960D /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		F11AD78A2370CC5600B308E3 /* PriceCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceCalculation.swift; sourceTree = "<group>"; };
 		F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = treprower_str_91.gpx; sourceTree = "<group>"; };
 		F11AD78E2370E0A900B308E3 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
@@ -126,7 +127,6 @@
 		F13E6B82236CA576008C136B /* DriverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverViewController.swift; sourceTree = "<group>"; };
 		F13E6B84236CA5FE008C136B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		F13E6B86236CC062008C136B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		F13E6B8A236CC1DA008C136B /* ViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels.swift; sourceTree = "<group>"; };
 		F13E6B8C236CC2CF008C136B /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		F16673752384932900D37005 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		F1A27822236C94DC004B9C8F /* share1car.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = share1car.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,6 +215,7 @@
 				F1B65E8D2377FFFB003F39B8 /* Color+S1C.swift */,
 				F1AC5B6D237DF1CF0052E1DE /* UIView+S1C.swift */,
 				F1E09BC523837BAD0063F70E /* Date+S1C.swift */,
+				F11506812389F50E00BB960D /* Models.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -286,14 +287,6 @@
 			path = managers;
 			sourceTree = "<group>";
 		};
-		F13E6B89236CC1B9008C136B /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				F13E6B8A236CC1DA008C136B /* ViewModels.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		F1A27819236C94DC004B9C8F = {
 			isa = PBXGroup;
 			children = (
@@ -327,7 +320,6 @@
 				F1F73F71237883EF00AA7E32 /* share1car.entitlements */,
 				F10D27CF2379E07E009BC84F /* Views */,
 				F11AD7892370CBD900B308E3 /* Utilities */,
-				F13E6B89236CC1B9008C136B /* ViewModels */,
 				F13E6B88236CC067008C136B /* managers */,
 				F1A27825236C94DC004B9C8F /* AppDelegate.swift */,
 				F121B2712382211E000746C1 /* SceneDelegate.swift */,
@@ -545,7 +537,6 @@
 				F11E2AF423707D7900C8E9D0 /* MaterialButton.swift in Sources */,
 				F11E2AF023707D7900C8E9D0 /* Searchbar.swift in Sources */,
 				F10D27C42378B9E4009BC84F /* SettingsViewController.swift in Sources */,
-				F13E6B8B236CC1DA008C136B /* ViewModels.swift in Sources */,
 				F11E2AF323707D7900C8E9D0 /* MaterialTextField.swift in Sources */,
 				F10D27CE2379E062009BC84F /* CarpoolRideInformationView.swift in Sources */,
 				F1F73F6A2378777A00AA7E32 /* BackgroundStyles.swift in Sources */,
@@ -557,6 +548,7 @@
 				F11E2AF123707D7900C8E9D0 /* Extensions.swift in Sources */,
 				F11E2AF92370925200C8E9D0 /* Namedblocks.swift in Sources */,
 				F1F73F7023787CF200AA7E32 /* FeedbackGenerators.swift in Sources */,
+				F11506822389F50E00BB960D /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

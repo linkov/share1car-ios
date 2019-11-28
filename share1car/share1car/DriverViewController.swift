@@ -179,7 +179,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
          
         let spot = gesture.location(in: mapView)
         guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else { return }
-         
+
         requestRouteOptions(destination: location)
         
     }

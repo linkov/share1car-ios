@@ -97,8 +97,8 @@ class CarpoolSearchManager: NSObject {
                     }
      
                     
-                    self.drawRiderRouteFromCurrentLocationToPickUp(pickUp: closestLocationOnDriverRouteForPickup!.coordinate)
-                    self.drawRiderRouteFromDropOffToDestination(dropOff: closestLocationOnDriverRouteForDropOff!.coordinate, riderDestination: destination)
+                    self.calculateRiderRouteFromCurrentLocationToPickUp(pickUp: closestLocationOnDriverRouteForPickup!.coordinate)
+                    self.calculateRiderRouteFromDropOffToDestination(dropOff: closestLocationOnDriverRouteForDropOff!.coordinate, riderDestination: destination)
                    
                     self.currentCarpoolSearchResult.driverDetails = userDetails
                     self.currentCarpoolSearchResult.dropOffLocation = closestLocationOnDriverRouteForDropOff!.coordinate
@@ -333,58 +333,7 @@ class CarpoolSearchManager: NSObject {
          }
 
      
-     private func drawRiderRouteFromCurrentLocationToPickUp(pickUp: CLLocationCoordinate2D) {
-         guard let userLocation = mapView?.userLocation!.location else { return }
-         let userWaypoint = Waypoint(location: userLocation, heading: mapView?.userLocation?.heading, name: "Current location")
-         let pickUpWaypoint = Waypoint(coordinate: pickUp)
-         let options = NavigationRouteOptions(waypoints: [userWaypoint, pickUpWaypoint], profileIdentifier: .walking)
-         
-         _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
 
-             guard let route = routes?.first, error == nil else {
-                  Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
-                 return
-             }
-             
-
-             guard route.coordinateCount > 0 else { return }
-
-
-             var routeCoordinates = route.coordinates!
-             let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
-
-             self.addRiderRoute(feature: polyline, identifier: "rider-route-in")
-             
-
-         }
-     }
-     
-     
-     private func drawRiderRouteFromDropOffToDestination(dropOff: CLLocationCoordinate2D, riderDestination: CLLocationCoordinate2D) {
-
-         let dropOffWaypoint = Waypoint(coordinate: dropOff)
-         let riderDestinationWaypoint = Waypoint(coordinate: riderDestination)
-         let options = NavigationRouteOptions(waypoints: [dropOffWaypoint, riderDestinationWaypoint], profileIdentifier: .walking)
-         
-         _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
-
-             guard let route = routes?.first, error == nil else {
-                  Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
-                 return
-             }
-             
-
-             guard route.coordinateCount > 0 else { return }
-
-
-             var routeCoordinates = route.coordinates!
-             let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
-
-             self.addRiderRoute(feature: polyline, identifier: "rider-route-out")
-             
-
-         }
-     }
      
     
     private func updateRoutesOnMap(routes: [String : String]) {
@@ -458,7 +407,60 @@ class CarpoolSearchManager: NSObject {
         }
     
     
+    // MARK: - Calculate routes
     
+    private func calculateRiderRouteFromCurrentLocationToPickUp(pickUp: CLLocationCoordinate2D) {
+        guard let userLocation = mapView?.userLocation!.location else { return }
+        let userWaypoint = Waypoint(location: userLocation, heading: mapView?.userLocation?.heading, name: "Current location")
+        let pickUpWaypoint = Waypoint(coordinate: pickUp)
+        let options = NavigationRouteOptions(waypoints: [userWaypoint, pickUpWaypoint], profileIdentifier: .walking)
+        
+        _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
+
+            guard let route = routes?.first, error == nil else {
+                 Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
+                return
+            }
+            
+
+            guard route.coordinateCount > 0 else { return }
+
+
+            var routeCoordinates = route.coordinates!
+            let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
+
+            self.addRiderRoute(feature: polyline, identifier: "rider-route-in")
+            
+
+        }
+    }
+    
+    
+    private func calculateRiderRouteFromDropOffToDestination(dropOff: CLLocationCoordinate2D, riderDestination: CLLocationCoordinate2D) {
+
+        let dropOffWaypoint = Waypoint(coordinate: dropOff)
+        let riderDestinationWaypoint = Waypoint(coordinate: riderDestination)
+        let options = NavigationRouteOptions(waypoints: [dropOffWaypoint, riderDestinationWaypoint], profileIdentifier: .walking)
+        
+        _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
+
+            guard let route = routes?.first, error == nil else {
+                 Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)
+                return
+            }
+            
+
+            guard route.coordinateCount > 0 else { return }
+
+
+            var routeCoordinates = route.coordinates!
+            let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
+
+            self.addRiderRoute(feature: polyline, identifier: "rider-route-out")
+            
+
+        }
+    }
     
     
 
