@@ -13,6 +13,11 @@ struct DateISO: Codable {
 }
 
 extension Date{
+    
+    func toMillis() -> Int64! {
+        return Int64(self.timeIntervalSince1970 * 1000)
+    }
+    
     var isoString: String {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601

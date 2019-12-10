@@ -26,12 +26,17 @@ class DriverDataManager: NSObject {
     
     func setRideAccept(fromDriverID: String, toRiderID: String, status: CarpoolAcceptStatus ) {
         
-        self.ref.child("RideAccepts").child(toRiderID).setValue([fromDriverID: status.rawValue])
+        self.ref.child("RideAccepts").child(toRiderID).setValue([fromDriverID: "\(status.rawValue)_\(Date().toMillis() ?? 0)" ])
     }
     
-    func setRequestAccept(fromDriverID: String, toRiderID: String, status: CarpoolRequestStatus ) {
+    func setRouteRequest(fromDriverID: String, toRiderID: String, status: CarpoolRequestStatus ) {
         
         self.ref.child("RouteRequests").child(fromDriverID).child("status").setValue(status.rawValue)
+    }
+    
+    func deleteRouteRequest(fromDriverID: String) {
+        
+        self.ref.child("RouteRequests").child(fromDriverID).removeValue()
     }
     
     
@@ -40,7 +45,18 @@ class DriverDataManager: NSObject {
             
             if let result = snapshot.value as? [String : Any] {
                 
+                
+                
                 let status = result["status"] as! String
+                
+                if status == "riderCancelled" && result["RiderID"] == nil {
+                    return
+                }
+                
+                if status == "accepted" && result["RiderID"] == nil {
+                    return
+                }
+                
                 let riderID = result["RiderID"] as! String
                 let dropOff = result["RDrop"]! as! [Double]
                 let pickUp = result["RLoc"]! as! [Double]
@@ -137,6 +153,7 @@ class DriverDataManager: NSObject {
             
         }
         self.ref.child("DriverRoutes").child(driverID).removeValue()
+        
     }
     
     func setCurrentLocation(location: CLLocationCoordinate2D, driverID: String) {

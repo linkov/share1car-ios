@@ -39,7 +39,7 @@ target 'share1car' do
   
   
   # Developer tools
-  pod 'Reveal-SDK', :configurations => ['Debug']
+#  pod 'Reveal-SDK', :configurations => ['Debug']
   
   # Pods for share1car
 

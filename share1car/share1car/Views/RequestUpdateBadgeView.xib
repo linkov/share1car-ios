@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="RequestUpdateBadgeView" customModule="share1car" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="478" height="120"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="lW7-vw-73g">
+                    <rect key="frame" x="378" y="74" width="70" height="44"/>
+                    <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="EOH-1a-a0M"/>
+                        <constraint firstAttribute="height" constant="44" id="Yrs-w8-sJU"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                    <state key="normal" title="Cancel"/>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUz-Qq-ZdO">
+                    <rect key="frame" x="30" y="64" width="43" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="owt-Ac-BPY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.17254901959999999" green="0.64705882349999999" blue="0.55294117649999996" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="qUz-Qq-ZdO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="3nJ-tX-t5q"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="lW7-vw-73g" secondAttribute="trailing" constant="30" id="JPK-i0-gLj"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="lW7-vw-73g" secondAttribute="top" constant="-30" id="LaN-qO-yP3"/>
+                <constraint firstItem="lW7-vw-73g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qUz-Qq-ZdO" secondAttribute="trailing" constant="30" id="SPG-S0-rTs"/>
+                <constraint firstItem="qUz-Qq-ZdO" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="30" id="ypN-Qa-cTG"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="NO"/>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="autohide" value="NO"/>
+                <userDefinedRuntimeAttribute type="string" keyPath="animation" value="fadeInUp"/>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="actionButton" destination="lW7-vw-73g" id="ffr-EL-aqR"/>
+                <outlet property="titleLabel" destination="qUz-Qq-ZdO" id="dCJ-XZ-ieI"/>
+            </connections>
+            <point key="canvasLocation" x="-123.18840579710145" y="115.17857142857142"/>
+        </view>
+    </objects>
+</document>

@@ -6,6 +6,7 @@
 import UIKit
 import BLTNBoard
 
+
 /**
  * An item that displays a text field.
  *
@@ -20,7 +21,8 @@ class TextFieldBulletinPage: FeedbackPageBLTNItem {
     @objc public var textInputHandler: ((BLTNActionItem, String?) -> Void)? = nil
 
     override func makeViewsUnderDescription(with interfaceBuilder: BLTNInterfaceBuilder) -> [UIView]? {
-        textField = interfaceBuilder.makeTextField(placeholder: "First and Last Name", returnKey: .done, delegate: self)
+        textField = interfaceBuilder.makeTextField(placeholder: "+44 176 22959873‬", returnKey: .done, delegate: self)
+        textField.keyboardType = .phonePad
         return [textField]
     }
 

@@ -56,6 +56,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
     // MARK: IBOutlets
     
+    @IBOutlet weak var requestUpdateBadgeView: RequestUpdateBadgeView!
     @IBOutlet weak var cancelPreplannedCarpoolButton: SpringButton!
     @IBOutlet weak var startPlannedCarpoolSelector: SpringButton!
     @IBOutlet weak var startCarPoolButton: SpringButton!
@@ -83,6 +84,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         let formatedTime = Converters.getFormattedDate(date: timeOfNow, format: "MMM dd HH:mm")
         startPlannedCarpoolSelector.setTitle("Abfahrt: \(formatedTime)", for: .normal)
         
+        
         setupDriverMap()
         setupSearch()
 
@@ -103,6 +105,8 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+//        CarpoolSearchManager.shared.cleanup()
     
         if AuthManager.shared.isLoggedIn() {
             
@@ -350,7 +354,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         self.turnByturnNavigationController!.modalPresentationStyle = .fullScreen
         self.turnByturnNavigationController!.delegate = self
         
-        CarpoolAcceptManager.shared.configureAndStartSubscriptions(activeRoute: route, mapView: mapView, presentingViewController: self.turnByturnNavigationController!)
+        CarpoolAcceptManager.shared.configureAndStartSubscriptions(activeRoute: route, mapView: mapView, presentingViewController: self.turnByturnNavigationController! )
         
         
         self.show(self.turnByturnNavigationController!, sender: self)
@@ -403,29 +407,39 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
            
         })
         
-        mapView.removeAnnotations(mapView!.annotations!)
+//        mapView.removeAnnotations(mapView!.annotations!)
+//        routes = nil
         
-        routes = nil
         toggleCarpoolButton(active: false)
         
-        CarpoolAcceptManager.shared.cancelCarpoolRequest()
-        
-        DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
-    
-         NotificationCenter.default.post(name: NotificationsManager.onFeedbackScreenRequestedNotification, object: nil)
+        CarpoolAcceptManager.shared.cancelCarpoolAvailability()
+            
+        NotificationCenter.default.post(name: NotificationsManager.onFeedbackScreenRequestedNotification, object: nil)
          
     }
     
     func navigationViewController(_ navigationViewController: NavigationViewController, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {
                 
+        CarpoolAcceptManager.shared.routeCurrentLegtimeRemaining = progress.currentLegProgress.durationRemaining
+        CarpoolAcceptManager.shared.didUpdateTimeRemaining(timeRemaining: progress.currentLegProgress.durationRemaining)
+        
         DriverDataManager.shared.setCurrentLocation(location: location.coordinate, driverID: AuthManager.shared.currentUserID()!)
     }
     
     func navigationViewController(_ navigationViewController: NavigationViewController, willArriveAt waypoint: Waypoint, after remainingTimeInterval: TimeInterval, distance: CLLocationDistance) {
-        print("navigationViewController willArriveAt")
-               print("waypoint: \(waypoint)")
-               print("remainingTimeInterval: \(remainingTimeInterval)")
-               print("distance: \(distance)")
+        
+        if waypoint.name == "Pick up" && remainingTimeInterval < 100 {
+            
+            CarpoolAcceptManager.shared.showPickUpProximityAlert()
+            
+        }
+        
+        
+        if waypoint.name == "Drop off" && remainingTimeInterval < 100 {
+            
+            CarpoolAcceptManager.shared.showDropOffProximityAlert()
+            
+        }
         
 
     }

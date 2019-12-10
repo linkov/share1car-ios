@@ -18,6 +18,8 @@ import MapboxCoreNavigation
 import MapboxNavigation
 import Turf
 
+import EasyPeasy
+
 import Loaf
 import BLTNBoard
 
@@ -30,6 +32,7 @@ class CarpoolSearchManager: NSObject {
     private var didSendRequestBlock: result_errordescription_block?
     private var carpoolSearchResultBlock: carpool_search_result_error_block?
     private var bulletinManager: BLTNItemManager?
+    private var currentBadgeView: RequestUpdateBadgeView?
     
     // MARK: Model
     
@@ -70,6 +73,10 @@ class CarpoolSearchManager: NSObject {
         
         didSendRequestBlock = didSendRequest
         
+        if (activeCarpoolAcceptStatus != nil) && activeCarpoolAcceptStatus != .rejected {
+            return
+        }
+        
         
         guard routeFeatures.count > 0 else {
             didSendRequestBlock!(nil,"No drivers available")
@@ -85,6 +92,7 @@ class CarpoolSearchManager: NSObject {
             let lineStringForDriverRoute = LineString(coordinates)
             let closestLocationOnDriverRouteForPickup = lineStringForDriverRoute.closestCoordinate(to: currentLocation)
             let closestLocationOnDriverRouteForDropOff = lineStringForDriverRoute.closestCoordinate(to: destination)
+            
             
             
             if (Int(closestLocationOnDriverRouteForPickup!.distance) <= UserSettingsManager.shared.getMaximumPickupDistance()) {
@@ -114,19 +122,25 @@ class CarpoolSearchManager: NSObject {
                 
             
             
-            } else {
-                didSendRequestBlock!(nil,"There are no car pools available in \(UserSettingsManager.shared.getMaximumPickupDistance()) meters radius from your current location and your pick up location")
+                return
             }
             
 
+         
             
         }
+        
+        didSendRequestBlock!(nil,"There are no car pools available in \(UserSettingsManager.shared.getMaximumPickupDistance()) meters radius from your current location and your pick up location")
         
         
         
     }
     
-    public func cancelCarpool() {
+    @objc public func cancelCarpool() {
+        
+        if (activeCarpoolAcceptStatus == nil) || activeCarpoolAcceptStatus == .rejected {
+            return
+        }
         
         RiderDataManager.shared.cancelCarpool(driverID: (currentCarpoolSearchResult.driverDetails?.UID!)!, riderID: AuthManager.shared.currentUserID()!) { (success, errorString) in
             
@@ -150,7 +164,7 @@ class CarpoolSearchManager: NSObject {
     
     private func confirmCarpoolForCarpoolSearchResult(result: S1CCarpoolSearchResult) {
     
-        RiderDataManager.shared.confirmCarpool(driverID: result.driverDetails!.UID!)
+//        RiderDataManager.shared.confirmCarpool(driverID: result.driverDetails!.UID!)
     }
 
     
@@ -177,6 +191,18 @@ class CarpoolSearchManager: NSObject {
         
     }
     
+    
+    public func cleanup() {
+        
+         activeCarpoolAcceptStatus = nil
+         didShowCarpoolPickUpAlert = false
+         currentCarpoolSearchResult = S1CCarpoolSearchResult()
+         removeRiderSourceWithIdentifier(routeID: "rider-route-in")
+         removeRiderSourceWithIdentifier(routeID: "rider-route-out")
+         
+     }
+    
+    
     // MARK: - Subscriptions
     
     @objc func onDidReceiveData(_ notification:Notification) {
@@ -189,28 +215,46 @@ class CarpoolSearchManager: NSObject {
     }
     
     func processStatus(status: String) {
+        
+        print("RideAccept STATUS IS:")
+        print(status)
 
-        if status == "accepted" && activeCarpoolAcceptStatus != .accepted  {
+        if status.contains("accepted")  && activeCarpoolAcceptStatus != .accepted  {
             activeCarpoolAcceptStatus = .accepted
-            showRequestUpdate(title: "Request accepted", subtitle: "Follow the map to meet the driver at the pick up location")
+            bulletinManager?.dismissBulletin()
+            
+            showRequestUpdateBadgeView(title: "Request accepted, follow the map to meet the driver", actionTitle: "cancel", action: #selector(cancelCarpool))
 
         }
 
-        if status == "rejected" && activeCarpoolAcceptStatus != .rejected {
-            self.cleanup()
-            activeCarpoolAcceptStatus = .rejected
-            Loaf("Your request was rejected", state: .warning, sender: self.presentingViewController!).show()
+        if status.contains("rejected") && activeCarpoolAcceptStatus != .rejected {
+            self.activeCarpoolAcceptStatus = .rejected
+
+            
+            dismissNonblockingBadgeView()
+
+            showRequestUpdate(title: "Request rejected", subtitle: nil)
+            RiderDataManager.shared.clearCarpoolData(driverID: self.currentCarpoolSearchResult.driverDetails!.UID!, riderID: AuthManager.shared.currentUserID()!, completion: { (result, error) in
+                
+                
+                self.cleanup()
+                
+            })
+            
+
+
+            
 
         }
 
-        if status == "confirmed" && activeCarpoolAcceptStatus != .confirmed {
+        if status.contains("confirmed") && activeCarpoolAcceptStatus != .confirmed {
             activeCarpoolAcceptStatus = .confirmed
-            showRequestUpdate(title: "You ride is starting", subtitle: nil)
+            showProximityAlert()
         }
 
-        if status == "arrived" && activeCarpoolAcceptStatus != .arrived {
+        if status.contains("arrived")  && activeCarpoolAcceptStatus != .arrived {
             activeCarpoolAcceptStatus = .arrived
-            showRequestUpdate(title: "You arrived", subtitle: nil)
+            showRequestUpdateBadgeView(title: "You arrived", actionTitle: nil, action: nil)
             NotificationCenter.default.post(name: NotificationsManager.onFeedbackScreenRequestedNotification, object: nil)
         }
         
@@ -257,14 +301,24 @@ class CarpoolSearchManager: NSObject {
                     return
                 }
                 
-                if  self.didShowCarpoolPickUpAlert == false && self.activeCarpoolAcceptStatus != nil && self.activeCarpoolAcceptStatus! == .accepted && self.currentCarpoolSearchResult.filled() && key == self.currentCarpoolSearchResult.driverDetails!.UID! {
+                if  self.didShowCarpoolPickUpAlert == false && self.activeCarpoolAcceptStatus != nil && self.activeCarpoolAcceptStatus == .accepted && self.currentCarpoolSearchResult.filled() && key == self.currentCarpoolSearchResult.driverDetails!.UID! {
                     
-                    let distance = self.mapView?.userLocation?.coordinate.distance(to: point.coordinate)
-                    if Int(distance!) < 100 {
+
+                    let closest = self.mapView!.userLocation!.coordinate.distance(to: point.coordinate)
+                    print(closest)
+                    
+                    let distance = closest
+                    
+                    if Int(distance) < 300 {
+                        
+                        print("Proximity alert")
                         
                         
-                        self.didShowCarpoolPickUpAlert = true
-                        self.showProximityAlert()
+                        if (!self.didShowCarpoolPickUpAlert) {
+                             self.didShowCarpoolPickUpAlert = true
+                             self.showProximityAlert()
+                        }
+                       
                         
                         
                     }
@@ -290,9 +344,29 @@ class CarpoolSearchManager: NSObject {
     
     // MARK: - Draw updates on map
     
+    private func removeRiderSourceWithIdentifier(routeID: String) {
+         
+        
+         if let source = self.mapView!.style?.source(withIdentifier: routeID) as? MGLShapeSource {
+             
+             self.mapView!.style?.removeSource(source)
+             
+             
+             if let layer = self.mapView!.style?.layer(withIdentifier: routeID) {
+                 self.mapView!.style?.removeLayer(layer)
+             }
+             
+             
+         }
+     }
+    
 
     private func removeSourceWithIdentifier(routeID: String) {
          
+        
+        if routeID == "rider-route-in" || routeID == "rider-route-out" {
+            return
+        }
          if let source = self.mapView!.style?.source(withIdentifier: routeID) as? MGLShapeSource {
              
              self.mapView!.style?.removeSource(source)
@@ -314,13 +388,26 @@ class CarpoolSearchManager: NSObject {
              if let source = self.mapView!.style?.source(withIdentifier: identifier) as? MGLShapeSource {
 
                  source.shape = feature
+                
+                if let lineStyle = self.mapView?.style?.layer(withIdentifier: identifier) as? MGLLineStyleLayer {
+                    
+                    lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0, green: 0, blue: 1, alpha: 1))
+                    lineStyle.lineDashPattern = NSExpression(forConstantValue: [2, 1.5])
+                    lineStyle.lineWidth = NSExpression(forConstantValue: 3)
+                } else {
+                    let lineStyle = MGLLineStyleLayer(identifier: identifier, source: source)
+                    lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0, green: 0, blue: 1, alpha: 1))
+                    lineStyle.lineDashPattern = NSExpression(forConstantValue: [2, 1.5])
+                    lineStyle.lineWidth = NSExpression(forConstantValue: 3)
+                }
+                
 
              } else {
 
                  let source = MGLShapeSource(identifier: identifier, features: [feature], options: nil)
 
                  let lineStyle = MGLLineStyleLayer(identifier: identifier, source: source)
-                 lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1))
+                 lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0, green: 0, blue: 1, alpha: 1))
                  lineStyle.lineDashPattern = NSExpression(forConstantValue: [2, 1.5])
                  lineStyle.lineWidth = NSExpression(forConstantValue: 3)
 
@@ -337,9 +424,9 @@ class CarpoolSearchManager: NSObject {
      
     
     private func updateRoutesOnMap(routes: [String : String]) {
-        
+       
         for (key, _) in routeFeatures {
-            
+ 
             removeSourceWithIdentifier(routeID: key)
         }
         
@@ -378,12 +465,12 @@ class CarpoolSearchManager: NSObject {
                
             if let lineStyle = self.mapView?.style?.layer(withIdentifier: driverID) as? MGLLineStyleLayer {
                 
-                lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1))
-                lineStyle.lineWidth = NSExpression(forConstantValue: 3)
+                lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0.5333333333, green: 0.5960784314, blue: 0.6352941176, alpha: 1))
+                lineStyle.lineWidth = NSExpression(forConstantValue: 4)
             } else {
                 let lineStyle = MGLLineStyleLayer(identifier: driverID, source: source)
-                lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1))
-                lineStyle.lineWidth = NSExpression(forConstantValue: 3)
+                lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0.5333333333, green: 0.5960784314, blue: 0.6352941176, alpha: 1))
+                lineStyle.lineWidth = NSExpression(forConstantValue: 4)
                 self.mapView!.style?.addLayer(lineStyle)
             }
             
@@ -394,8 +481,8 @@ class CarpoolSearchManager: NSObject {
                 
                 // Customize the route line color and width
                 let lineStyle = MGLLineStyleLayer(identifier: driverID, source: source)
-                lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1))
-                lineStyle.lineWidth = NSExpression(forConstantValue: 3)
+                lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0.5333333333, green: 0.5960784314, blue: 0.6352941176, alpha: 1))
+                lineStyle.lineWidth = NSExpression(forConstantValue: 4)
                 
                 // Add the source and style layer of the route line to the map
                 self.mapView!.style?.addSource(source)
@@ -613,6 +700,58 @@ class CarpoolSearchManager: NSObject {
 
     
     // MARK: - Present carpool status UI
+    
+    @objc private func dismissNonblockingBadgeView() {
+        
+        if currentBadgeView != nil {
+            currentBadgeView!.removeFromSuperview()
+        }
+    }
+    
+    private func showRequestUpdateBadgeView(title: String, actionTitle: String?, action: Selector?) {
+        
+        dismissNonblockingBadgeView()
+    
+        
+            let window = UIApplication.shared.keyWindow!
+            
+            currentBadgeView = RequestUpdateBadgeView.instanceFromNib()
+            currentBadgeView!.titleLabel.text = title
+        
+            if actionTitle != nil {
+                currentBadgeView!.actionButton.setTitle(actionTitle)
+                currentBadgeView!.actionButton.removeTarget(self, action: nil, for: .touchUpInside)
+                currentBadgeView!.actionButton.addTarget(self, action: action!, for: .touchUpInside)
+            } else {
+                currentBadgeView!.actionButton.backgroundColor = .white
+                currentBadgeView!.actionButton.setTitleColor(.black, for: .normal)
+                currentBadgeView!.actionButton.setTitle("OK")
+                currentBadgeView!.actionButton.removeTarget(self, action: nil, for: .touchUpInside)
+                currentBadgeView!.actionButton.addTarget(self, action: #selector(dismissNonblockingBadgeView), for: .touchUpInside)
+                
+            }
+            
+            
+            
+
+           
+            window.addSubview(currentBadgeView!)
+            
+    //        view.easy.layout(Edges(UIEdgeInsets(top: 0, left: 10, bottom: 5, right: 10)))
+            currentBadgeView!.easy.layout(
+                Height(100),
+                Bottom(10).to(window),
+              Left(10).to(window),
+              Right(10).to(window)
+            )
+            
+            currentBadgeView!.animate()
+            
+            
+    }
+        
+    
+
    
     private func showRequestUpdate(title: String, subtitle: String?) {
         let waitingConfirmationPage =  BulletinDataSource.makeCarpoolWaitingForConfirmationPage(title: title)
@@ -621,53 +760,96 @@ class CarpoolSearchManager: NSObject {
             waitingConfirmationPage.descriptionText = subtitle
         }
         
-        waitingConfirmationPage.alternativeHandler = { (item: BLTNActionItem) in
-             self.cancelCarpool()
-             self.bulletinManager!.dismissBulletin()
+        if self.activeCarpoolAcceptStatus == .rejected || self.activeCarpoolAcceptStatus == .accepted {
+            
+            waitingConfirmationPage.isDismissable = true;
+            waitingConfirmationPage.alternativeButtonTitle = nil
+            
+        } else {
+            
+            waitingConfirmationPage.alternativeHandler = { (item: BLTNActionItem) in
+                 self.cancelCarpool()
+                 self.bulletinManager!.dismissBulletin()
+            }
         }
+        
+
         
         waitingConfirmationPage.dismissalHandler = { (item: BLTNItem) in
 //            self.showFloatingCarpoolCancelButton()
         }
         
         
-        self.bulletinManager?.push(item: waitingConfirmationPage)
+        if (!bulletinManager!.isShowingBulletin) {
+            
+            bulletinManager = BLTNItemManager(rootItem: waitingConfirmationPage)
+            bulletinManager!.backgroundViewStyle = .dimmed
+            
+            bulletinManager!.showBulletin(above: self.presentingViewController!)
+            
+        } else {
+           self.bulletinManager?.push(item: waitingConfirmationPage)
+
+        }
         
+       
+        
+        
+    }
+    
+    private func showCarpoolPaymentView() {
         
     }
     
     private func showProximityAlert() {
  
+        dismissNonblockingBadgeView()
+        
+//        self.showRequestUpdateBadgeView(title: "Your driver is here", actionTitle: nil, action: nil)
             
         let priceStringForDistance = PriceCalculation.driverFeeStringForDistance(travelDistance: self.currentCarpoolSearchResult.carpoolDistance!)
-        
+
         let carpoolConfirm = BulletinDataSource.makeCarpoolRequestPage(
-            
-            
+
+
             title: "Confirm carpool",
-            photoURL: self.currentCarpoolSearchResult.driverDetails!.photoURL!, mainTitle: "Your driver is here!", subtitle: "You are 100 meters away from driver", priceText: "price: $\(priceStringForDistance)")
-        
-        
+            photoURL: self.currentCarpoolSearchResult.driverDetails!.photoURL!, mainTitle: "Your driver is here!", subtitle: "You are ready to start the ride", priceText: "price: $\(priceStringForDistance)")
+
+
 
         carpoolConfirm.actionButtonTitle = "Confirm & start"
         carpoolConfirm.actionHandler = { (item: BLTNActionItem) in
-            
-            self.confirmCarpoolForCarpoolSearchResult(result: self.currentCarpoolSearchResult)
-            self.showRequestUpdate(title: "Your ride starts now", subtitle: nil)
 
-            
+            item.manager?.dismissBulletin()
+            self.confirmCarpoolForCarpoolSearchResult(result: self.currentCarpoolSearchResult)
+            self.showRequestUpdateBadgeView(title: "Your ride starts now", actionTitle: nil, action: nil)
+
+
         }
-        
+
 
         carpoolConfirm.alternativeHandler = { (item: BLTNActionItem) in
-            
+
             self.cancelCarpool()
-            carpoolConfirm.manager?.dismissBulletin()
+            item.manager?.dismissBulletin()
             self.didSendRequestBlock!(nil,"You cancelled your ride")
-            
+
         }
+
+        if (!bulletinManager!.isShowingBulletin) {
+
+            bulletinManager = BLTNItemManager(rootItem: carpoolConfirm)
+            bulletinManager!.backgroundViewStyle = .dimmed
+
+            bulletinManager!.showBulletin(above: self.presentingViewController!)
+
+        } else {
+            self.bulletinManager?.push(item: carpoolConfirm)
+
+        }
+
         
-        self.bulletinManager?.push(item: carpoolConfirm)
+        
     }
     
     
@@ -711,6 +893,7 @@ class CarpoolSearchManager: NSObject {
             self.didSendRequestBlock!("We have sent request to the driver",nil)
             self.showRequestUpdate(title: "Waiting for confirmation", subtitle: nil)
             self.requestCarpoolForCarpoolSearchResult(result: self.currentCarpoolSearchResult)
+            carpoolRequest.manager?.dismissBulletin()
 
             
         }
@@ -725,21 +908,13 @@ class CarpoolSearchManager: NSObject {
         
         
         bulletinManager = BLTNItemManager(rootItem: carpoolRequest)
-        bulletinManager!.backgroundViewStyle = .none
+        bulletinManager!.backgroundViewStyle = .dimmed
         
         bulletinManager!.showBulletin(above: self.presentingViewController!)
         
     }
     
-    private func cleanup() {
-         activeCarpoolAcceptStatus = nil
-         didShowCarpoolPickUpAlert = false
-         currentCarpoolSearchResult = S1CCarpoolSearchResult()
-         removeSourceWithIdentifier(routeID: "rider-route-in")
-         removeSourceWithIdentifier(routeID: "rider-route-out")
-         
-     }
-    
+
 
     
     

@@ -32,7 +32,6 @@ ${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework
 ${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework
 ${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework
 ${BUILT_PRODUCTS_DIR}/RGSnackBar/RGSnackBar.framework
-${PODS_ROOT}/Reveal-SDK/RevealServer/iOS/RevealServer.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
 ${BUILT_PRODUCTS_DIR}/Solar/Solar.framework
 ${BUILT_PRODUCTS_DIR}/Spring/Spring.framework

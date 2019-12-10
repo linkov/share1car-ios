@@ -18,11 +18,15 @@ class CarpoolAlertBTLNItem: BLTNPageItem {
     var photoURL: String?
     var priceText: String?
     
-    init(topTitle: String,  mainTitle: String, subtitle: String, photoURL: String, priceText: String) {
+    init(topTitle: String,  mainTitle: String, subtitle: String?, photoURL: String, priceText: String) {
         super.init(title: topTitle)
         
         self.mainTitle = mainTitle
-        self.subtitle = subtitle
+        if subtitle != nil && subtitle!.length > 0 {
+            
+             self.subtitle = subtitle
+        }
+       
         self.photoURL = photoURL
         self.priceText = priceText
 

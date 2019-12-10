@@ -138,7 +138,7 @@ class UserSettingsManager: NSObject {
         
         let saved = UserSettingsManager.userDefaults.value(forKey: UserSettingsManager.userSettingsMaximumPickUpDistance) as? Int
         
-        return (saved != nil) ? saved! : 1600
+        return (saved != nil) ? saved! : 2600
     }
     
     

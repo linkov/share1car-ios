@@ -24,6 +24,7 @@ enum CarpoolRequestStatus: String {
     case riderCancelled = "riderCancelled"
     case confirmed = "confirmed"
     case cancelled = "cancelled"
+    case deleted = "deleted"
 }
 
 

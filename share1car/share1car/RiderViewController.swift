@@ -73,6 +73,8 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
     
     
     override func viewDidAppear(_ animated: Bool) {
+            
+//      CarpoolAcceptManager.shared.cleanUp()
         
         OnboardingManager.shared.changePresentingViewController(viewController: self)
         let shouldReturn = OnboardingManager.shared.showOnAppOpenOnboardingReturning(mapView: mapView)

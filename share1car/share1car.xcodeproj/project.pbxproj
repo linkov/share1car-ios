@@ -54,7 +54,10 @@
 		F13E6B85236CA5FE008C136B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B84236CA5FE008C136B /* MainTabBarController.swift */; };
 		F13E6B87236CC062008C136B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B86236CC062008C136B /* DataManager.swift */; };
 		F13E6B8D236CC2CF008C136B /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E6B8C236CC2CF008C136B /* AuthManager.swift */; };
+		F15F18B92397BF56006DC182 /* C-OBerlin.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F15F18B82397BF56006DC182 /* C-OBerlin.gpx */; };
 		F16673762384932900D37005 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16673752384932900D37005 /* Protocols.swift */; };
+		F17EDC8A239F6E560025282B /* RequestUpdateBadgeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F17EDC89239F6E560025282B /* RequestUpdateBadgeView.xib */; };
+		F17EDC8C239F6F430025282B /* RequestUpdateBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17EDC8B239F6F430025282B /* RequestUpdateBadgeView.swift */; };
 		F1A27826236C94DC004B9C8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A27825236C94DC004B9C8F /* AppDelegate.swift */; };
 		F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A2782D236C94DC004B9C8F /* Main.storyboard */; };
 		F1A27831236C94E0004B9C8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1A27830236C94E0004B9C8F /* Assets.xcassets */; };
@@ -128,7 +131,11 @@
 		F13E6B84236CA5FE008C136B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		F13E6B86236CC062008C136B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		F13E6B8C236CC2CF008C136B /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		F15F18B82397BF56006DC182 /* C-OBerlin.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "C-OBerlin.gpx"; sourceTree = "<group>"; };
 		F16673752384932900D37005 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		F17EDC84239F45780025282B /* share1car-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "share1car-Bridging-Header.h"; sourceTree = "<group>"; };
+		F17EDC89239F6E560025282B /* RequestUpdateBadgeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RequestUpdateBadgeView.xib; sourceTree = "<group>"; };
+		F17EDC8B239F6F430025282B /* RequestUpdateBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestUpdateBadgeView.swift; sourceTree = "<group>"; };
 		F1A27822236C94DC004B9C8F /* share1car.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = share1car.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1A27825236C94DC004B9C8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1A2782E236C94DC004B9C8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -194,6 +201,8 @@
 				F1369404237A45E100F64C9B /* FeedbackHeaderView.swift */,
 				F1369406237A45F200F64C9B /* FeedbackHeaderView.xib */,
 				F10D27D02379E28C009BC84F /* CarpoolAlertBTLNItem.swift */,
+				F17EDC89239F6E560025282B /* RequestUpdateBadgeView.xib */,
+				F17EDC8B239F6F430025282B /* RequestUpdateBadgeView.swift */,
 				F10D27CB2379DE6A009BC84F /* CarpoolRideInformationView.xib */,
 				F10D27C92378D72F009BC84F /* UserSettingsProfilePhotoHeaderView.swift */,
 				F10D27CD2379E062009BC84F /* CarpoolRideInformationView.swift */,
@@ -292,6 +301,7 @@
 			children = (
 				F11AD78C2370DF7E00B308E3 /* treprower_str_91.gpx */,
 				F136A7102377012A0055DF4D /* Kotti Dang.gpx */,
+				F15F18B82397BF56006DC182 /* C-OBerlin.gpx */,
 				F136A71423778F560055DF4D /* k-fetisch.gpx */,
 				F136A7152377909E0055DF4D /* Sameheads.gpx */,
 				F115066523885CAF00BB960D /* TwinPigs.gpx */,
@@ -336,6 +346,7 @@
 				F1A27830236C94E0004B9C8F /* Assets.xcassets */,
 				F1A27832236C94E0004B9C8F /* LaunchScreen.storyboard */,
 				F1A27835236C94E0004B9C8F /* Info.plist */,
+				F17EDC84239F45780025282B /* share1car-Bridging-Header.h */,
 			);
 			path = share1car;
 			sourceTree = "<group>";
@@ -354,12 +365,23 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		F17EDC7D239F41700025282B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		F1A27821236C94DC004B9C8F /* share1car */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F1A27838236C94E0004B9C8F /* Build configuration list for PBXNativeTarget "share1car" */;
 			buildPhases = (
 				3B2D47FFFA5172324E424DE3 /* [CP] Check Pods Manifest.lock */,
+				F17EDC7D239F41700025282B /* Headers */,
 				F1A2781E236C94DC004B9C8F /* Sources */,
 				F1A2781F236C94DC004B9C8F /* Frameworks */,
 				F1A27820236C94DC004B9C8F /* Resources */,
@@ -397,6 +419,39 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
+				he,
+				ar,
+				el,
+				"zh-Hans",
+				ja,
+				uk,
+				nb,
+				es,
+				da,
+				it,
+				sk,
+				ms,
+				sv,
+				cs,
+				ko,
+				"zh-Hant",
+				hu,
+				tr,
+				pl,
+				"pt-BR",
+				vi,
+				ru,
+				fr,
+				fi,
+				id,
+				nl,
+				th,
+				"pt-PT",
+				ro,
+				hr,
+				hi,
+				ca,
 			);
 			mainGroup = F1A27819236C94DC004B9C8F;
 			productRefGroup = F1A27823236C94DC004B9C8F /* Products */;
@@ -417,6 +472,7 @@
 				F11E2AE223707D6900C8E9D0 /* Roboto-Regular.ttf in Resources */,
 				F1EAC2F6236C982D001CE4C3 /* Podfile in Resources */,
 				F1A27834236C94E0004B9C8F /* LaunchScreen.storyboard in Resources */,
+				F15F18B92397BF56006DC182 /* C-OBerlin.gpx in Resources */,
 				F10D27C82378D690009BC84F /* UserSettingsProfilePhotoHeaderView.xib in Resources */,
 				F11AD78D2370DF7E00B308E3 /* treprower_str_91.gpx in Resources */,
 				F136A7112377012A0055DF4D /* Kotti Dang.gpx in Resources */,
@@ -429,6 +485,7 @@
 				F1A2782F236C94DC004B9C8F /* Main.storyboard in Resources */,
 				F1AC5B6C237DE1B80052E1DE /* RouteETAAnnotationView.xib in Resources */,
 				F1369407237A45F200F64C9B /* FeedbackHeaderView.xib in Resources */,
+				F17EDC8A239F6E560025282B /* RequestUpdateBadgeView.xib in Resources */,
 				F136A7162377909E0055DF4D /* Sameheads.gpx in Resources */,
 				F11506682388723F00BB960D /* Tempelhofer.gpx in Resources */,
 			);
@@ -540,6 +597,7 @@
 				F11E2AF323707D7900C8E9D0 /* MaterialTextField.swift in Sources */,
 				F10D27CE2379E062009BC84F /* CarpoolRideInformationView.swift in Sources */,
 				F1F73F6A2378777A00AA7E32 /* BackgroundStyles.swift in Sources */,
+				F17EDC8C239F6F430025282B /* RequestUpdateBadgeView.swift in Sources */,
 				F1F73F692378777A00AA7E32 /* FeedbackPageBulletinItem.swift in Sources */,
 				F1E09BC623837BAD0063F70E /* Date+S1C.swift in Sources */,
 				F1B65E8E2377FFFB003F39B8 /* Color+S1C.swift in Sources */,
@@ -694,8 +752,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
@@ -705,7 +763,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdwr.share1car;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "share1car AdHoc";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "share1car/share1car-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -717,8 +776,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = share1car/share1car.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 43R88X5B35;
 				INFOPLIST_FILE = share1car/Info.plist;
@@ -728,7 +787,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdwr.share1car;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "share1car AdHoc";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "share1car/share1car-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

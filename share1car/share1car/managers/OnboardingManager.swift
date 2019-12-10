@@ -32,7 +32,7 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
     
     
     func changePresentingViewController(viewController: UIViewController) {
-        imagepicker = ImagePicker(presentationController: viewController as! UIViewController, delegate: self)
+        imagepicker = ImagePicker(presentationController: viewController as UIViewController, delegate: self)
         self.presentingViewController = viewController
     }
     
@@ -105,6 +105,7 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
                 let spotlightView = AwesomeSpotlightView(frame: presentingViewController!.view.frame, spotlight: [spotlight1, spotlight2])
                 spotlightView.cutoutRadius = 8
                 spotlightView.setContinueButtonEnable(true)
+                spotlightView.continueButtonModel = AwesomeTabButton(title: "CONTINUE", font: UIFont.systemFont(ofSize: 20.0), isEnable: true)
                 spotlightView.delegate = self
                 presentingViewController!.view.addSubview(spotlightView)
                 spotlightView.start()
@@ -128,6 +129,7 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
         let spotlightView = AwesomeSpotlightView(frame: presentingViewController!.view.frame, spotlight: [spotlight1, spotlight2])
         spotlightView.cutoutRadius = 30
         spotlightView.setContinueButtonEnable(true)
+        spotlightView.continueButtonModel = AwesomeTabButton(title: "CONTINUE", font: UIFont.systemFont(ofSize: 20.0), isEnable: true)
         spotlightView.delegate = self
             presentingViewController!.parent!.view.addSubview(spotlightView)
         spotlightView.start()
@@ -277,7 +279,7 @@ class OnboardingManager: NSObject, ImagePickerDelegate, AwesomeSpotlightViewDele
             return
         }
         hud.show(in: presentingViewController!.view)
-        DataManager.shared.updateUserPhoto(imageData: (image!.pngData())!) { (url, error) in
+        DataManager.shared.updateUserPhoto(userID: AuthManager.shared.currentUserID()!, imageData: (image!.pngData())!) { (url, error) in
             self.hud.dismiss()
             if error != nil {
                 Alerts.systemErrorAlert(error: error!.localizedDescription, inController: self.presentingViewController!)

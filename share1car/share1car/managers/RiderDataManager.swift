@@ -24,6 +24,26 @@ class RiderDataManager: NSObject {
         ref = Database.database().reference()
     }
     
+    func clearCarpoolData(driverID: String, riderID: String, completion: @escaping result_errordescription_block) {
+        
+        self.ref.child("RouteRequests").child(driverID).removeValue { (error, ref) in
+            if error != nil {
+                completion(nil,error?.localizedDescription)
+                return
+            }
+            
+            self.ref.child("RideAccepts").child(riderID).child(driverID).removeValue { (error, ref) in
+                if error != nil {
+                    completion(nil,error?.localizedDescription)
+                    return
+                }
+            }
+            
+            completion(true,nil)
+            
+        }
+    }
+    
     func startObservingRideAcceptForMyRiderID(completion: @escaping carpoolrequest_error_block) {
 
         self.ref.child("RideAccepts").child(AuthManager.shared.currentUserID()!).observe( .value, with: { (snapshot) in
@@ -37,6 +57,7 @@ class RiderDataManager: NSObject {
         }
     }
 
+    
     
     func cancelCarpool(driverID: String, riderID: String, completion: @escaping result_errordescription_block) {
         
@@ -84,8 +105,7 @@ class RiderDataManager: NSObject {
     
     func confirmCarpool(driverID: String) {
         
-
-        self.ref.child("RideAccepts").child(driverID).child("status").setValue("confirmed")
+        self.ref.child("RideAccepts").child(AuthManager.shared.currentUserID()!).child(driverID).setValue("confirmed")
     }
     
     

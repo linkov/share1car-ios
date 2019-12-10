@@ -33,6 +33,7 @@ enum BulletinDataSource {
             page.actionButton?.isHidden = true
            page.alternativeButtonTitle = "Cancel request"
            page.isDismissable = false
+    
 
            let tintColor: UIColor
            if #available(iOS 13.0, *) {
@@ -74,13 +75,13 @@ enum BulletinDataSource {
     static func makeCarpoolRequestPage(
         title: String,
         photoURL: String,
-        mainTitle: String, subtitle: String, priceText: String) -> CarpoolAlertBTLNItem {
+        mainTitle: String, subtitle: String?, priceText: String) -> CarpoolAlertBTLNItem {
 
     
         let page = CarpoolAlertBTLNItem(topTitle: title , mainTitle: mainTitle, subtitle: subtitle, photoURL: photoURL, priceText: priceText )
         
         page.actionButtonTitle = "Send request"
-        
+        page.isDismissable = false
         
         let tintColor: UIColor
         if #available(iOS 13.0, *) {
@@ -93,7 +94,6 @@ enum BulletinDataSource {
         
 
         page.appearance.shouldUseCompactDescriptionText = true
-        page.isDismissable = true
                 
         page.alternativeButtonTitle = "Cancel"
 

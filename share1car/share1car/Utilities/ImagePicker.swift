@@ -83,12 +83,29 @@ extension ImagePicker: UIImagePickerControllerDelegate {
     public func imagePickerController(_ picker: UIImagePickerController,
                                       didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = info[.editedImage] as? UIImage else {
+            
             return self.pickerController(picker, didSelect: nil)
         }
-        self.pickerController(picker, didSelect: image)
+        let resizedImage = image.convert(toSize:CGSize(width:350.0, height:350.0), scale: UIScreen.main.scale)
+        self.pickerController(picker, didSelect: resizedImage)
     }
 }
 
 extension ImagePicker: UINavigationControllerDelegate {
     
+}
+
+extension UIImage
+{
+    // convenience function in UIImage extension to resize a given image
+    func convert(toSize size:CGSize, scale:CGFloat) ->UIImage
+    {
+        let imgRect = CGRect(origin: CGPoint(x:0.0, y:0.0), size: size)
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        self.draw(in: imgRect)
+        let copied = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return copied!
+    }
 }
