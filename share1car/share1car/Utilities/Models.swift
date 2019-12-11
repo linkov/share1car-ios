@@ -59,6 +59,11 @@ public struct S1CCarpoolSearchResult {
     var pickUpLocation: CLLocationCoordinate2D?
     var dropOffLocation: CLLocationCoordinate2D?
     
+    
+    var riderDestination: CLLocationCoordinate2D?
+    
+    var carpooPreplannedDateString: String?
+    
     var carpoolDistance: CLLocationDistance?
     
     var driverDetails: S1CUserDetails?

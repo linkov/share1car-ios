@@ -23,7 +23,8 @@ import EasyPeasy
 import Loaf
 import BLTNBoard
 
-
+//TODO: Fetch current status of any active carpool and reconstruct
+// thelast active currentCarpoolSearchResult if any
 class CarpoolSearchManager: NSObject {
     
     
@@ -72,6 +73,7 @@ class CarpoolSearchManager: NSObject {
     public func findCarpool(currentLocation: CLLocationCoordinate2D, destination: CLLocationCoordinate2D , didSendRequest: @escaping result_errordescription_block ) {
         
         didSendRequestBlock = didSendRequest
+        self.currentCarpoolSearchResult.riderDestination = destination
         
         if (activeCarpoolAcceptStatus != nil) && activeCarpoolAcceptStatus != .rejected {
             return
@@ -95,7 +97,7 @@ class CarpoolSearchManager: NSObject {
             
             
             
-            if (Int(closestLocationOnDriverRouteForPickup!.distance) <= UserSettingsManager.shared.getMaximumPickupDistance()) {
+            if (Int(closestLocationOnDriverRouteForPickup!.distance) <= UserSettingsManager.shared.getMaximumPickupDistance() && activeCarpoolAcceptStatus == nil) {
                 let driverID = key
                 
                 DataManager.shared.getUserDetails(userID: driverID) { (userDetails, error) in
@@ -103,16 +105,36 @@ class CarpoolSearchManager: NSObject {
                         
                         return
                     }
+                    
+                    
+                    DriverDataManager.shared.getPreplannedCarpoolDate(driverID: driverID, completion: { (result, error ) in
+                      
+                        if result != nil {
+                            self.currentCarpoolSearchResult.carpooPreplannedDateString = (result as! String)
+                            self.currentCarpoolSearchResult.driverDetails = userDetails
+                            self.currentCarpoolSearchResult.dropOffLocation = closestLocationOnDriverRouteForDropOff!.coordinate
+                            self.currentCarpoolSearchResult.pickUpLocation = closestLocationOnDriverRouteForPickup!.coordinate
+                            self.currentCarpoolSearchResult.carpoolDistance = self.currentCarpoolSearchResult.pickUpLocation?.distance(to: self.currentCarpoolSearchResult.dropOffLocation!)
+                            self.currentCarpoolSearchResult.riderTimeToPickUpLocation = (self.currentCarpoolSearchResult.pickUpLocation?.distance(to: currentLocation))!/40
+                            
+                            self.showPreplannedCarpoolSuggestion()
+                            
+                        } else {
+                            
+                             
+                             self.calculateRiderRouteFromCurrentLocationToPickUp(pickUp: closestLocationOnDriverRouteForPickup!.coordinate)
+                             self.calculateRiderRouteFromDropOffToDestination(dropOff: closestLocationOnDriverRouteForDropOff!.coordinate, riderDestination: destination)
+                            
+                             self.currentCarpoolSearchResult.driverDetails = userDetails
+                             self.currentCarpoolSearchResult.dropOffLocation = closestLocationOnDriverRouteForDropOff!.coordinate
+                             self.currentCarpoolSearchResult.pickUpLocation = closestLocationOnDriverRouteForPickup!.coordinate
+                             
+                             self.fetchTimingsForCarpool(driverID: userDetails!.UID!, pickUpLocation: closestLocationOnDriverRouteForPickup!.coordinate, currentLocation: currentLocation)
+                        }
+                        
+                    })
      
-                    
-                    self.calculateRiderRouteFromCurrentLocationToPickUp(pickUp: closestLocationOnDriverRouteForPickup!.coordinate)
-                    self.calculateRiderRouteFromDropOffToDestination(dropOff: closestLocationOnDriverRouteForDropOff!.coordinate, riderDestination: destination)
-                   
-                    self.currentCarpoolSearchResult.driverDetails = userDetails
-                    self.currentCarpoolSearchResult.dropOffLocation = closestLocationOnDriverRouteForDropOff!.coordinate
-                    self.currentCarpoolSearchResult.pickUpLocation = closestLocationOnDriverRouteForPickup!.coordinate
-                    
-                    self.fetchTimingsForCarpool(driverID: userDetails!.UID!, pickUpLocation: closestLocationOnDriverRouteForPickup!.coordinate, currentLocation: currentLocation)
+
                     
 
                     
@@ -223,7 +245,13 @@ class CarpoolSearchManager: NSObject {
             activeCarpoolAcceptStatus = .accepted
             bulletinManager?.dismissBulletin()
             
-            showRequestUpdateBadgeView(title: "Request accepted, follow the map to meet the driver", actionTitle: "cancel", action: #selector(cancelCarpool))
+            var title = "Request accepted, follow the map to meet the driver"
+            if currentCarpoolSearchResult.carpooPreplannedDateString != nil {
+                let date = Date().addingTimeInterval(200000)
+                title = "Follow the map to meet the driver - \(Converters.getRelativeDate(date: date))"
+            }
+            
+            showRequestUpdateBadgeView(title: title, actionTitle: "cancel", action: #selector(cancelCarpool))
 
         }
 
@@ -234,13 +262,18 @@ class CarpoolSearchManager: NSObject {
             dismissNonblockingBadgeView()
 
             showRequestUpdate(title: "Request rejected", subtitle: nil)
-            RiderDataManager.shared.clearCarpoolData(driverID: self.currentCarpoolSearchResult.driverDetails!.UID!, riderID: AuthManager.shared.currentUserID()!, completion: { (result, error) in
+            if self.currentCarpoolSearchResult.driverDetails != nil {
+                RiderDataManager.shared.clearCarpoolData(driverID: self.currentCarpoolSearchResult.driverDetails!.UID!, riderID: AuthManager.shared.currentUserID()!, completion: { (result, error) in
+                    
+                    
+                    self.cleanup()
+                    
+                })
                 
-                
-                self.cleanup()
-                
-            })
-            
+            } else {
+                  self.cleanup()
+            }
+
 
 
             
@@ -422,6 +455,19 @@ class CarpoolSearchManager: NSObject {
      
 
      
+
+    private func updateRiderInOutRoutesForCurrentCarpool(feature: MGLPolylineFeature) {
+        
+        let buffer = UnsafeBufferPointer(start: feature.coordinates, count: Int(feature.pointCount))
+        let coordinates = Array(buffer)
+        
+        let lineStringForDriverRoute = LineString(coordinates)
+        let closestLocationOnDriverRouteForPickup = lineStringForDriverRoute.closestCoordinate(to: (mapView?.userLocation!.coordinate)!)
+        let closestLocationOnDriverRouteForDropOff = lineStringForDriverRoute.closestCoordinate(to: self.currentCarpoolSearchResult.riderDestination!)
+        
+        self.calculateRiderRouteFromCurrentLocationToPickUp(pickUp: closestLocationOnDriverRouteForPickup!.coordinate)
+        self.calculateRiderRouteFromDropOffToDestination(dropOff: closestLocationOnDriverRouteForDropOff!.coordinate, riderDestination: self.currentCarpoolSearchResult.riderDestination!)
+    }
     
     private func updateRoutesOnMap(routes: [String : String]) {
        
@@ -445,6 +491,10 @@ class CarpoolSearchManager: NSObject {
                
             } else {
                 routeFeatures[key] = feature
+                
+                if key == currentCarpoolSearchResult.driverDetails?.UID {
+                    self.updateRiderInOutRoutesForCurrentCarpool(feature: feature)
+                }
                 drawRouteFeature(driverID: key, feature: feature)
             }
             
@@ -510,12 +560,18 @@ class CarpoolSearchManager: NSObject {
             }
             
 
-            guard route.coordinateCount > 0 else { return }
+            guard route.coordinateCount > 0 else {
+                
+                
+                return
+                
+                
+                
+            }
 
 
             var routeCoordinates = route.coordinates!
             let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
-
             self.addRiderRoute(feature: polyline, identifier: "rider-route-in")
             
 
@@ -537,12 +593,16 @@ class CarpoolSearchManager: NSObject {
             }
             
 
-            guard route.coordinateCount > 0 else { return }
+            guard route.coordinateCount > 0 else {
+                
+                return
+                
+                
+            }
 
 
             var routeCoordinates = route.coordinates!
             let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
-
             self.addRiderRoute(feature: polyline, identifier: "rider-route-out")
             
 
@@ -553,6 +613,7 @@ class CarpoolSearchManager: NSObject {
 
     // MARK: - Fetch carpool details
     
+
     
     private func fetchTimingsForCarpool(driverID: String, pickUpLocation: CLLocationCoordinate2D, currentLocation: CLLocationCoordinate2D) {
         
@@ -648,19 +709,54 @@ class CarpoolSearchManager: NSObject {
            }
        }
        
+    
+    
+    private func fetchDriverRouteToPreplannedPickUpLocation(driverID: String, pickUp: CLLocationCoordinate2D, completion: @escaping result_errordescription_block) {
+            
+            
+            
+            let driverLocation = RiderDataManager.shared.lastLocationForDriver(driverID: driverID)
+            
+            let driverWaypoint = Waypoint(location: CLLocation(latitude: driverLocation!.latitude, longitude: driverLocation!.longitude))
+            let pickUpWaypoint = Waypoint(coordinate: pickUp)
+             
+            let options = NavigationRouteOptions(waypoints: [driverWaypoint, pickUpWaypoint], profileIdentifier: .walking)
+            
+            _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
+
+                guard let route = routes?.first, error == nil else {
+                    completion(nil, error!.localizedDescription)
+                    return
+                }
+                
+
+                guard route.coordinateCount > 0 else {
+                     completion(nil, "Route has no coordinates")
+                     return
+                 
+                 }
+             
+             
+                
+             
+                 self.currentCarpoolSearchResult.driverTimeToPickUpLocation = route.expectedTravelTime/60
+                 completion(nil, nil)
+             
+                
+                
+               
+
+
+            }
+        }
+     
+    
        
    private func fetchDriverRouteToPickUpLocation(driverID: String, pickUp: CLLocationCoordinate2D, completion: @escaping result_errordescription_block) {
            
            
            
            let driverLocation = RiderDataManager.shared.lastLocationForDriver(driverID: driverID)
-           
-           guard driverLocation != nil else {
-            //MARK: TODO - fetch dates for preplanned rides and be able to request a preplanned ride
-//                completion(nil, "Driver location is nil")
-                completion(nil, "This carpool is preplanned for future time")
-               return
-           }
            
            let driverWaypoint = Waypoint(location: CLLocation(latitude: driverLocation!.latitude, longitude: driverLocation!.longitude))
            let pickUpWaypoint = Waypoint(coordinate: pickUp)
@@ -853,6 +949,49 @@ class CarpoolSearchManager: NSObject {
     }
     
     
+     // TODO: remove fake date
+    private func showPreplannedCarpoolSuggestion() {
+        
+            let date = Date().addingTimeInterval(200000)
+//          let date = Date.dateFromISOString(string:  self.currentCarpoolSearchResult.carpooPreplannedDateString!)
+        
+        
+             let formatedTime = Converters.getFormattedDate(date: date, format: "HH:mm")
+             let formatedDate = Converters.getFormattedDate(date: date, format: "MMM - D")
+             
+             let priceStringForDistance = PriceCalculation.driverFeeStringForDistance(travelDistance: self.currentCarpoolSearchResult.carpoolDistance!)
+             let carpoolRequest = BulletinDataSource.makeCarpoolRequestPage(
+                 
+                 
+                title: "Ride with \(self.currentCarpoolSearchResult.driverDetails!.name!) \(Converters.getRelativeDate(date: date))",
+                 photoURL: self.currentCarpoolSearchResult.driverDetails!.photoURL!, mainTitle: "Pickup at ca. \(formatedTime)", subtitle: "Meet \(self.currentCarpoolSearchResult.driverDetails!.name!) on \(formatedDate)", priceText: "price: $\(priceStringForDistance)")
+             
+             
+
+             carpoolRequest.actionHandler = { (item: BLTNActionItem) in
+                 
+                 self.didSendRequestBlock!("We have sent request to the driver",nil)
+                 self.showRequestUpdate(title: "Waiting for confirmation", subtitle: nil)
+                 self.requestCarpoolForCarpoolSearchResult(result: self.currentCarpoolSearchResult)
+                 carpoolRequest.manager?.dismissBulletin()
+
+                 
+             }
+             
+
+             carpoolRequest.alternativeHandler = { (item: BLTNActionItem) in
+                 self.cancelCarpool()
+                 carpoolRequest.manager?.dismissBulletin()
+                 self.didSendRequestBlock!(nil,"You cancelled the request")
+                 
+             }
+             
+             
+             bulletinManager = BLTNItemManager(rootItem: carpoolRequest)
+             bulletinManager!.backgroundViewStyle = .dimmed
+             
+             bulletinManager!.showBulletin(above: self.presentingViewController!)
+    }
     
     private func showCarpoolSuggestion() {
         

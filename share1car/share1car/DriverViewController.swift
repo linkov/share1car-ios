@@ -302,13 +302,16 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     }
     
     @objc func carpoolDatePickerChanged(picker: UIDatePicker) {
-        print(picker.date)
+
         if picker.date >  Date().addingTimeInterval(10*60) {
             preplannedCarpoolDate = picker.date
+            let formatedTime = Converters.getFormattedDate(date: picker.date, format: "MMM dd HH:mm")
+            startPlannedCarpoolSelector.setTitle("Abfahrt: \(formatedTime)", for: .normal)
+            startCarPoolButton.setTitle("Save carpool", for: .normal)
         }
         
-        let formatedTime = Converters.getFormattedDate(date: picker.date, format: "MMM dd HH:mm")
-        startPlannedCarpoolSelector.setTitle("Abfahrt: \(formatedTime)", for: .normal)
+
+        
     }
     
     @IBAction func onCarpoolTap(_ sender: Any) {
@@ -332,7 +335,7 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
         if preplannedCarpoolDate != nil {
             
             hud.show(in: self.view)
-            DriverDataManager.shared.addPreplannedCarpool(date: preplannedCarpoolDate!, completion: { (result, errorString) in
+            DriverDataManager.shared.addPreplannedCarpool(route: route, date: preplannedCarpoolDate!, completion: { (result, errorString) in
                 self.hud.dismiss()
                 if errorString != nil {
                     Alerts.systemErrorAlert(error: errorString!, inController: self)
@@ -363,7 +366,10 @@ class DriverViewController: UIViewController, MGLMapViewDelegate, NavigationView
     
     @IBAction func didTapCancelPreplannedCarpool(_ sender: Any) {
         
+        let formatedTime = Converters.getFormattedDate(date: Date(), format: "MMM dd HH:mm")
+        startPlannedCarpoolSelector.setTitle("Abfahrt: \(formatedTime)", for: .normal)
         preplannedCarpoolDate = nil
+        
         hud.show(in: self.view)
         DriverDataManager.shared.removePreplannedCarpool(completion: { (result, errorString) in
             self.hud.dismiss()

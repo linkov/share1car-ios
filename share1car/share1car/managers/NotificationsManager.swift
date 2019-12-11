@@ -46,8 +46,8 @@ class NotificationsManager: NSObject, UNUserNotificationCenterDelegate, Messagin
     
         #else
         
-            //let enabled = (Messaging.messaging().fcmToken != nil) && UserSettingsManager.shared.getUserNotificationsAuthorizationEnabled() // this is not returning true untill we restart the app, we will ignore full check now
-            let enabled = (Messaging.messaging().fcmToken != nil)
+            let enabled = (Messaging.messaging().fcmToken != nil) && UserSettingsManager.shared.getUserNotificationsAuthorizationEnabled() // this is not returning true untill we restart the app
+//            let enabled = (Messaging.messaging().fcmToken != nil)
             return enabled
         
         #endif
@@ -58,7 +58,7 @@ class NotificationsManager: NSObject, UNUserNotificationCenterDelegate, Messagin
     
     func registerForNotifications()  {
         
-        Messaging.messaging().delegate = self
+//        Messaging.messaging().delegate = self
         
         UNUserNotificationCenter.current().delegate = self
 

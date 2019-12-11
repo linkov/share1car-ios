@@ -39,7 +39,7 @@
                 <constraint firstItem="qUz-Qq-ZdO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="3nJ-tX-t5q"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="lW7-vw-73g" secondAttribute="trailing" constant="30" id="JPK-i0-gLj"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="lW7-vw-73g" secondAttribute="top" constant="-30" id="LaN-qO-yP3"/>
-                <constraint firstItem="lW7-vw-73g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qUz-Qq-ZdO" secondAttribute="trailing" constant="30" id="SPG-S0-rTs"/>
+                <constraint firstItem="lW7-vw-73g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qUz-Qq-ZdO" secondAttribute="trailing" constant="15" id="SPG-S0-rTs"/>
                 <constraint firstItem="qUz-Qq-ZdO" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="30" id="ypN-Qa-cTG"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>

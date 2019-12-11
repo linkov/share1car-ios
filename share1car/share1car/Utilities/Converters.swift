@@ -14,6 +14,19 @@ import MapboxNavigation
 
 class Converters: NSObject {
     
+    class func getRelativeDate(date: Date) -> String {
+        if #available(iOS 13.0, *) {
+            let formatter = RelativeDateTimeFormatter()
+            formatter.unitsStyle = .full
+            return formatter.localizedString(for: date, relativeTo: Date())
+        } else {
+             let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            return formatter.string(from: date)
+        }
+       
+    }
+    
    class func getFormattedDate(date: Date, format: String) -> String {
             let dateformat = DateFormatter()
             dateformat.dateFormat = format

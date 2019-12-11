@@ -76,6 +76,19 @@ class DriverDataManager: NSObject {
     }
     
 
+    func getPreplannedCarpoolDate(driverID: String, completion: @escaping result_errordescription_block) {
+        
+        
+        self.ref.child("DateTime").child(driverID).child("preplan").observeSingleEvent(of: .value) { (snapshot) in
+            
+            if let result = snapshot.value {
+                completion((result as? String), nil)
+            } else {
+                completion(nil, nil)
+            }
+        }
+        
+    }
 
     
     func fetchPreplannedCarpool(completion: @escaping result_errordescription_block) {
@@ -92,13 +105,15 @@ class DriverDataManager: NSObject {
         
     }
     
-    func addPreplannedCarpool(date: Date, completion: @escaping result_errordescription_block) {
+    func addPreplannedCarpool(route: Route, date: Date, completion: @escaping result_errordescription_block) {
         
         self.ref.child("DateTime").child(AuthManager.shared.currentUserID()!).child("preplan").setValue(Date.ISOStringFromDate(date: date), withCompletionBlock:
             { (error, ref) in
                 if error != nil {
                     completion(nil, error!.localizedDescription)
                 }
+                
+                DriverDataManager.shared.setRoute(route: route, driverID: AuthManager.shared.currentUserID()!)
                 
                 completion(ref, nil)
             })
@@ -111,6 +126,8 @@ class DriverDataManager: NSObject {
                 if error != nil {
                     completion(nil, error!.localizedDescription)
                 }
+            
+                DriverDataManager.shared.removeRoute(driverID: AuthManager.shared.currentUserID()!)
                 
                 completion(ref, nil)
 

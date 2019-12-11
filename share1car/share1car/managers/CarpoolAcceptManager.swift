@@ -24,6 +24,8 @@ import Loaf
 
 import EasyPeasy
 
+//TODO: Fetch current status of any active carpool and reconstruct
+// thelast active currentCarpoolRequest if any
 class CarpoolAcceptManager: NSObject {
 
     // MARK: General
@@ -170,7 +172,6 @@ class CarpoolAcceptManager: NSObject {
             } else if Int(timeRemaining/60) == 1 {
                 
                 dismissNonblockingBadgeView()
-                showPickUpProximityAlert()
             
             }
         }

@@ -228,7 +228,11 @@ class RiderViewController: UIViewController, MGLMapViewDelegate, NavigationMapVi
         }
         
         let spot = gesture.location(in: mapView)
-        guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else { return }
+        guard let location = mapView?.convert(spot, toCoordinateFrom: mapView) else {
+            
+            return
+            
+        }
         
         findCarpool(location: location)
          
